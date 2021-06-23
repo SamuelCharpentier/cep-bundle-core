@@ -7,14 +7,16 @@ All the functionality is exposed through one simple function:
 const core = require('cep-bundler-core')
 
 core.compile({
-  out: '/path/to/dist',          // REQUIRED type: string
-  isDev: false,                  // OPTIONAL type: boolean, default: false
-  env: 'production',             // OPTIONAL type: string, default: process.env.NODE_ENV
+  out: '/path/to/dist', // REQUIRED type: string
+  isDev: false, // OPTIONAL type: boolean, default: false
+  env: 'production', // OPTIONAL type: string, default: process.env.NODE_ENV
   root: '/path/to/project/root', // OPTIONAL type: string, default: process.cwd()
-  htmlFilename: './index.html',  // OPTIONAL type: string, default: 'index.html'
-  pkg: require('./package.json') // OPTIONAL type: object, default: require(opts.root + '/package.json')
+  htmlFilename: './index.html', // OPTIONAL type: string, default: 'index.html'
+  pkg: require('./package.json'), // OPTIONAL type: object, default: require(opts.root + '/package.json')
 })
 ```
+
+Know that running this function on Windows, it will try to create a symbolic link in the CEP directory pointing to your 'root/out' folder. Creating a symbolic link on Windows requires administrator priviledge. You will be prompted to allow administrator priviledges. This will only happen if there is no symbolic link in the CEP directory named after your CEP ID and pointing to your 'root/out' folder.
 
 ### out
 
@@ -92,6 +94,7 @@ This is the unique id of the extension.
 ```json
 "id": "com.mycompany.myextension"
 ```
+
 Environment variable: `CEP_ID`
 
 #### Version
@@ -101,6 +104,7 @@ This sets the version of the bundle.
 ```json
 "version": "1.2.0"
 ```
+
 Environment variable: `CEP_VERSION`
 
 #### Name
@@ -110,6 +114,7 @@ This sets the name of extension as it will show in the application.
 ```json
 "name: "My Extension"
 ```
+
 Environment variable: `CEP_NAME`
 
 #### Hosts
@@ -143,6 +148,7 @@ To add a custom panel icon, add all [icon files](https://github.com/Adobe-CEP/CE
 ```
 
 Environment variables:
+
 ```bash
 CEP_ICON_NORMAL="./assets/icon-normal.png",
 CEP_ICON_ROLLOVER="./assets/icon-rollover.png",
@@ -158,6 +164,7 @@ CEP_ICON_DARK_ROLLOVER="./assets/icon-dark-rollover.png"
 ```
 
 Environment variables:
+
 ```bash
 CEP_PANEL_WIDTH=500
 CEP_PANEL_HEIGHT=500
@@ -171,6 +178,7 @@ CEP_PANEL_HEIGHT=500
 ```
 
 Environment variables:
+
 ```bash
 CEP_PANEL_MIN_WIDTH=500
 CEP_PANEL_MIN_HEIGHT=500
@@ -184,6 +192,7 @@ CEP_PANEL_MIN_HEIGHT=500
 ```
 
 Environment variables:
+
 ```bash
 CEP_PANEL_MAX_WIDTH=500
 CEP_PANEL_MAX_HEIGHT=500
@@ -209,6 +218,7 @@ CEP_PANEL_MAX_HEIGHT=500
 ```
 
 Environment variables:
+
 ```bash
 CEP_DEBUG_PORT_PHXS="3001"
 CEP_DEBUG_PORT_IDSN="3002"
@@ -233,6 +243,7 @@ Enabling this will create the .debug file, even when building for production.
 ```
 
 Environment variable:
+
 ```bash
 CEP_DEBUG_IN_PRODUCTION="1"
 ```
@@ -246,7 +257,9 @@ CEP_DEBUG_IN_PRODUCTION="1"
     "--enable-nodejs"
 ]
 ```
+
 Environment variable:
+
 ```bash
 CEP_CEF_PARAMS="--allow-file-access-from-files,--allow-file-access,--enable-nodejs,--mixed-context"
 ```
@@ -257,7 +270,9 @@ CEP_CEF_PARAMS="--allow-file-access-from-files,--allow-file-access,--enable-node
 "devHost": "localhost",
 "devPort": 8080,
 ```
+
 Environment variable:
+
 ```bash
 CEP_DEV_HOST="localhost"
 CEP_DEV_PORT="8080"
@@ -265,4 +280,4 @@ CEP_DEV_PORT="8080"
 
 ## Credits
 
-This code is mostly taken from (an old version of) [parcel-plugin-cep](https://github.com/fusepilot/parcel-plugin-cep) by [@fusepilot](https://github.com/fusepilot).
+This code is mostly taken from (an old version of) [cep-bundler-core](https://www.npmjs.com/package/cep-bundler-core) by [@fusepilot](https://github.com/fusepilot).
