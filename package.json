@@ -8,6 +8,10 @@
   "bin": {
     "cep-bundler-core": "./bin.js"
   },
+  "files": [
+    "dist/**/*",
+    "bin.js"
+  ],
   "scripts": {
     "start": "rollup --config --watch",
     "build": "rollup --config"
@@ -40,7 +44,9 @@
     "eslint-plugin-react": "^7.20.0",
     "prettier": "^2.0.5",
     "rollup": "^2.19.0",
+    "@rollup/plugin-commonjs": "^19.0.0",
     "rollup-plugin-node-externals": "^2.2.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript2": "^0.27.1",
     "tape": "^5.0.1",
     "typescript": "^3.9.6",
