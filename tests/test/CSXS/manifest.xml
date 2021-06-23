@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ExtensionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ExtensionBundleId="test.id" ExtensionBundleName="test name" ExtensionBundleVersion="1" Version="7.0">
+<ExtensionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ExtensionBundleId="test.id" ExtensionBundleName="test name" ExtensionBundleVersion="1" Version="8.0">
   <ExtensionList>
     <Extension Id="test.id" Version="1" />
   </ExtensionList>
@@ -22,7 +22,7 @@
       <Locale Code="All"/>
     </LocaleList>
     <RequiredRuntimeList>
-      <RequiredRuntime Name="CSXS" Version="7.0" />
+      <RequiredRuntime Name="CSXS" Version="8.0" />
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
