@@ -1,8 +1,9 @@
 {
-  "name": "cep-bundler-core",
-  "version": "0.3.1",
+  "name": "@scharpentier0/cep-bundler-core",
+  "version": "0.0.1",
   "description": "Core functionality for making bundler extensions to compile CEP",
   "main": "dist/cep-bundler-core.cjs.js",
+  "types": "dist/index.d.ts",
   "module": "dist/cep-bundler-core.esm.js",
   "browser": "dist/cep-bundler-core.umd.js",
   "bin": {
