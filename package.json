@@ -1,5 +1,5 @@
 {
-  "name": "@scharpentier0/cep-bundler-core",
+  "name": "@samuel-charpentier/cep-bundler-core",
   "version": "0.0.1",
   "description": "Core functionality for making bundler extensions to compile CEP",
   "main": "dist/cep-bundler-core.cjs.js",

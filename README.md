@@ -4,7 +4,7 @@ Core functionality for making bundler extensions to compile CEP.
 All the functionality is exposed through one simple function:
 
 ```js
-const core = require('cep-bundler-core')
+const core = require('@samuel-charpentier/cep-bundler-core')
 
 core.compile({
   out: '/path/to/dist', // REQUIRED type: string
