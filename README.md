@@ -19,7 +19,7 @@ Know that running this function on Windows, it will try to create a symbolic lin
 
 ## Configuration
 
-The bundler can be configured and the default values overwritten in different ways:
+You can overwrite the default values and configure the bundler in 3 different places:
 
 1. A `cep` object in your projects `package.json` ;
 2. Environement valiables (ex: a `.env` file with `dotenv` npm package)
