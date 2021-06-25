@@ -1,18 +1,24 @@
-import { removeUndefinedNullAndEmpty } from '../utils';
-
-export function getProcessEnvConfig(env: string = '') {
+export function getProcessEnvConfig(env?: string) {
 	let envVarConfig: { [index: string]: any } = getSimpleValues(env);
-	envVarConfig.debugPortEnvs = getDebugPorts();
+	envVarConfig.debugPorts = getDebugPorts();
+	envVarConfig.debugInProduction = getDebugInProduction();
 	envVarConfig.cefParams = getCEFParameters();
-	return removeUndefinedNullAndEmpty(envVarConfig);
+	env = env === undefined ? envVarConfig.env : undefined;
+	if (env !== undefined && typeof env === 'string') {
+		envVarConfig = { ...envVarConfig, ...getProcessEnvConfig(env) };
+		delete envVarConfig[env];
+		delete envVarConfig[envVarConfig.env];
+		delete envVarConfig.env;
+	}
+	return envVarConfig;
 }
 
 function getSimpleValues(env: string = '') {
 	const keyNameTable: { [index: string]: any } = {
-		NAME: 'bundleName',
-		ID: 'bundleId',
-		VERSION: 'bundleVersion',
-		CEP_VERSION: 'cepVersion',
+		NAME: 'name',
+		ID: 'id',
+		VERSION: 'version',
+		ENV: 'env',
 		HOSTS: 'hosts',
 		ICON_NORMAL: 'iconNormal',
 		ICON_ROLLOVER: 'iconRollover',
@@ -29,7 +35,8 @@ function getSimpleValues(env: string = '') {
 	let stringValues: { [index: string]: any } = {};
 	for (const varName in keyNameTable) {
 		if (process.env[`CEP_${env !== '' ? env.toUpperCase() + '_' : ''}${varName}`] !== undefined) {
-			stringValues[keyNameTable[varName]] = process.env[`CEP_${varName}`];
+			stringValues[keyNameTable[varName]] =
+				process.env[`CEP_${env !== '' ? env.toUpperCase() + '_' : ''}${varName}`];
 		}
 	}
 	return stringValues;

@@ -1,6 +1,8 @@
 export function getDefaultConfig() {
 	return {
+		out: './dist',
 		hosts: '*',
+		env: process.env.NODE_ENV,
 		debugInProduction: false,
 		cepVersion: '8.0',
 		lifecycle: {

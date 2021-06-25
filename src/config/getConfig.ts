@@ -1,11 +1,50 @@
 import { getDefaultConfig } from './getDefaultConfig';
 import { getPkgConfig } from './getPkgConfig';
-import { getEnvConfig as getProcessEnvConfig } from './getProcessEnvConfig';
+import { getProcessEnvConfig } from './getProcessEnvConfig';
 
-export function getConfig(pkg: any, env?: string) {
-	const config = { ...getDefaultConfig(), ...getPkgConfig(pkg), ...getProcessEnvConfig() };
+import { removeUndefinedNullAndEmpty } from '../utils';
+
+const validConfigNames: string[] = [
+	'out',
+	'isDev',
+	'devPort',
+	'devHost',
+	'env',
+	'root',
+	'htmlFilename',
+
+	'id',
+	'version',
+	'name',
+	'hosts',
+	'iconNormal',
+	'iconRollover',
+	'iconDarkNormal',
+	'iconDarkRollover',
+	'panelWidth',
+	'panelHeight',
+	'panelMinWidth',
+	'panelMinHeight',
+	'panelMaxWidth',
+	'panelMaxHeight',
+	'debugPorts',
+	'debugInProduction',
+	'cefParams',
+];
+
+export function getConfig(parameterConfig: any) {
+	const config = filterOnlyValidConfigs(
+		{
+			...removeUndefinedNullAndEmpty(getDefaultConfig()),
+			...removeUndefinedNullAndEmpty(getPkgConfig(parameterConfig?.root)),
+			...removeUndefinedNullAndEmpty(getProcessEnvConfig()),
+			...removeUndefinedNullAndEmpty({ ...parameterConfig }),
+		},
+		validConfigNames,
+	);
 
 	config.hosts = parseHosts(config.hosts);
+	config.debugPorts = filterDebugPorts(config.debugPorts, config.hosts);
 	let extensions = [];
 	if (Array.isArray(config.extensions)) {
 		extensions = config.extensions.map((extension: any) => {
@@ -13,8 +52,6 @@ export function getConfig(pkg: any, env?: string) {
 		});
 	} else {
 		extensions.push({
-			id: config.bundleId,
-			name: config.bundleName,
 			...config,
 		});
 	}
@@ -54,3 +91,21 @@ export function parseHosts(hostsString: string) {
 		});
 	return hosts;
 }
+function filterOnlyValidConfigs(config: any, validKeys: string[]) {
+	let result: { [index: string]: any } = {};
+
+	for (let key in config) {
+		if (config.hasOwnProperty(key) && validKeys.includes(key)) {
+			result[key] = config[key];
+		}
+	}
+	return result;
+}
+function filterDebugPorts(debugPorts: { [index: string]: any }, hosts: { name: string }[]) {
+	let filteredDebugPorts: { [index: string]: any } = {};
+	for (let host of hosts) {
+		filteredDebugPorts[host.name] = debugPorts[host.name];
+	}
+	return filteredDebugPorts;
+}
+getConfig({ hosts: 'ILST' }); //?
