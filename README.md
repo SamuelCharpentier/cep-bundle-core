@@ -31,12 +31,11 @@ This means that if your `package.json` contains:
 
 ```json
 {
-    ...
-    "cep":{
-        "name":"My extention name in package.json",
-        "id":"my.extention.id",
-        "out":"/anywhere"
-    }
+	"cep": {
+		"name": "My extention name in package.json",
+		"id": "my.extention.id",
+		"out": "/anywhere"
+	}
 }
 ```
 
