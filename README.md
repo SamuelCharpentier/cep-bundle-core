@@ -4,27 +4,76 @@ Core functionality for making bundler extensions to compile CEP.
 All the functionality is exposed through one simple function:
 
 ```js
-const core = require('@samuel-charpentier/cep-bundler-core')
+const core = require('@samuel-charpentier/cep-bundler-core');
 
 core.compile({
-  out: '/path/to/dist', // REQUIRED type: string
-  isDev: false, // OPTIONAL type: boolean, default: false
-  env: 'production', // OPTIONAL type: string, default: process.env.NODE_ENV
-  root: '/path/to/project/root', // OPTIONAL type: string, default: process.cwd()
-  htmlFilename: './index.html', // OPTIONAL type: string, default: 'index.html'
-  pkg: require('./package.json'), // OPTIONAL type: object, default: require(opts.root + '/package.json')
-})
+	out: '/path/to/dist', // REQUIRED type: string
+	isDev: false, // OPTIONAL type: boolean, default: false
+	env: 'production', // OPTIONAL type: string, default: process.env.NODE_ENV
+	root: '/path/to/project/root', // OPTIONAL type: string, default: process.cwd()
+	htmlFilename: './index.html', // OPTIONAL type: string, default: 'index.html'
+});
 ```
 
-Know that running this function on Windows, it will try to create a symbolic link in the CEP directory pointing to your 'root/out' folder. Creating a symbolic link on Windows requires administrator priviledge. You will be prompted to allow administrator priviledges. This will only happen if there is no symbolic link in the CEP directory named after your CEP ID and pointing to your 'root/out' folder.
+Know that running this function on Windows, it will try to create a symbolic link in the CEP directory pointing to your `root/out` folder. Creating a symbolic link on Windows requires administrator privilege. You will be prompted to allow administrator privilege. This will only happen if there is no symbolic link in the CEP directory named after your CEP ID and pointing to your `root/out` folder.
+
+## Configuration
+
+The bundler can be configured and the default values overwritten in different ways:
+
+1. A `cep` object in your projects `package.json` ;
+2. Environement valiables (ex: a `.env` file with `dotenv` npm package)
+3. The `core.compile()` function parameter.
+
+The configurations are compounded together. The order of priority is parameter > .env > package.json.
+
+This means that if your `package.json` contains:
+
+```json
+{
+    ...
+    "cep":{
+        "name":"My extention name in package.json",
+        "id":"my.extention.id",
+        "out":"/anywhere"
+    }
+}
+```
+
+That your `.env` file contains:
+
+```bash
+CEP_NAME="My Extention name in .env" # overwrites cep.name in package.json
+CEP_OUT="/whereShouldIPutMyExtention" # overwrites cep.out in package.json
+```
+
+And that your dev or build `index.js` contains:
+
+```js
+const core = require('@samuel-charpentier/cep-bundler-core');
+
+core.compile({
+	out: '/dist', // overwrites CEP_OUT in .env
+});
+```
+
+Then the bundler config will be:
+
+```js
+config = {
+	name: 'My Extention name in .env',
+	id: 'my.extention.id',
+	out: '/dist',
+};
+```
 
 ### out
 
-The `out` option specifies where the `manifest.xml`, `dev.html`, `node_modules` folder and (optionally) `.debug` file are saved to, this is usually the folder where your compiled javascript ends up.
+The `out` should be a valid folder path. It specifies where the bundler output should go: `manifest.xml`, `dev.html`, `node_modules` folder and (optionally) `.debug` file. This is usually the folder where your compiled javascript ends up.
 
 ### isDev
 
-When `isDev` is true, the bundler will create a `dev.html` file that contains a redirect to `http://${devHost}:${devPort}`, when `isDev` is false, it will not create a dev.html file but will set the `MainPath` in the `manifest.xml` to the value set through the `htmlFilename` option.
+When `isDev` is true, the bundler will create a `dev.html` file that contains a redirect to `http://${devHost}:${devPort}`. The `MainPath` in the `manifest.xml` will point to this file instead of the `htmlFilename` option. When `isDev` is false, none of this happens and the `MainPath` in the `manifest.xml` points to the `htmlFilename` option.
 
 ### env
 
@@ -33,6 +82,7 @@ This option is only used when configure the bundler through your `package.json`,
 
 ```json
 "cep": {
+    "env":"development",
     "development": {
         "name": "My Extension DEVELOPMENT",
         "id": "com.mycompany.myextension.development",
@@ -56,10 +106,6 @@ The `root` option determines where the bundler should look for the `package.json
 
 The htmlFilename is the name of your html file, this option is only used when `isDev` is false.
 This path is relative from the `out` folder.
-
-### pkg
-
-Optionally pass in the package.json object yourself, it will load the json from the `package.json` in the `root` folder by default.
 
 ## CEP Configuration
 
