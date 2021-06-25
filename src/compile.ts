@@ -3,7 +3,7 @@ import path from 'path';
 import { getProcessEnvConfig } from './config/getProcessEnvConfig';
 import { getConfig } from './config/getConfig';
 
-interface CompileOptions {
+export interface CompileOptions {
 	env?: string;
 	root?: string;
 	htmlFilename?: string;
@@ -13,14 +13,11 @@ interface CompileOptions {
 
 export function compile(parameterConfig?: CompileOptions) {
 	const config = getConfig(parameterConfig);
-	parameterConfig = { ...parameterConfig };
+	console.log(config);
+	return;
+	/* parameterConfig = { ...parameterConfig };
 
 	let defaultConfig = getConfigDefaults();
-
-	let pgkConfig = require(path.join(
-		parameterConfig.root ? parameterConfig.root : process.cwd(),
-		'/package.json',
-	)).cep;
 
 	let processEnvVarConfig = getProcessEnvConfig();
 
@@ -30,7 +27,7 @@ export function compile(parameterConfig?: CompileOptions) {
 
 	combinedConfig = { ...combinedConfig, ...cepEnvConfig };
 	return;
-	/* parameterConfig.htmlFilename = parameterConfig.htmlFilename ? parameterConfig.htmlFilename : './index.html';
+	parameterConfig.htmlFilename = parameterConfig.htmlFilename ? parameterConfig.htmlFilename : './index.html';
 	parameterConfig.pkg = parameterConfig.pkg
 		? parameterConfig.pkg
 		: require(path.join(parameterConfig.root, '/package.json'));
