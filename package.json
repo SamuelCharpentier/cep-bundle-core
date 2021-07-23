@@ -29,7 +29,9 @@
 	"author": "Samuel Charpentier",
 	"license": "MIT",
 	"dependencies": {
+		"@prettier/plugin-xml": "^1.0.2",
 		"fs-extra": "^10.0.0",
+		"prettier": "^2.3.2",
 		"sudo-prompt": "^9.2.1",
 		"yargs": "^17.0.1"
 	},
@@ -45,7 +47,6 @@
 		"eslint-plugin-prettier": "^3.4.0",
 		"eslint-plugin-react": "^7.24.0",
 		"locale-enum": "^1.1.1",
-		"prettier": "^2.3.2",
 		"rollup": "^2.52.7",
 		"rollup-plugin-node-externals": "^2.2.0",
 		"rollup-plugin-node-resolve": "^5.2.0",
@@ -53,21 +54,5 @@
 		"tape": "^5.2.2",
 		"typescript": "^4.3.5",
 		"xml-js": "^1.6.11"
-	},
-	"cep": {
-		"out": "./test",
-		"name": "Graphics Packager",
-		"id": "graphics.packager",
-		"version": "1",
-		"env": "development",
-		"development": {
-			"isDev": true,
-			"name": "graphics packager DEVELOPMENT",
-			"devPort": 5000,
-			"debugPorts": {
-				"ILST": 6666
-			},
-			"noSymlink": true
-		}
 	}
 }
