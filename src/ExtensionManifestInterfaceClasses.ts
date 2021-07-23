@@ -1,8 +1,15 @@
+const prettier = require('prettier');
 type Attribute = { name: string; value: string };
 
 class StringContent {
 	constructor(readonly value: string) {}
 }
+
+const badArgumentError = (argumentName: string, argumentType: string, valueReceived: any) =>
+	`${argumentName} must be provided as a ${argumentType}, ${
+		typeof valueReceived === 'string' ? `'${valueReceived}'` : valueReceived
+	} (${typeof valueReceived}) received`;
+
 class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
@@ -16,6 +23,8 @@ class XMLElement {
 		attributes?: Attribute | Attribute[];
 		content?: XMLElement | XMLElement[] | string;
 	}) {
+		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
+
 		this.name = name;
 		if (attributes !== undefined) {
 			if (attributes instanceof Array) this.attributes = attributes;
@@ -27,15 +36,63 @@ class XMLElement {
 			else if (typeof content === 'string') this.content = new StringContent(content);
 		}
 	}
+	xml(
+		{ printAttributes, printContent }: { printAttributes?: boolean; printContent?: boolean } = {
+			printAttributes: true,
+			printContent: true,
+		},
+	): string {
+		let result = `<${this.name}`;
+		if (
+			printAttributes &&
+			this.attributes !== undefined &&
+			this.attributes instanceof Array &&
+			this.attributes?.length > 0
+		)
+			this.attributes.forEach((attribute) => (result += ` ${attribute.name}="${attribute.value}"`));
+		if (printContent && this.content) {
+			result += '>\n';
+			if (this.content instanceof Array) this.content.forEach((contained) => (result += contained.xml()));
+			else if (this.content instanceof StringContent) result += this.content.value;
+			result += `</${this.name}>`;
+		} else {
+			result += '/>\n';
+		}
+		result = prettier.format(result, { printWidth: 80, tabWidth: 4, useTabs: true, parser: 'html' });
+		return result;
+	}
+}
+type NumberString = `${number}` | `${number}.${number}` | number;
+
+function isNumeric(str: any) {
+	if (typeof str !== 'string') return false;
+	return !isNaN(parseFloat(str));
+}
+
+class ExtensionManifest extends XMLElement {
+	constructor(
+		{ bundleId, bundleVersion, bundleName }: { bundleId: string; bundleVersion: NumberString; bundleName?: string },
+		content: (Author | Contact | Legal | Abstract | ExtensionList | ExecutionEnvironment | DispatchInfoList)[],
+	) {
+		let attributes = [{ name: 'Version', value: '7.0' }];
+		if (bundleId && typeof bundleId === 'string') attributes.push({ name: 'ExtensionBundleId', value: bundleId });
+		else throw new Error(badArgumentError("The bundle's ID", 'string', bundleId));
+
+		if (bundleVersion && (typeof bundleVersion === 'number' || isNumeric(bundleVersion)))
+			attributes.push({ name: 'ExtensionBundleVersion', value: bundleVersion.toString() });
+		else throw new Error(badArgumentError("The bundle's version", 'number or string', bundleVersion));
+
+		if (bundleName && typeof bundleName === 'string')
+			attributes.push({ name: 'ExtensionBundleName', value: bundleName });
+		else if (bundleName) throw new Error(badArgumentError("The bundle's name (optional)", 'string', bundleName));
+
+		super({ name: 'ExtensionManifest', attributes: attributes });
+	}
 }
 class Author extends XMLElement {
 	constructor(authorName: string) {
 		if (!authorName || typeof authorName !== 'string' || authorName.length <= 0)
-			throw new Error(
-				`Author name must be provided as a string, ${
-					typeof authorName === 'string' ? `'${authorName}'` : authorName
-				} (${typeof authorName}) received`,
-			);
+			throw new Error(badArgumentError("Author's name", 'string', authorName));
 		super({ name: 'Author', content: authorName });
 	}
 }
@@ -45,11 +102,7 @@ const emailRegex =
 class Contact extends XMLElement {
 	constructor(contactEmail: EmailAdress) {
 		if (!emailRegex.test(contactEmail))
-			throw new Error(
-				`Contact email must be a valid email provided as a string, ${
-					typeof contactEmail === 'string' ? `'${contactEmail}'` : contactEmail
-				} (${typeof contactEmail}) received`,
-			);
+			throw new Error(badArgumentError('Contact email', 'valid email string', contactEmail));
 		super({ name: 'Contact', attributes: { name: 'mailto', value: contactEmail } });
 	}
 }
@@ -71,28 +124,33 @@ class Abstract extends HrefElement {
 	}
 }
 class ExtensionList extends XMLElement {
-	constructor(extensions: Extension[]) {
+	constructor(extensions: Extension | Extension[]) {
+		if (typeof extensions === 'object' && extensions instanceof Extension) extensions = [extensions];
+		else if (typeof extensions !== 'object' || !(extensions instanceof Array))
+			throw new Error(badArgumentError('Extension list Extension', 'object of type Extension', extensions));
+
 		super({ name: 'ExtensionList', content: extensions });
 	}
 }
 
 class Extension extends XMLElement {
-	constructor({ id, version }: { id: string; version?: string }) {
+	constructor({
+		id,
+		version,
+		hostList,
+	}: {
+		id: string;
+		version?: string;
+		hostList?: HostList;
+		dispatchInfo: DispatchInfo;
+	}) {
 		let attributes = [];
 		if (!id || typeof id !== 'string' || id.length <= 0)
-			throw new Error(
-				`Extension Id must be provided as a string, ${
-					typeof id === 'string' ? `'${id}'` : id
-				} (${typeof id}) received`,
-			);
+			throw new Error(badArgumentError('Extension Id', 'string', id));
 		else attributes.push({ name: 'Id', value: id });
 		if (version) {
 			if (typeof version !== 'string' || version?.length <= 0)
-				throw new Error(
-					`Extension Version (optional) can only be a string, ${
-						typeof version === 'string' ? `'${version}'` : version
-					} (${typeof version}) received`,
-				);
+				throw new Error(badArgumentError('Extension Version (optional)', 'string', version));
 			else attributes.push({ name: 'Version', value: version });
 		}
 		super({
@@ -101,7 +159,6 @@ class Extension extends XMLElement {
 		});
 	}
 }
-
 class ExecutionEnvironment extends XMLElement {
 	constructor(hostList: HostList, localeList: LocaleList) {
 		super({ name: 'ExecutionEnvironment', content: [hostList, localeList] });
@@ -169,9 +226,11 @@ class Host extends XMLElement {
 		else if (hostName && isHostEngineKey(hostName)) attribute.push({ name: 'Name', value: HostEngine[hostName] });
 		else
 			throw new Error(
-				`Host Engine Name must be a string containing a key of HostEngine (enum) or a value of HostEngine, ${
-					typeof hostName === 'string' ? `'${hostName}'` : hostName
-				} (${typeof hostName}) received`,
+				badArgumentError(
+					'Host Engine Name',
+					'string containing a key of HostEngine (enum) or a value of HostEngine',
+					hostName,
+				),
 			);
 		let versionAttr = { name: 'Version', value: '' };
 		if (version && isRangedVersion(version)) {
@@ -180,9 +239,11 @@ class Host extends XMLElement {
 			versionAttr.value = '[0,99]';
 		} else
 			throw new Error(
-				`Host Engine Name must be a string containing a key of HostEngine (enum) or a value of HostEngine, ${
-					typeof hostName === 'string' ? `'${hostName}'` : hostName
-				} (${typeof hostName}) received`,
+				badArgumentError(
+					'Host version',
+					"string containing a version number, a version range ([1,13]) or the word 'ALL'",
+					version,
+				),
 			);
 		attribute.push(versionAttr);
 
@@ -195,9 +256,7 @@ class LocaleList extends XMLElement {
 		if (content instanceof LocaleElement) [content];
 		else if (Array.isArray(content))
 			throw new Error(
-				`LocaleList content must be an instance of LocaleElement (class) or LocaleElement[] , ${
-					typeof content === 'string' ? `'${content}'` : content
-				} (${typeof content}) received`,
+				badArgumentError('LocaleList content', 'instance of LocaleElement (class) or LocaleElement[]', content),
 			);
 		super({ name: 'LocaleList', content: content });
 	}
@@ -286,11 +345,7 @@ class RequiredRuntimeList extends XMLElement {
 class RequiredRuntime extends XMLElement {
 	constructor(version: RangedVersion) {
 		if (version === undefined || !isRangedVersion(version))
-			throw new Error(
-				`A valid RangedVersion (type) is required for each RequiredRuntime Elements, ${
-					typeof version === 'string' ? `'${version}'` : version
-				} (${typeof version}) received`,
-			);
+			throw new Error(badArgumentError(`Each RequiredRuntime Element need a version`, `RangedVersion`, version));
 		super({
 			name: 'RequiredRuntime',
 			attributes: [
@@ -298,5 +353,18 @@ class RequiredRuntime extends XMLElement {
 				{ name: 'Version', value: version.toString() },
 			],
 		});
+	}
+}
+
+class DispatchInfoList extends XMLElement {
+	constructor(extensions: Extension | Extension[]) {
+		if (extensions instanceof Extension) extensions = [extensions];
+		super({ name: 'DispatchInfoList', content: extensions });
+	}
+}
+
+class DispatchInfo extends XMLElement {
+	constructor() {
+		super({ name: 'DispatchInfo' });
 	}
 }
