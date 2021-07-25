@@ -1,8 +1,94 @@
-const prettier = require('prettier');
-type Attribute = { name: string; value: string };
+const xmlFormatter = require('xml-formatter');
+type Context =
+	| 'any'
+	| 'ExtensionManifest'
+	| 'Author'
+	| 'Contact'
+	| 'HrefElement'
+	| 'Legal'
+	| 'Abstract'
+	| 'ExtensionList'
+	| 'Extension'
+	| 'ExecutionEnvironment'
+	| 'HostList'
+	| 'Host'
+	| 'LocaleList'
+	| 'LocaleElement'
+	| 'RequiredRuntimeList'
+	| 'RequiredRuntime'
+	| 'DispatchInfoList'
+	| 'DispatchInfo'
+	| 'DependencyList';
+const isValidContext = (value: any) => {
+	return (
+		value === 'any' ||
+		value === 'ExtensionManifest' ||
+		value === 'Author' ||
+		value === 'Contact' ||
+		value === 'HrefElement' ||
+		value === 'Legal' ||
+		value === 'Abstract' ||
+		value === 'ExtensionList' ||
+		value === 'Extension' ||
+		value === 'ExecutionEnvironment' ||
+		value === 'HostList' ||
+		value === 'Host' ||
+		value === 'LocaleList' ||
+		value === 'LocaleElement' ||
+		value === 'RequiredRuntimeList' ||
+		value === 'RequiredRuntime' ||
+		value === 'DispatchInfoList' ||
+		value === 'DispatchInfo' ||
+		value === 'DependencyList'
+	);
+};
+const getContextArray = (context?: Context | Context[]): Context[] | undefined => {
+	let result: Context[] | undefined;
+	if (context !== undefined)
+		if (typeof context === 'string')
+			if (!isValidContext(context))
+				throw new Error(
+					`XML element context should be undefined or a valid name of a possible parent element, received ${context} (${typeof context})`,
+				);
+			else result = [context];
+		else if (typeof context === 'object' && context instanceof Array) {
+			context.forEach((contextString) => {
+				if (!isValidContext(contextString))
+					throw new Error(
+						`Every XML element context should be a valid name of a possible parent element, received ${contextString} (${typeof contextString})`,
+					);
+			});
+			result = context;
+		}
+	return result;
+};
 
+type AttributeArgument = { name: string; value: string; context?: Context | Context[] };
+class Attribute {
+	readonly name: string;
+	readonly value: string;
+	readonly context?: Context[];
+	constructor({ name, value, context }: { name: string; value: string; context?: Context | Context[] }) {
+		this.name = name;
+		this.value = value;
+		this.context = getContextArray(context);
+	}
+}
 class StringContent {
-	constructor(readonly value: string) {}
+	readonly value: string;
+	readonly context?: Context[];
+	constructor({ value, context }: { value: string; context?: Context | Context[] }) {
+		this.value = value;
+		this.context = getContextArray(context);
+	}
+	xml(parents: string[] = []): string {
+		if (this.context) {
+			for (const context of this.context) {
+				if (parents.includes(context)) return this.value + '\n';
+			}
+			return '';
+		} else return this.value + '\n';
+	}
 }
 
 const badArgumentError = (argumentName: string, argumentType: string, valueReceived: any) =>
@@ -14,52 +100,86 @@ class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
 	readonly content?: XMLElement[] | StringContent;
+	readonly context?: Context[];
 	constructor({
 		name,
 		attributes,
 		content,
+		context,
 	}: {
 		name: string;
-		attributes?: Attribute | Attribute[];
-		content?: XMLElement | XMLElement[] | string;
+		attributes?: AttributeArgument | AttributeArgument[];
+		content?: XMLElement | XMLElement[] | { value: string; context?: Context } | string;
+		context?: Context | Context[];
 	}) {
 		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
 
 		this.name = name;
+
+		this.context = getContextArray(context);
+
 		if (attributes !== undefined) {
-			if (attributes instanceof Array) this.attributes = attributes;
-			else if (attributes instanceof Object) this.attributes = [attributes];
+			this.attributes = [];
+			if (typeof attributes === 'object' && attributes instanceof Array) {
+				attributes.forEach((attribute) => {
+					this.attributes?.push(new Attribute(attribute));
+				});
+			} else if (attributes instanceof Object) this.attributes = [new Attribute(attributes)];
 		}
+
 		if (content !== undefined) {
-			if (content instanceof Array) this.content = content;
+			if (content instanceof Array && content[0] instanceof XMLElement) this.content = content;
 			else if (content instanceof XMLElement) this.content = [content];
-			else if (typeof content === 'string') this.content = new StringContent(content);
+			else if (
+				typeof content === 'object' &&
+				!(content instanceof XMLElement) &&
+				!(content instanceof Array) &&
+				typeof content.value === 'string'
+			)
+				this.content = new StringContent(content);
+			else if (typeof content === 'string') this.content = new StringContent({ value: content });
 		}
 	}
-	xml(
-		{ printAttributes, printContent }: { printAttributes?: boolean; printContent?: boolean } = {
-			printAttributes: true,
-			printContent: true,
-		},
-	): string {
-		let result = `<${this.name}`;
-		if (
-			printAttributes &&
-			this.attributes !== undefined &&
-			this.attributes instanceof Array &&
-			this.attributes?.length > 0
-		)
-			this.attributes.forEach((attribute) => (result += ` ${attribute.name}="${attribute.value}"`));
-		if (printContent && this.content) {
-			result += '>\n';
-			if (this.content instanceof Array) this.content.forEach((contained) => (result += contained.xml()));
-			else if (this.content instanceof StringContent) result += this.content.value;
-			result += `</${this.name}>`;
+	xml(parents: string[] = [], indent: number = 0): string {
+		const outputXML = (): string => {
+			let result = `${'\t'.repeat(indent)}<${this.name}`;
+			if (this.attributes !== undefined && this.attributes instanceof Array && this.attributes?.length > 0) {
+				this.attributes.forEach((attribute) => {
+					if (attribute.context) {
+						for (const context of attribute.context) {
+							if (parents.includes(context) || context === 'any') {
+								result += ` ${attribute.name}="${attribute.value}"`;
+								break;
+							}
+						}
+					} else result += ` ${attribute.name}="${attribute.value}"`;
+				});
+			}
+			if (this.content !== undefined) {
+				let contentXML = '';
+				if (this.content instanceof StringContent) contentXML += this.content.xml();
+				else if (this.content instanceof Array) {
+					this.content.forEach((content) => {
+						contentXML += content.xml(parents, indent + 1);
+					});
+				}
+				if (contentXML === '') result += '/>\n';
+				else result += '>\n' + contentXML + `${'\t'.repeat(indent)}</${this.name}>\n`;
+			} else {
+				result += '/>\n';
+			}
+			return result;
+		};
+		if (this.context === undefined || (this.context instanceof Array && this.context.length === 0)) {
+			return outputXML();
 		} else {
-			result += '/>\n';
+			for (const context of this.context) {
+				if (parents.includes(context)) {
+					return outputXML();
+				}
+			}
+			return '';
 		}
-		result = prettier.format(result, { printWidth: 80, tabWidth: 4, useTabs: true, parser: 'html' });
-		return result;
 	}
 }
 type NumberString = `${number}` | `${number}.${number}` | number;
@@ -138,27 +258,60 @@ class Extension extends XMLElement {
 		id,
 		version,
 		hostList,
+		dispatchInfo,
+		dependencyList,
 	}: {
 		id: string;
 		version?: string;
 		hostList?: HostList;
-		dispatchInfo: DispatchInfo;
+		dispatchInfo?: DispatchInfo;
+		dependencyList?: DependencyList;
 	}) {
-		let attributes = [];
+		let attributes: AttributeArgument[] = [];
 		if (!id || typeof id !== 'string' || id.length <= 0)
 			throw new Error(badArgumentError('Extension Id', 'string', id));
 		else attributes.push({ name: 'Id', value: id });
 		if (version) {
 			if (typeof version !== 'string' || version?.length <= 0)
 				throw new Error(badArgumentError('Extension Version (optional)', 'string', version));
-			else attributes.push({ name: 'Version', value: version });
+			else attributes.push({ name: 'Version', value: version, context: 'ExtensionList' });
 		}
+		let content = [];
+		if (hostList)
+			if (!(hostList instanceof HostList))
+				throw new Error(badArgumentError("Extension's host list (optional)", 'HostList class', hostList));
+			else content.push(hostList);
+
+		if (dispatchInfo)
+			if (!(dispatchInfo instanceof DispatchInfo))
+				throw new Error(
+					badArgumentError(
+						"Extension's dispatch info (optional)",
+						'instance of the class DispatchInfo',
+						dispatchInfo,
+					),
+				);
+			else content.push(dispatchInfo);
+
+		if (dependencyList)
+			if (!(dependencyList instanceof DependencyList))
+				throw new Error(
+					badArgumentError(
+						"Extension's dependency list (optional)",
+						'instance of the class DependencyList',
+						dependencyList,
+					),
+				);
+			else content.push(dependencyList);
+
 		super({
 			name: 'Extension',
 			attributes: attributes,
+			content: content,
 		});
 	}
 }
+
 class ExecutionEnvironment extends XMLElement {
 	constructor(hostList: HostList, localeList: LocaleList) {
 		super({ name: 'ExecutionEnvironment', content: [hostList, localeList] });
@@ -167,7 +320,7 @@ class ExecutionEnvironment extends XMLElement {
 
 class HostList extends XMLElement {
 	constructor(hosts: Host | Host[]) {
-		super({ name: 'HostList', content: hosts });
+		super({ name: 'HostList', content: hosts, context: ['ExecutionEnvironment', 'DispatchInfoList'] });
 	}
 }
 
@@ -232,7 +385,8 @@ class Host extends XMLElement {
 					hostName,
 				),
 			);
-		let versionAttr = { name: 'Version', value: '' };
+
+		let versionAttr: AttributeArgument = { name: 'Version', value: '', context: 'ExecutionEnvironment' };
 		if (version && isRangedVersion(version)) {
 			versionAttr.value = version.toString();
 		} else if (version && typeof version === 'string' && version.toUpperCase() === 'ALL') {
@@ -365,6 +519,115 @@ class DispatchInfoList extends XMLElement {
 
 class DispatchInfo extends XMLElement {
 	constructor() {
-		super({ name: 'DispatchInfo' });
+		super({ name: 'DispatchInfo', context: 'DispatchInfoList' });
+	}
+}
+
+class Resources extends XMLElement {
+	constructor() {
+		super({ name: 'Resources' });
+	}
+}
+class MainPath extends XMLElement {
+	constructor() {
+		super({ name: 'MainPath' });
+	}
+}
+class ScriptPath extends XMLElement {
+	constructor() {
+		super({ name: 'ScriptPath' });
+	}
+}
+class CEFCommandLine extends XMLElement {
+	constructor() {
+		super({ name: 'CEFCommandLine' });
+	}
+}
+class Parameter extends XMLElement {
+	constructor() {
+		super({ name: 'Parameter' });
+	}
+}
+class Lifecycle extends XMLElement {
+	constructor() {
+		super({ name: 'Lifecycle' });
+	}
+}
+class UI extends XMLElement {
+	constructor() {
+		super({ name: 'UI' });
+	}
+}
+class Type extends XMLElement {
+	constructor() {
+		super({ name: 'Type' });
+	}
+}
+class Menu extends XMLElement {
+	constructor() {
+		super({ name: 'Menu' });
+	}
+}
+class Geometry extends XMLElement {
+	constructor() {
+		super({ name: 'Geometry' });
+	}
+}
+class ScreenPercentage extends XMLElement {
+	constructor() {
+		super({ name: 'ScreenPercentage' });
+	}
+}
+class Size extends XMLElement {
+	constructor() {
+		super({ name: 'Size' });
+	}
+}
+
+class MaxSize extends XMLElement {
+	constructor() {
+		super({ name: 'MaxSize' });
+	}
+}
+class MinSize extends XMLElement {
+	constructor() {
+		super({ name: 'MinSize' });
+	}
+}
+class Height extends XMLElement {
+	constructor() {
+		super({ name: 'Height' });
+	}
+}
+class Width extends XMLElement {
+	constructor() {
+		super({ name: 'Width' });
+	}
+}
+class Icons extends XMLElement {
+	constructor() {
+		super({ name: 'Icons' });
+	}
+}
+class Icon extends XMLElement {
+	constructor() {
+		super({ name: 'Icon' });
+	}
+}
+
+class ExtensionData extends XMLElement {
+	constructor() {
+		super({ name: 'ExtensionData' });
+	}
+}
+
+class DependencyList extends XMLElement {
+	constructor() {
+		super({ name: 'DependencyList', context: 'DispatchInfoList' });
+	}
+}
+class Dependency extends XMLElement {
+	constructor() {
+		super({ name: 'Dependency' });
 	}
 }
