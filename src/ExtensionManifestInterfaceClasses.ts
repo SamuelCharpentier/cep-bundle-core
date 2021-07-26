@@ -373,7 +373,11 @@ const isHostEngineKey = isEnumKey(HostEngine);
 const isHostEngineValue = isEnumToken(HostEngine);
 
 class Host extends XMLElement {
-	constructor(hostName: HostEngine | keyof typeof HostEngine, version: 'All' | 'ALL' | 'all' | RangedVersion) {
+	constructor(
+		hostName: HostEngine | keyof typeof HostEngine,
+		version: 'All' | 'ALL' | 'all' | RangedVersion,
+		debugLocalhostPort: number,
+	) {
 		let attribute = [];
 		if (hostName && isHostEngineValue(hostName)) attribute.push({ name: 'Name', value: hostName });
 		else if (hostName && isHostEngineKey(hostName)) attribute.push({ name: 'Name', value: HostEngine[hostName] });
