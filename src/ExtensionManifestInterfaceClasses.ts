@@ -1,6 +1,7 @@
 type Context =
 	| 'any'
-	| 'Debug'
+	| '.debug'
+	| 'manifest.xml'
 	| 'ExtensionManifest'
 	| 'Author'
 	| 'Contact'
@@ -19,10 +20,62 @@ type Context =
 	| 'DispatchInfoList'
 	| 'DispatchInfo'
 	| 'DependencyList';
+
+const validateTargetContextsArgument: (targetContexts: Context | Context[], functionName: string) => Context[] = (
+	targetContexts: Context | Context[],
+	functionName: string,
+) => {
+	if (typeof targetContexts === 'string') targetContexts = [targetContexts];
+	if (!(targetContexts instanceof Array))
+		throw new Error(
+			badArgumentError(`${functionName}'s first argument`, 'valid Context or Array of Context', targetContexts),
+		);
+	return targetContexts;
+};
+
+const contextContainsOneOf: (targetContexts: Context | Context[]) => (parent: string[]) => boolean = (
+	targetContexts: Context | Context[],
+) => {
+	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
+	return (parent: string[]) => {
+		for (const context of targetContexts) {
+			if (parent.includes(context)) return true;
+		}
+		return false;
+	};
+};
+const contextContainsAllOf: (targetContexts: Context | Context[]) => (parent: string[]) => boolean = (
+	targetContexts: Context | Context[],
+) => {
+	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
+	return (parent: string[]) => {
+		if (!(parent instanceof Array)) throw new Error(badArgumentError('Context parent', 'array of strings', parent));
+
+		for (const context of targetContexts) {
+			if (!parent.includes(context)) return false;
+		}
+		return true;
+	};
+};
+
+const contextContainsNoneOf: (targetContexts: Context | Context[]) => (parent: string[]) => boolean = (
+	targetContexts: Context | Context[],
+) => {
+	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
+	return (parent: string[]) => {
+		if (!(parent instanceof Array)) throw new Error(badArgumentError('Context parent', 'array of strings', parent));
+
+		for (const context of targetContexts) {
+			if (parent.includes(context)) return false;
+		}
+		return true;
+	};
+};
+
 const isValidContext = (value: any) => {
 	return (
 		value === 'any' ||
-		value === 'Debug' ||
+		value === '.debug' ||
 		value === 'ExtensionManifest' ||
 		value === 'Author' ||
 		value === 'Contact' ||
@@ -43,50 +96,29 @@ const isValidContext = (value: any) => {
 		value === 'DependencyList'
 	);
 };
-const getContextArray = (context?: Context | Context[]): Context[] | undefined => {
-	let result: Context[] | undefined;
-	if (context !== undefined)
-		if (typeof context === 'string')
-			if (!isValidContext(context))
-				throw new Error(
-					`XML element context should be undefined or a valid name of a possible parent element, received ${context} (${typeof context})`,
-				);
-			else result = [context];
-		else if (typeof context === 'object' && context instanceof Array) {
-			context.forEach((contextString) => {
-				if (!isValidContext(contextString))
-					throw new Error(
-						`Every XML element context should be a valid name of a possible parent element, received ${contextString} (${typeof contextString})`,
-					);
-			});
-			result = context;
-		}
-	return result;
-};
 
-type AttributeArgument = { name: string; value: string; context?: Context | Context[] };
+type AttributeArgument = { name: string; value: string; context?: (parents: string[]) => boolean };
 class Attribute {
 	readonly name: string;
 	readonly value: string;
-	readonly context?: Context[];
-	constructor({ name, value, context }: { name: string; value: string; context?: Context | Context[] }) {
+	readonly context?: (parents: string[]) => boolean;
+	constructor({ name, value, context }: { name: string; value: string; context?: (parents: string[]) => boolean }) {
 		this.name = name;
 		this.value = value;
-		this.context = getContextArray(context);
+		this.context = context;
 	}
 }
 class StringContent {
 	readonly value: string;
-	readonly context?: Context[];
-	constructor({ value, context }: { value: string; context?: Context | Context[] }) {
+	readonly context?: (parents: string[]) => boolean;
+	constructor({ value, context }: { value: string; context?: (parents: string[]) => boolean }) {
 		this.value = value;
-		this.context = getContextArray(context);
+		this.context = context;
 	}
 	xml(parents: string[] = []): string {
 		if (this.context) {
-			for (const context of this.context) {
-				if (parents.includes(context)) return this.value;
-			}
+			if (this.context(parents)) return this.value;
+
 			return '';
 		} else return this.value;
 	}
@@ -101,7 +133,7 @@ class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
 	readonly content?: XMLElement[] | StringContent;
-	readonly context?: Context[];
+	private context?: (parents: string[]) => boolean;
 	constructor({
 		name,
 		attributes,
@@ -110,14 +142,13 @@ class XMLElement {
 	}: {
 		name: string;
 		attributes?: AttributeArgument | AttributeArgument[];
-		content?: XMLElement | XMLElement[] | { value: string; context?: Context } | string;
-		context?: Context | Context[];
+		content?: XMLElement | XMLElement[] | { value: string; context?: (parents: string[]) => boolean } | string;
+		context?: (parents: string[]) => boolean;
 	}) {
 		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
 
 		this.name = name;
-		console.log(name + ':' + JSON.stringify(context));
-		this.context = getContextArray(context);
+		if (context && {}.toString.call(context) === '[object Function]') this.context = context;
 
 		if (attributes !== undefined) {
 			this.attributes = [];
@@ -151,12 +182,7 @@ class XMLElement {
 			if (this.attributes !== undefined && this.attributes instanceof Array && this.attributes?.length > 0) {
 				this.attributes.forEach((attribute) => {
 					if (attribute.context) {
-						for (const context of attribute.context) {
-							if (parents.includes(context) || context === 'any') {
-								result += ` ${attribute.name}="${attribute.value}"`;
-								break;
-							}
-						}
+						if (attribute.context(parents)) result += ` ${attribute.name}="${attribute.value}"`;
 					} else result += ` ${attribute.name}="${attribute.value}"`;
 				});
 			}
@@ -183,18 +209,17 @@ class XMLElement {
 			if (containsAttributeOrContent(result)) return result;
 			return '';
 		};
-		if (this.context === undefined || (this.context instanceof Array && this.context.length === 0)) {
-			return outputXML();
-		} else {
-			for (const context of this.context) {
-				if (parents.includes(context)) {
-					return outputXML();
-				}
+		if (this.context) {
+			if (this.context(parents)) {
+				return outputXML();
 			}
-			return '';
+		} else {
+			return outputXML();
 		}
+		return '';
 	}
 }
+
 type NumberString = `${number}` | `${number}.${number}` | number;
 
 function isNumeric(str: any) {
@@ -287,7 +312,13 @@ class Extension extends XMLElement {
 		if (version) {
 			if (typeof version !== 'string' || version?.length <= 0)
 				throw new Error(badArgumentError('Extension Version (optional)', 'string', version));
-			else attributes.push({ name: 'Version', value: version, context: 'ExtensionList' });
+			else
+				attributes.push({
+					name: 'Version',
+					value: version,
+					context: (parents: string[]) =>
+						contextContainsAllOf('ExtensionList')(parents) && contextContainsNoneOf('.debug')(parents),
+				});
 		}
 		let content = [];
 		if (hostList)
@@ -333,7 +364,11 @@ class ExecutionEnvironment extends XMLElement {
 
 class HostList extends XMLElement {
 	constructor(hosts: Host | Host[]) {
-		super({ name: 'HostList', content: hosts, context: ['ExecutionEnvironment', 'DispatchInfoList'] });
+		super({
+			name: 'HostList',
+			content: hosts,
+			context: contextContainsOneOf(['ExecutionEnvironment', 'DispatchInfoList', '.debug']),
+		});
 	}
 }
 
@@ -403,7 +438,11 @@ class Host extends XMLElement {
 				),
 			);
 
-		let versionAttr: AttributeArgument = { name: 'Version', value: '', context: 'ExecutionEnvironment' };
+		let versionAttr: AttributeArgument = {
+			name: 'Version',
+			value: '',
+			context: contextContainsAllOf('ExecutionEnvironment'),
+		};
 		if (version && isRangedVersion(version)) {
 			versionAttr.value = version.toString();
 		} else if (version && typeof version === 'string' && version.toUpperCase() === 'ALL') {
@@ -418,7 +457,11 @@ class Host extends XMLElement {
 			);
 		attribute.push(versionAttr);
 
-		let debugPortAttribute: AttributeArgument = { name: 'Port', context: ['Debug', 'ExtensionList'], value: '' };
+		let debugPortAttribute: AttributeArgument = {
+			name: 'Port',
+			context: contextContainsAllOf(['.debug', 'ExtensionList']),
+			value: '',
+		};
 		if (debugLocalhostPort && typeof debugLocalhostPort === 'number')
 			debugPortAttribute.value = debugLocalhostPort.toString();
 		attribute.push(debugPortAttribute);
@@ -564,7 +607,7 @@ class DispatchInfo extends XMLElement {
 		if (lifecycle !== undefined && lifecycle instanceof Lifecycle) content.push(lifecycle);
 		if (ui !== undefined && ui instanceof UI) content.push(ui);
 		if (extensionData !== undefined && extensionData instanceof ExtensionData) content.push(extensionData);
-		super({ name: 'DispatchInfo', context: 'DispatchInfoList', content });
+		super({ name: 'DispatchInfo', context: contextContainsAllOf('DispatchInfoList'), content });
 	}
 }
 
@@ -680,7 +723,7 @@ class ExtensionData extends XMLElement {
 
 class DependencyList extends XMLElement {
 	constructor() {
-		super({ name: 'DependencyList', context: 'DispatchInfoList' });
+		super({ name: 'DependencyList', context: contextContainsAllOf('DispatchInfoList') });
 	}
 }
 class Dependency extends XMLElement {
@@ -689,19 +732,18 @@ class Dependency extends XMLElement {
 	}
 }
 
-console.log(
-	new DispatchInfoList(
-		new Extension({
-			id: 'my.extension',
-			version: '9',
-			hostList: new HostList(new Host('ILLUSTRATOR', '7.2', 9999)),
-			dispatchInfo: new DispatchInfo({
-				resources: new Resources({
-					mainPath: new MainPath('./dst/index.html'),
-					scriptPath: new ScriptPath('./scripts/main.jsx'),
-					cefCommandLine: new CEFCommandLine(),
-				}),
-			}),
+let myExt = new Extension({
+	id: 'my.extension',
+	version: '9',
+	hostList: new HostList(new Host('ILLUSTRATOR', '7.2', 9999)),
+	dispatchInfo: new DispatchInfo({
+		resources: new Resources({
+			mainPath: new MainPath('./dst/index.html'),
+			scriptPath: new ScriptPath('./scripts/main.jsx'),
+			cefCommandLine: new CEFCommandLine(),
 		}),
-	).xml(['Debug']),
-);
+	}),
+});
+console.log(new DispatchInfoList(myExt).xml(['manifest.xml']));
+console.log(new ExtensionList(myExt).xml(['manifest.xml']));
+console.log(new ExtensionList(myExt).xml(['.debug']));
