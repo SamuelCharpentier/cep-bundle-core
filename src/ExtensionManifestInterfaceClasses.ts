@@ -1,6 +1,6 @@
-const xmlFormatter = require('xml-formatter');
 type Context =
 	| 'any'
+	| 'Debug'
 	| 'ExtensionManifest'
 	| 'Author'
 	| 'Contact'
@@ -22,6 +22,7 @@ type Context =
 const isValidContext = (value: any) => {
 	return (
 		value === 'any' ||
+		value === 'Debug' ||
 		value === 'ExtensionManifest' ||
 		value === 'Author' ||
 		value === 'Contact' ||
@@ -84,10 +85,10 @@ class StringContent {
 	xml(parents: string[] = []): string {
 		if (this.context) {
 			for (const context of this.context) {
-				if (parents.includes(context)) return this.value + '\n';
+				if (parents.includes(context)) return this.value;
 			}
 			return '';
-		} else return this.value + '\n';
+		} else return this.value;
 	}
 }
 
@@ -115,16 +116,16 @@ class XMLElement {
 		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
 
 		this.name = name;
-
+		console.log(name + ':' + JSON.stringify(context));
 		this.context = getContextArray(context);
 
 		if (attributes !== undefined) {
 			this.attributes = [];
 			if (typeof attributes === 'object' && attributes instanceof Array) {
 				attributes.forEach((attribute) => {
-					this.attributes?.push(new Attribute(attribute));
+					if (attribute.value) this.attributes?.push(new Attribute(attribute));
 				});
-			} else if (attributes instanceof Object) this.attributes = [new Attribute(attributes)];
+			} else if (attributes instanceof Object && attributes.value) this.attributes = [new Attribute(attributes)];
 		}
 
 		if (content !== undefined) {
@@ -141,6 +142,10 @@ class XMLElement {
 		}
 	}
 	xml(parents: string[] = [], indent: number = 0): string {
+		const containsAttributeOrContent = (str: string): boolean => {
+			const regexp = new RegExp(/<.* .*=".*" ?\/?>|(<.*?>)+([^<\r\n])+(<\/.*?>)+/);
+			return regexp.test(str);
+		};
 		const outputXML = (): string => {
 			let result = `${'\t'.repeat(indent)}<${this.name}`;
 			if (this.attributes !== undefined && this.attributes instanceof Array && this.attributes?.length > 0) {
@@ -156,19 +161,27 @@ class XMLElement {
 				});
 			}
 			if (this.content !== undefined) {
+				parents.push(this.constructor.name);
 				let contentXML = '';
-				if (this.content instanceof StringContent) contentXML += this.content.xml();
+				if (this.content instanceof StringContent) contentXML += this.content.xml(parents);
 				else if (this.content instanceof Array) {
 					this.content.forEach((content) => {
 						contentXML += content.xml(parents, indent + 1);
 					});
 				}
 				if (contentXML === '') result += '/>\n';
-				else result += '>\n' + contentXML + `${'\t'.repeat(indent)}</${this.name}>\n`;
+				else {
+					result += '>';
+					result += !(this.content instanceof StringContent) ? '\n' : '';
+					result += contentXML;
+					result += !(this.content instanceof StringContent) ? '\t'.repeat(indent) : '';
+					result += `</${this.name}>\n`;
+				}
 			} else {
 				result += '/>\n';
 			}
-			return result;
+			if (containsAttributeOrContent(result)) return result;
+			return '';
 		};
 		if (this.context === undefined || (this.context instanceof Array && this.context.length === 0)) {
 			return outputXML();
@@ -307,7 +320,7 @@ class Extension extends XMLElement {
 		super({
 			name: 'Extension',
 			attributes: attributes,
-			content: content,
+			content,
 		});
 	}
 }
@@ -405,6 +418,11 @@ class Host extends XMLElement {
 			);
 		attribute.push(versionAttr);
 
+		let debugPortAttribute: AttributeArgument = { name: 'Port', context: ['Debug', 'ExtensionList'], value: '' };
+		if (debugLocalhostPort && typeof debugLocalhostPort === 'number')
+			debugPortAttribute.value = debugLocalhostPort.toString();
+		attribute.push(debugPortAttribute);
+
 		super({ name: 'Host', attributes: attribute });
 	}
 }
@@ -416,7 +434,7 @@ class LocaleList extends XMLElement {
 			throw new Error(
 				badArgumentError('LocaleList content', 'instance of LocaleElement (class) or LocaleElement[]', content),
 			);
-		super({ name: 'LocaleList', content: content });
+		super({ name: 'LocaleList', content });
 	}
 }
 
@@ -496,7 +514,7 @@ class RequiredRuntimeList extends XMLElement {
 				} (${typeof content}) received`,
 			);
 		('');
-		super({ name: 'RequiredRuntimeList', content: content });
+		super({ name: 'RequiredRuntimeList', content });
 	}
 }
 
@@ -517,29 +535,64 @@ class RequiredRuntime extends XMLElement {
 class DispatchInfoList extends XMLElement {
 	constructor(extensions: Extension | Extension[]) {
 		if (extensions instanceof Extension) extensions = [extensions];
+		if (!(extensions instanceof Array))
+			throw new Error(
+				badArgumentError(
+					"Dispatch info list's extension",
+					'instance of Extension or array or instances of Extension',
+					extensions,
+				),
+			);
 		super({ name: 'DispatchInfoList', content: extensions });
 	}
 }
 
 class DispatchInfo extends XMLElement {
-	constructor() {
-		super({ name: 'DispatchInfo', context: 'DispatchInfoList' });
+	constructor({
+		resources,
+		lifecycle,
+		ui,
+		extensionData,
+	}: {
+		resources?: Resources;
+		lifecycle?: Lifecycle;
+		ui?: UI;
+		extensionData?: ExtensionData;
+	} = {}) {
+		let content: XMLElement[] = [];
+		if (resources !== undefined && resources instanceof Resources) content.push(resources);
+		if (lifecycle !== undefined && lifecycle instanceof Lifecycle) content.push(lifecycle);
+		if (ui !== undefined && ui instanceof UI) content.push(ui);
+		if (extensionData !== undefined && extensionData instanceof ExtensionData) content.push(extensionData);
+		super({ name: 'DispatchInfo', context: 'DispatchInfoList', content });
 	}
 }
 
 class Resources extends XMLElement {
-	constructor() {
-		super({ name: 'Resources' });
+	constructor({
+		mainPath,
+		scriptPath,
+		cefCommandLine,
+	}: { mainPath?: MainPath; scriptPath?: ScriptPath; cefCommandLine?: CEFCommandLine } = {}) {
+		let content: XMLElement[] = [];
+		if (mainPath !== undefined && mainPath instanceof MainPath) content.push(mainPath);
+		if (scriptPath !== undefined && scriptPath instanceof ScriptPath) content.push(scriptPath);
+		if (cefCommandLine !== undefined && cefCommandLine instanceof CEFCommandLine) content.push(cefCommandLine);
+		super({ name: 'Resources', content });
 	}
 }
 class MainPath extends XMLElement {
-	constructor() {
-		super({ name: 'MainPath' });
+	constructor(relativePathLocation?: string) {
+		let content: string | undefined;
+		if (relativePathLocation) content = relativePathLocation;
+		super({ name: 'MainPath', content });
 	}
 }
 class ScriptPath extends XMLElement {
-	constructor() {
-		super({ name: 'ScriptPath' });
+	constructor(relativePathLocation?: string) {
+		let content: string | undefined;
+		if (relativePathLocation) content = relativePathLocation;
+		super({ name: 'ScriptPath', content });
 	}
 }
 class CEFCommandLine extends XMLElement {
@@ -635,3 +688,20 @@ class Dependency extends XMLElement {
 		super({ name: 'Dependency' });
 	}
 }
+
+console.log(
+	new DispatchInfoList(
+		new Extension({
+			id: 'my.extension',
+			version: '9',
+			hostList: new HostList(new Host('ILLUSTRATOR', '7.2', 9999)),
+			dispatchInfo: new DispatchInfo({
+				resources: new Resources({
+					mainPath: new MainPath('./dst/index.html'),
+					scriptPath: new ScriptPath('./scripts/main.jsx'),
+					cefCommandLine: new CEFCommandLine(),
+				}),
+			}),
+		}),
+	).xml(['Debug']),
+);
