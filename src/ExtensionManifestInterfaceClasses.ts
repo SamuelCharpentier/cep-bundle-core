@@ -19,17 +19,54 @@ type Context =
 	| 'RequiredRuntime'
 	| 'DispatchInfoList'
 	| 'DispatchInfo'
-	| 'DependencyList';
+	| 'DependencyList'
+	| 'CEFCommandLine';
+
+const isValidContext = (value: any) => {
+	return (
+		value === 'any' ||
+		value === '.debug' ||
+		value === 'ExtensionManifest' ||
+		value === 'Author' ||
+		value === 'Contact' ||
+		value === 'HrefElement' ||
+		value === 'Legal' ||
+		value === 'Abstract' ||
+		value === 'ExtensionList' ||
+		value === 'Extension' ||
+		value === 'ExecutionEnvironment' ||
+		value === 'HostList' ||
+		value === 'Host' ||
+		value === 'LocaleList' ||
+		value === 'LocaleElement' ||
+		value === 'RequiredRuntimeList' ||
+		value === 'RequiredRuntime' ||
+		value === 'DispatchInfoList' ||
+		value === 'DispatchInfo' ||
+		value === 'DependencyList' ||
+		value === 'CEFCommandLine'
+	);
+};
 
 const validateTargetContextsArgument: (targetContexts: Context | Context[], functionName: string) => Context[] = (
 	targetContexts: Context | Context[],
 	functionName: string,
 ) => {
-	if (typeof targetContexts === 'string') targetContexts = [targetContexts];
+	if (typeof targetContexts === 'string' && isValidContext(targetContexts)) targetContexts = [targetContexts];
 	if (!(targetContexts instanceof Array))
 		throw new Error(
 			badArgumentError(`${functionName}'s first argument`, 'valid Context or Array of Context', targetContexts),
 		);
+	for (const context of targetContexts) {
+		if (!isValidContext(context))
+			throw new Error(
+				badArgumentError(
+					`${functionName}'s first argument`,
+					'string of Context type or Array of strings of Context type',
+					context,
+				),
+			);
+	}
 	return targetContexts;
 };
 
@@ -70,31 +107,6 @@ const contextContainsNoneOf: (targetContexts: Context | Context[]) => (parent: s
 		}
 		return true;
 	};
-};
-
-const isValidContext = (value: any) => {
-	return (
-		value === 'any' ||
-		value === '.debug' ||
-		value === 'ExtensionManifest' ||
-		value === 'Author' ||
-		value === 'Contact' ||
-		value === 'HrefElement' ||
-		value === 'Legal' ||
-		value === 'Abstract' ||
-		value === 'ExtensionList' ||
-		value === 'Extension' ||
-		value === 'ExecutionEnvironment' ||
-		value === 'HostList' ||
-		value === 'Host' ||
-		value === 'LocaleList' ||
-		value === 'LocaleElement' ||
-		value === 'RequiredRuntimeList' ||
-		value === 'RequiredRuntime' ||
-		value === 'DispatchInfoList' ||
-		value === 'DispatchInfo' ||
-		value === 'DependencyList'
-	);
 };
 
 type AttributeArgument = { name: string; value: string; context?: (parents: string[]) => boolean };
@@ -627,40 +639,153 @@ class Resources extends XMLElement {
 class MainPath extends XMLElement {
 	constructor(relativePathLocation?: string) {
 		let content: string | undefined;
-		if (relativePathLocation) content = relativePathLocation;
+		if (relativePathLocation && typeof relativePathLocation !== 'string')
+			throw new Error(
+				badArgumentError(
+					"Main Path's first argument",
+					'string containing a relative path from the extension root to the main .html/.swf file',
+					relativePathLocation,
+				),
+			);
+
+		content = relativePathLocation;
 		super({ name: 'MainPath', content });
 	}
 }
 class ScriptPath extends XMLElement {
 	constructor(relativePathLocation?: string) {
 		let content: string | undefined;
-		if (relativePathLocation) content = relativePathLocation;
+		if (relativePathLocation && typeof relativePathLocation !== 'string')
+			throw new Error(
+				badArgumentError(
+					"Script Path's first argument",
+					'string containing a relative path from the extension root to the main script file',
+					relativePathLocation,
+				),
+			);
+
+		content = relativePathLocation;
 		super({ name: 'ScriptPath', content });
 	}
 }
+type Command =
+	| '--enable-media-stream'
+	| '--enable-speech-input'
+	| '--persist-session-cookies'
+	| '--disable-image-loading'
+	| '--disable-javascript-open-windows'
+	| '--disable-javascript-close-windows'
+	| '--disable-javascript-access-clipboard'
+	| '--enable-caret-browsing'
+	| '--proxy-auto-detect'
+	| '--user-agent'
+	| '--disable-application-cache'
+	| '--enable-nodejs'
+	| '--disable-pinch'
+	| '--mixed-conext'
+	| `--${string}`
+	| `--${string}=${string}`;
+
+const isValidCommand: (command: Command) => boolean = (command: Command) => {
+	return /^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command);
+};
 class CEFCommandLine extends XMLElement {
-	constructor() {
-		super({ name: 'CEFCommandLine' });
+	constructor(commandParameters: Command | Command[]) {
+		let content = [];
+		commandParameters = typeof commandParameters === 'string' ? [commandParameters] : commandParameters;
+		for (const command of commandParameters) {
+			if (!isValidCommand(command))
+				throw new Error(
+					badArgumentError(
+						'CEF Command Line command parameters',
+						'string of type Command or an array of strings of type Command',
+						commandParameters,
+					),
+				);
+			content.push(new Parameter(command));
+		}
+		super({ name: 'CEFCommandLine', content });
 	}
 }
 class Parameter extends XMLElement {
-	constructor() {
-		super({ name: 'Parameter' });
+	constructor(commandParameter: Command) {
+		super({
+			name: 'Parameter',
+			content: new StringContent({ value: commandParameter, context: contextContainsOneOf('CEFCommandLine') }),
+		});
 	}
 }
 class Lifecycle extends XMLElement {
-	constructor() {
-		super({ name: 'Lifecycle' });
+	constructor({ autoVisible, startOn }: { autoVisible?: AutoVisible; startOn?: StartOn }) {
+		let content: XMLElement[] = [];
+		if (autoVisible !== undefined && autoVisible instanceof AutoVisible) content.push(autoVisible);
+		if (startOn !== undefined && startOn instanceof StartOn) content.push(startOn);
+		super({ name: 'Lifecycle', content });
+	}
+}
+class AutoVisible extends XMLElement {
+	constructor(state?: boolean) {
+		if (typeof state !== 'boolean')
+			throw new Error(badArgumentError('Auto Visible state parameter (optional)', 'boolean', state));
+
+		super({ name: 'AutoVisible', content: new StringContent({ value: state ? 'true' : 'false' }) });
+	}
+}
+type EventType = string;
+
+const isEvent: (e: EventType[]) => boolean = (event: EventType[]) => {
+	return true;
+};
+class StartOn extends XMLElement {
+	constructor(events: EventType | EventType[]) {
+		events = typeof events === 'string' ? [events] : events;
+		if (!isEvent(events))
+			throw new Error(
+				badArgumentError(
+					'Start On events parameter (optional)',
+					'string of type Event or an Array of strings of type Event',
+					events,
+				),
+			);
+		let content: XMLElement[] = [];
+		for (const event of events) {
+			content.push(new EventElement(event));
+		}
+		super({ name: 'StartOn', content });
+	}
+}
+class EventElement extends XMLElement {
+	constructor(event: EventType) {
+		super({ name: 'Event', content: new StringContent({ value: event }) });
 	}
 }
 class UI extends XMLElement {
-	constructor() {
-		super({ name: 'UI' });
+	constructor({ type }: { type: Type }) {
+		super({ name: 'UI', content: type });
 	}
 }
+enum UIType {
+	'Panel' = 'Panel',
+	'ModalDialog' = 'ModalDialog',
+	'Modeless' = 'Modeless',
+	'Custom' = 'Custom',
+	'Embedded' = 'Embedded',
+	'Dashboard' = 'Dashboard',
+}
+
+const isUITypeKey = isEnumKey(UIType);
+const isUITypeValue = isEnumToken(UIType);
 class Type extends XMLElement {
-	constructor() {
-		super({ name: 'Type' });
+	constructor(type: UIType | keyof typeof UIType) {
+		let content: StringContent | undefined;
+		if (type && isUITypeValue(type)) content = new StringContent({ value: type });
+		else if (type && isUITypeKey(type)) content = new StringContent({ value: UIType[type] });
+		else
+			throw new Error(
+				badArgumentError('Type only argument', 'string of a keyof typeof UIType(enum) or UIType(enum)', type),
+			);
+
+		super({ name: 'Type', content });
 	}
 }
 class Menu extends XMLElement {
@@ -740,8 +865,12 @@ let myExt = new Extension({
 		resources: new Resources({
 			mainPath: new MainPath('./dst/index.html'),
 			scriptPath: new ScriptPath('./scripts/main.jsx'),
-			cefCommandLine: new CEFCommandLine(),
+			cefCommandLine: new CEFCommandLine(['--parameter1=value1', '--enable-nodejs']),
 		}),
+		lifecycle: new Lifecycle({
+			startOn: new StartOn(['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate']),
+		}),
+		ui: new UI({ type: new Type('Panel') }),
 	}),
 });
 console.log(new DispatchInfoList(myExt).xml(['manifest.xml']));
