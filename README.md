@@ -1,3 +1,5 @@
+# This will be updated in time to reflect the new workflow of this package
+
 # cep-bundler-core
 
 Core functionality for making bundler extensions to compile CEP.
