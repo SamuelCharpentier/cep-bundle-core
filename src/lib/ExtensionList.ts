@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { Extension } from './Extension';
+import { badArgumentError } from './errorMessages';
 export class ExtensionList extends XMLElement {
 	constructor(extensions: Extension | Extension[]) {
 		if (typeof extensions === 'object' && extensions instanceof Extension) extensions = [extensions];

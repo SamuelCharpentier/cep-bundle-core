@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { VersionNumber, AttributeArgument, isNumeric } from './typesAndValidators';
+import { badArgumentError } from './errorMessages';
 export class DependencyList extends XMLElement {
 	constructor(dependencies: Dependency | Dependency[]) {
 		if (dependencies instanceof Dependency) dependencies = [dependencies];

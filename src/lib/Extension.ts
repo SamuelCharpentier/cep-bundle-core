@@ -4,6 +4,7 @@ import { DispatchInfo } from './DispatchInfo';
 import { DependencyList } from './Dependency';
 import type { AttributeArgument } from './typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
+import { badArgumentError } from './errorMessages';
 export class Extension extends XMLElement {
 	constructor({
 		id,

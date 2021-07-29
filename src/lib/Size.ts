@@ -1,5 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { StringContent } from './StringContent';
+import { bothWidthAndHeightRequired, badArgumentError } from './errorMessages';
+
 export class SizeConstructor extends XMLElement {
 	constructor({ name, width, height }: { name: string; width: `${number}` | number; height: `${number}` | number }) {
 		let content: XMLElement[] = [];

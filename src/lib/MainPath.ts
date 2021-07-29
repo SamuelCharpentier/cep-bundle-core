@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { RelativePath, isRelativePath } from './typesAndValidators';
+import { badArgumentError } from './errorMessages';
 export class MainPath extends XMLElement {
 	constructor(relativePath: RelativePath) {
 		let content: string | undefined;

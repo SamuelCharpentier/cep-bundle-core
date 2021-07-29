@@ -1,4 +1,5 @@
 import { XMLElement } from './XMLElement';
+import { badArgumentError } from './errorMessages';
 export class ScriptPath extends XMLElement {
 	constructor(relativePathLocation?: string) {
 		let content: string | undefined;

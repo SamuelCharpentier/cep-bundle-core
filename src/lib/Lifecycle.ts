@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { EventType, isEvent } from './typesAndValidators';
+import { badArgumentError } from './errorMessages';
 export class Lifecycle extends XMLElement {
 	constructor({ autoVisible, startOn }: { autoVisible?: AutoVisible; startOn?: StartOn }) {
 		let content: XMLElement[] = [];

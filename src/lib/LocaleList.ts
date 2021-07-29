@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { AdobeLocaleCodes, isAdobeLocaleCodesValue } from './enumsAndValidators';
+import { badArgumentError } from './errorMessages';
 export class LocaleList extends XMLElement {
 	constructor(content: LocaleElement | LocaleElement[]) {
 		if (content instanceof LocaleElement) [content];

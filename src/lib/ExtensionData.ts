@@ -1,4 +1,5 @@
 import { XMLElement } from './XMLElement';
+import { badArgumentError } from './errorMessages';
 export class ExtensionData extends XMLElement {
 	constructor(content: string) {
 		if (content && typeof content === 'string') {

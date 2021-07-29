@@ -1,3 +1,4 @@
+import { ExtensionManifest } from './lib/ExtensionManifest';
 import { Extension } from './lib/Extension';
 import { DispatchInfoList, DispatchInfo } from './lib/DispatchInfo';
 import { ExtensionList } from './lib/ExtensionList';
@@ -27,6 +28,10 @@ let myExt = new Extension({
 		ui: new UI({ type: new Type('Panel') }),
 	}),
 });
-console.log(new DispatchInfoList(myExt).xml(['manifest.xml']));
-console.log(new ExtensionList(myExt).xml(['manifest.xml']));
-console.log(new ExtensionList(myExt).xml(['.debug']));
+
+console.log(
+	'<?xml version="1.0" encoding="UTF-8"?>\n' +
+		new ExtensionManifest({ bundleId: 'my.bundle', bundleVersion: '0.0.0.1', bundleName: 'Awsome Extensions' }, [
+			myExt,
+		]).xml(['manifest.xml']),
+);

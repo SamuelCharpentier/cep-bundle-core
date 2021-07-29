@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { AttributeArgument, Placement, isPlacement } from './typesAndValidators';
+import { badArgumentError } from './errorMessages';
 export class Menu extends XMLElement {
 	constructor(menuName: string, placement?: Placement) {
 		if (menuName && typeof menuName === 'string') {

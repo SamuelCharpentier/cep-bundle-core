@@ -1,5 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { UIType, isUITypeKey, isUITypeValue } from './enumsAndValidators';
+import { badArgumentError } from './errorMessages';
 export class Type extends XMLElement {
 	constructor(type: UIType | keyof typeof UIType) {
 		let content: string;

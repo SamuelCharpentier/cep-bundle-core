@@ -1,6 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { Command, isValidCommand } from './typesAndValidators';
 import { StringContent } from './StringContent';
+import { badArgumentError } from './errorMessages';
 import { contextContainsOneOf } from './Context';
 export class CEFCommandLine extends XMLElement {
 	constructor(commandParameters: Command | Command[]) {

@@ -1,6 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { RelativePath, isRelativePath } from './typesAndValidators';
 import { IconType, isIconTypeKey, isIconTypeValue } from './enumsAndValidators';
+import { badArgumentError } from './errorMessages';
 export class Icons extends XMLElement {
 	constructor(icons: Icon[] | Icon) {
 		if (icons instanceof Icon) icons = [icons];

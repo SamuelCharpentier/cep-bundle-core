@@ -2,6 +2,7 @@ import { XMLElement } from './XMLElement';
 import { RangedVersion, AttributeArgument, isRangedVersion } from './typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import { HostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
+import { badArgumentError } from './errorMessages';
 
 export class HostList extends XMLElement {
 	constructor(hosts: Host | Host[]) {

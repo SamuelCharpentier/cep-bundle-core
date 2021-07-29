@@ -5,6 +5,7 @@ import { Lifecycle } from './Lifecycle';
 import { UI } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';
+import { badArgumentError } from './errorMessages';
 export class DispatchInfoList extends XMLElement {
 	constructor(extensions: Extension | Extension[]) {
 		if (extensions instanceof Extension) extensions = [extensions];

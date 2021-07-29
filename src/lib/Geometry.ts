@@ -1,6 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { ScreenPercentage, Size, MinSize, MaxSize } from './Size';
 import type { Sizes } from './typesAndValidators';
+import { badArgumentError } from './errorMessages';
 export class Geometry extends XMLElement {
 	constructor(content: Sizes | Sizes[]) {
 		if (content instanceof ScreenPercentage) content = [content];

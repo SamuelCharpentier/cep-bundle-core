@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { NumberString, isNumeric } from './typesAndValidators';
+import { NumberString, isNumeric, VersionNumber } from './typesAndValidators';
 import { Author } from './Author';
 import { Contact } from './Contact';
 import { Legal } from './Legal';
@@ -7,9 +7,14 @@ import { Abstract } from './Abstract';
 import { ExtensionList } from './ExtensionList';
 import { ExecutionEnvironment } from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfo';
+import { badArgumentError } from './errorMessages';
 export class ExtensionManifest extends XMLElement {
 	constructor(
-		{ bundleId, bundleVersion, bundleName }: { bundleId: string; bundleVersion: NumberString; bundleName?: string },
+		{
+			bundleId,
+			bundleVersion,
+			bundleName,
+		}: { bundleId: string; bundleVersion: VersionNumber; bundleName?: string },
 		content: (Author | Contact | Legal | Abstract | ExtensionList | ExecutionEnvironment | DispatchInfoList)[],
 	) {
 		let attributes = [{ name: 'Version', value: '7.0' }];
