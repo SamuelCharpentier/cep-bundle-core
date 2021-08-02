@@ -9,15 +9,6 @@ const isEnumKey = <T>(testedEnum: T) => {
 };
 
 export enum HostEngine {
-	'INCOPY' = 'AICY',
-	'INDESIGN' = 'IDSN',
-	'ILLUSTRATOR' = 'ILST',
-	'PHOTOSHOP' = 'PHXS',
-	'PRELUDE' = 'PRLD',
-	'PREMIERE PRO' = 'PPRO',
-	'DREAMWEAVER' = 'DRWV',
-	'FLASH PRO' = 'FLPR',
-	'AFTER EFFECTS' = 'AEFT',
 	'InCopy' = 'AICY',
 	'InDesign' = 'IDSN',
 	'Illustrator' = 'ILST',
@@ -93,6 +84,7 @@ export enum IconType {
 }
 export const isIconTypeKey = isEnumKey(IconType);
 export const isIconTypeValue = isEnumToken(IconType);
+export const isIconType = <(val: any) => val is IconType>((val: any) => isIconTypeKey(val) || isIconTypeValue(val));
 
 export enum SizesTypes {
 	'screenPercentage' = 'screenPercentage',

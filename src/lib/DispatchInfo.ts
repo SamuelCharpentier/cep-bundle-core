@@ -52,7 +52,10 @@ export const isDispatchInfoArgument: (argument: any) => boolean = (argument): ar
 					);
 			}
 		}
+		return true;
 	}
+	throw new Error('extensions.dispatchInfo could not be validated, ' + printVariableInError(argument));
+
 	return false;
 };
 export class DispatchInfo extends XMLElement {

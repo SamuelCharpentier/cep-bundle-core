@@ -6,7 +6,7 @@ import { SizesTypes, isSizesTypesKey, isSizesTypesValue } from './enumsAndValida
 export type WidthHeight = { width: `${number}` | number; height: `${number}` | number };
 export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
-export const isGeometryArgument = <(arg: GeometryArgument) => arg is GeometryArgument>((arg) => {
+export const isGeometryArgument = <(arg: any) => arg is GeometryArgument>((arg) => {
 	if (typeof arg === 'object') {
 		for (const sizeType in arg) {
 			if (!isSizesTypesValue(sizeType) || !isSizesTypesKey(sizeType))
@@ -20,7 +20,7 @@ export const isGeometryArgument = <(arg: GeometryArgument) => arg is GeometryArg
 				throw new Error(
 					badArgumentError(
 						`extension.dispatchInfo.ui.geometry.${sizeType}.width`,
-						'as a SizesTypes(enum)',
+						'as a number or a string of a number',
 						sizing.width,
 					),
 				);
@@ -28,7 +28,7 @@ export const isGeometryArgument = <(arg: GeometryArgument) => arg is GeometryArg
 				throw new Error(
 					badArgumentError(
 						`extension.dispatchInfo.ui.geometry.${sizeType}.height`,
-						'as a SizesTypes(enum)',
+						'as a number or a string of a number',
 						sizing.height,
 					),
 				);
@@ -67,32 +67,14 @@ export class Geometry extends XMLElement {
 	}
 }
 
-export class SizeConstructor extends XMLElement {
+class SizeConstructor extends XMLElement {
 	constructor({ name, width, height }: { name: string; width: `${number}` | number; height: `${number}` | number }) {
 		let content: XMLElement[] = [];
-		if ((width && !height) || (!width && height)) throw new Error(bothWidthAndHeightRequired(name, width, height));
-
 		if (typeof width === 'number') width = `${width}`;
 		if (typeof height === 'number') height = `${height}`;
-		if (Number.isInteger(parseFloat(width))) content.push(new Width(width));
-		else
-			throw new Error(
-				badArgumentError(
-					`${name}'s width`,
-					'a string containing an integer number or an integer number',
-					width,
-				),
-			);
+		content.push(new Width(width));
+		content.push(new Height(height));
 
-		if (Number.isInteger(parseFloat(height))) content.push(new Height(height));
-		else
-			throw new Error(
-				badArgumentError(
-					`${name}'s height`,
-					'a string containing an integer number or an integer number',
-					height,
-				),
-			);
 		super({ name, content });
 	}
 }

@@ -14,7 +14,7 @@ function prettierJSON(string: string) {
 export const printVariableInError: (v: any) => string = (val) => {
 	return `${
 		typeof val === 'string' ? `'${val}'` : typeof val === 'object' ? '\n' + prettierJSON(JSON.stringify(val)) : val
-	} (${typeof val})`;
+	} (${val instanceof Array ? 'array' : typeof val})`;
 };
 
 export const badArgumentError = (argumentName: string, argumentType: string, valueReceived: any) =>

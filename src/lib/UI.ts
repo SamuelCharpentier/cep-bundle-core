@@ -18,17 +18,21 @@ export const isUIArgument: (arg: any) => boolean = (argument): argument is UIArg
 		if (argument.menu) isMenuArgument(argument.menu);
 		if (argument.geometry) isGeometryArgument(argument.geometry);
 		if (argument.icons) isIconsArgument(argument.icons);
+		return true;
 	}
-	throw new Error(`isUIArgument to be done`);
+	throw new Error(`extension.dispatchInfo.ui could not be validated`);
 	return false;
 };
 export class UI extends XMLElement {
-	constructor({ type, menu, geometry, icons }: UIArgument) {
+	constructor(uiConfig: UIArgument) {
 		let content: XMLElement[] = [];
-		if (type && (isUITypeValue(type) || isUITypeKey(type))) content.push(new Type(type));
-		if (menu && isMenuArgument(menu)) content.push(new Menu(menu));
-		if (geometry && geometry instanceof Geometry) content.push(geometry);
-		if (icons && icons instanceof Icons) content.push(icons);
-		super({ name: 'UI', content });
+		if (isUIArgument(uiConfig)) {
+			let { type, menu, geometry, icons } = uiConfig;
+			if (type) content.push(new Type(type));
+			if (menu) content.push(new Menu(menu));
+			if (geometry) content.push(new Geometry(geometry));
+			if (icons) content.push(new Icons(icons));
+			super({ name: 'UI', content });
+		}
 	}
 }

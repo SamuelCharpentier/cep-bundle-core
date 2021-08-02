@@ -1,6 +1,5 @@
 import { badArgumentError } from './errorMessages';
-type Context =
-	| 'any'
+export type Context =
 	| '.debug'
 	| 'manifest.xml'
 	| 'ExtensionManifest'
@@ -21,12 +20,26 @@ type Context =
 	| 'DispatchInfoList'
 	| 'DispatchInfo'
 	| 'DependencyList'
+	| 'Dependency'
+	| 'Resources'
+	| 'MainPath'
+	| 'ScriptPath'
 	| 'CEFCommandLine'
-	| 'UI';
-export function isValidContext(value: any): boolean {
+	| 'Parameter'
+	| 'Lifecycle'
+	| 'AutoVisible'
+	| 'StartOn'
+	| 'Event'
+	| 'UI'
+	| 'Type'
+	| 'Menu'
+	| 'Geometry'
+	| 'Icons'
+	| 'ExtensionData';
+export const isValidContext = <(value: any) => value is Context>((value: any) => {
 	return (
-		value === 'any' ||
 		value === '.debug' ||
+		value === 'manifest.xml' ||
 		value === 'ExtensionManifest' ||
 		value === 'Author' ||
 		value === 'Contact' ||
@@ -45,10 +58,24 @@ export function isValidContext(value: any): boolean {
 		value === 'DispatchInfoList' ||
 		value === 'DispatchInfo' ||
 		value === 'DependencyList' ||
+		value === 'Dependency' ||
+		value === 'Resources' ||
+		value === 'MainPath' ||
+		value === 'ScriptPath' ||
 		value === 'CEFCommandLine' ||
-		value === 'UI'
+		value === 'Parameter' ||
+		value === 'Lifecycle' ||
+		value === 'AutoVisible' ||
+		value === 'StartOn' ||
+		value === 'Event' ||
+		value === 'UI' ||
+		value === 'Type' ||
+		value === 'Menu' ||
+		value === 'Geometry' ||
+		value === 'Icons' ||
+		value === 'ExtensionData'
 	);
-}
+});
 export function validateTargetContextsArgument(targetContexts: Context | Context[], functionName: string): Context[] {
 	if (typeof targetContexts === 'string' && isValidContext(targetContexts)) targetContexts = [targetContexts];
 	if (!(targetContexts instanceof Array))

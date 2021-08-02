@@ -48,8 +48,8 @@ export function isRangedVersion(value: any): boolean {
 
 export type RelativePath = `./${string}`;
 
-export function isRelativePath(value: any): boolean {
-	if (typeof value !== 'string') return false;
+export function isRelativePath(value: any): value is RelativePath {
+	if (typeof value !== 'string' || value === undefined) return false;
 	return /\.\/.+/.test(value);
 }
 
@@ -83,14 +83,14 @@ export type EventType = string;
 
 export const isEvent: (e: any) => boolean = (event): event is EventType => {
 	if (typeof event !== 'string') return false;
-	console.warn('isEvent validator to do, blind validation');
+	console.warn('isEvent validator to do, blind validation —', event);
 	return true;
 };
 
 export type Placement = string;
 
 export function isPlacement(placement: Placement): boolean {
-	console.warn('isPlacement validator to do, blind validation');
+	console.warn('isPlacement validator to do, blind validation —', placement);
 	return true;
 }
 export type ID = string;

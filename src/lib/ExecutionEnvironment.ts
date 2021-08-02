@@ -5,27 +5,40 @@ import { badArgumentError } from './errorMessages';
 
 export type ExecutionEnvironmentArgument = { hostList?: HostArgument; localeList?: LocaleListArgument };
 
-export const isExecutionEnvironmentArgument: (arg: any) => boolean = (argument) => {
-	if (
-		typeof argument === 'object' &&
-		(isValidHostArgument(argument.hostList) || isLocaleListArgument(argument.localeList))
-	)
+export const isExecutionEnvironmentArgument = <(argument: any) => argument is ExecutionEnvironmentArgument>((
+	argument,
+) => {
+	if (typeof argument === 'object' && (argument.hostList || argument.localeList)) {
+		if (argument.hostList && !isValidHostArgument(argument.hostList))
+			throw new Error(
+				badArgumentError(
+					'executionEnvironment.hostList',
+					'as an object of type HostArgument(type)',
+					argument.hostList,
+				),
+			);
+		if (argument.localeList && !isLocaleListArgument(argument.localeList))
+			throw new Error(
+				badArgumentError(
+					'executionEnvironment.localeList',
+					'as an object of type LocaleListArgument(type)',
+					argument.localeList,
+				),
+			);
 		return true;
+	}
+	throw new Error('executionEnvironment could not be validated');
+
 	return false;
-};
+});
 export class ExecutionEnvironment extends XMLElement {
-	constructor({ hostList, localeList }: ExecutionEnvironmentArgument = {}) {
-		if (hostList || localeList) {
+	constructor(executionEnvironmentConfig: ExecutionEnvironmentArgument = {}) {
+		if (isExecutionEnvironmentArgument(executionEnvironmentConfig)) {
+			const { hostList, localeList } = executionEnvironmentConfig;
 			let content: XMLElement[] = [];
-			if (hostList)
-				if (!(hostList instanceof HostList))
-					throw new Error(badArgumentError("Execution Environment's HostList(optional)", '', hostList));
-				else content.push(hostList);
-			if (localeList)
-				if (!(localeList instanceof LocaleList))
-					throw new Error(badArgumentError("Execution Environment's LocaleList(optional)", '', localeList));
-				else content.push(localeList);
+			if (hostList) content.push(new HostList(hostList));
+			if (localeList) content.push(new LocaleList(localeList));
 			super({ name: 'ExecutionEnvironment', content });
-		} else throw new Error('ExecutionEnvironment requires at least one of its arguments to be defined');
+		}
 	}
 }

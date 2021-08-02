@@ -2,7 +2,7 @@ import { XMLElement } from './XMLElement';
 import { RangedVersion, AttributeArgument, isRangedVersion } from './typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import { HostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError, printVariableInError } from './errorMessages';
 
 export class HostList extends XMLElement {
 	constructor(hosts: HostArgument | HostArgument[]) {
@@ -25,18 +25,46 @@ export class HostList extends XMLElement {
 export type HostArgument = {
 	host: HostEngine | keyof typeof HostEngine;
 	version: 'All' | 'ALL' | 'all' | RangedVersion;
-	debugPort?: number;
+	debugPort?: number | `${number}`;
 };
-export function isValidHostArgument(host: any) {
-	return (
-		typeof host === 'object' &&
-		host !== null &&
-		host.host &&
-		host.version &&
-		(isHostEngineValue(host.host) || isHostEngineKey(host.host)) &&
-		(isRangedVersion(host.version) || (typeof host.version === 'string' && host.version.toUpperCase() === 'ALL')) &&
-		(host.debugPort === undefined || (host.debugPort && typeof host.debugPort === 'number'))
-	);
+export function isValidHostArgument(host: any): host is HostArgument {
+	if (host && typeof host === 'object') {
+		if (!host.host || !isHostEngineKey(host.host))
+			throw new Error(
+				badArgumentError(`[any].hostList.host.version`, "as a RangedVersion or the string 'ALL'", host.host),
+			);
+
+		if (
+			!host.version ||
+			(!isRangedVersion(host.version) &&
+				!(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
+		)
+			throw new Error(
+				badArgumentError(`[any].hostList.host.version`, "as a RangedVersion or the string 'ALL'", host.version),
+			);
+
+		if (host.debugPort)
+			if (
+				!(
+					host.debugPort &&
+					(typeof host.debugPort === 'number' ||
+						(typeof host.debugPort === 'string' && Number.isInteger(parseInt(host.debugPort))))
+				)
+			) {
+				throw new Error(
+					badArgumentError(
+						'[any].hostList.host.debugPort',
+						'a number or a string containing a number',
+						host.debugPort,
+					),
+				);
+			}
+		return true;
+	}
+
+	throw new Error('isValidHostArgument could not validate ,' + printVariableInError(host));
+
+	return false;
 }
 class Host extends XMLElement {
 	constructor({ host, version, debugPort }: HostArgument) {

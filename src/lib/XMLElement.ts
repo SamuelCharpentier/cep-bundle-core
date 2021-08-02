@@ -2,6 +2,7 @@ import { Attribute } from './Attribute';
 import { StringContent } from './StringContent';
 import { AttributeArgument } from './typesAndValidators';
 import { badArgumentError } from './errorMessages';
+import { isValidContext, Context } from './Context';
 export class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
@@ -45,7 +46,7 @@ export class XMLElement {
 			else if (typeof content === 'string') this.content = new StringContent({ value: content });
 		}
 	}
-	xml(parents: string[] = [], indent: number = 0): string {
+	xml(parents: Context[] = [], indent: number = 0): string {
 		const containsAttributeOrContent = (str: string): boolean => {
 			const regexp = new RegExp(/<.* .*=".*" ?\/?>|(<.*?>)+([^<\r\n])+(<\/.*?>)+/);
 			return regexp.test(str);
@@ -60,7 +61,7 @@ export class XMLElement {
 				});
 			}
 			if (this.content !== undefined) {
-				parents.push(this.constructor.name);
+				if (isValidContext(this.constructor.name)) parents.push(this.constructor.name);
 				let contentXML = '';
 				if (this.content instanceof StringContent) contentXML += this.content.xml(parents);
 				else if (this.content instanceof Array) {

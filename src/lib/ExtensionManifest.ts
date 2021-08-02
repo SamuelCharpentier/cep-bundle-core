@@ -5,10 +5,15 @@ import { Contact } from './Contact';
 import { Legal } from './Legal';
 import { Abstract } from './Abstract';
 import { ExtensionList } from './ExtensionList';
-import { ExecutionEnvironment, ExecutionEnvironmentArgument } from './ExecutionEnvironment';
+import {
+	ExecutionEnvironment,
+	ExecutionEnvironmentArgument,
+	isExecutionEnvironmentArgument,
+} from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfo';
 import { badArgumentError } from './errorMessages';
 import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
+import { contextContainsNoneOf } from './Context';
 
 export type ExtensionManifestArgument = {
 	bundleId: string;
@@ -23,6 +28,8 @@ export type ExtensionManifestArgument = {
 };
 
 export const isExtensionManifestArgument: (arg: any) => boolean = (argument) => {
+	throw new Error('isExtensionManifestArgument could not be validated');
+
 	return false;
 };
 export class ExtensionManifest extends XMLElement {
@@ -106,17 +113,10 @@ export class ExtensionManifest extends XMLElement {
 				),
 			);
 
-		if (executionEnvironment && executionEnvironment instanceof ExecutionEnvironment) {
-			content.push(executionEnvironment);
-		} else
-			throw new Error(
-				badArgumentError(
-					"ExtensionManifest's executionEnvironment",
-					'instance of ExecutionEnvironment(class) or an array of instances of ExecutionEnvironment(class)',
-					executionEnvironment,
-				),
-			);
+		if (isExecutionEnvironmentArgument(executionEnvironment)) {
+			content.push(new ExecutionEnvironment(executionEnvironment));
+		}
 
-		super({ name: 'ExtensionManifest', attributes: attributes, content });
+		super({ name: 'ExtensionManifest', attributes: attributes, content, context: contextContainsNoneOf('.debug') });
 	}
 }

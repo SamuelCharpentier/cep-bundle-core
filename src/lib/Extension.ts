@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { HostArgument, HostList, isValidHostArgument } from './Host';
+import { HostList, HostArgument, isValidHostArgument } from './Host';
 import { DispatchInfo, DispatchInfoArgument, isDispatchInfoArgument } from './DispatchInfo';
 import { DependencyList, DependencyArgument, isDependencyArgument } from './Dependency';
 import { AttributeArgument, isVersionNumber, isValidId } from './typesAndValidators';
