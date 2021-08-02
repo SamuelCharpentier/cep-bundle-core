@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { isNumeric, VersionNumber, EmailAddress, isEmail, isValidUrl } from './typesAndValidators';
+import { VersionNumber, isVersionNumber, EmailAddress, isEmail, isValidUrl } from './typesAndValidators';
 import { Author } from './Author';
 import { Contact } from './Contact';
 import { Legal } from './Legal';
@@ -15,28 +15,81 @@ import { badArgumentError } from './errorMessages';
 import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';
 
+type bundleInfos = { id: string; version: VersionNumber; name?: string };
 export type ExtensionManifestArgument = {
-	bundleId: string;
-	bundleVersion: VersionNumber;
-	bundleName?: string;
-	authorName?: String;
+	extensionBundle: bundleInfos;
+	authorName?: string;
 	contact?: EmailAddress;
 	legal?: URL | string;
 	abstract?: URL | string;
 	extensions: ExtensionArgument | ExtensionArgument[];
-	executionEnvironment: ExecutionEnvironmentArgument;
+	executionEnvironment?: ExecutionEnvironmentArgument;
 };
 
-export const isExtensionManifestArgument: (arg: any) => boolean = (argument) => {
+export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManifestArgument>((argument) => {
+	if (argument && typeof argument === 'object') {
+		let { extensionBundle, authorName, contact, legal, abstract, extensions, executionEnvironment } = argument;
+		console.log(extensionBundle);
+		let { id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
+		if (typeof bundleId !== 'string') throw new Error(badArgumentError('bundleId', 'a string', bundleId));
+
+		if (typeof bundleVersion !== 'number' && !isVersionNumber(bundleVersion))
+			throw new Error(
+				badArgumentError('bundleVersion', 'a number or string containing a VersionNumber(type)', bundleVersion),
+			);
+
+		if (bundleName && typeof bundleName !== 'string')
+			throw new Error(badArgumentError("The bundle's name (optional)", 'a string', bundleName));
+
+		if (authorName)
+			if (typeof authorName !== 'string')
+				throw new Error(badArgumentError('authorName(optional)', 'a string', authorName));
+
+		if (contact)
+			if (!isEmail(contact))
+				throw new Error(badArgumentError('contact', 'a string containing a valid email', contact));
+
+		if (legal)
+			if (!isValidUrl(legal))
+				throw new Error(badArgumentError('legal(optional)', 'string containing a valid URL', legal));
+
+		if (abstract)
+			if (!isValidUrl(abstract))
+				throw new Error(badArgumentError('abstract(optional)', 'string containing a valid URL', abstract));
+
+		if (!extensions)
+			throw new Error(
+				badArgumentError('extensions', 'an object or array of objects of type ExtensionArgument', extensions),
+			);
+		if (!(extensions instanceof Array)) extensions = [extensions];
+		for (const extension of extensions) {
+			if (!isExtensionArgument(extension))
+				throw new Error(
+					badArgumentError(
+						"ExtensionManifest's extensions",
+						'object of type ExtensionArgument(type)',
+						extension,
+					),
+				);
+		}
+		if (!isExecutionEnvironmentArgument(executionEnvironment))
+			throw new Error(
+				badArgumentError(
+					'executionEnvironment',
+					'an object of type ExecutionEnvironmentArgument(type)',
+					executionEnvironment,
+				),
+			);
+
+		return true;
+	}
 	throw new Error('isExtensionManifestArgument could not be validated');
 
 	return false;
-};
+});
 export class ExtensionManifest extends XMLElement {
 	constructor({
-		bundleId,
-		bundleVersion,
-		bundleName,
+		extensionBundle,
 		authorName,
 		contact,
 		legal,
@@ -44,79 +97,38 @@ export class ExtensionManifest extends XMLElement {
 		extensions,
 		executionEnvironment,
 	}: ExtensionManifestArgument) {
-		let attributes = [{ name: 'Version', value: '7.0' }];
-		if (bundleId && typeof bundleId === 'string') attributes.push({ name: 'ExtensionBundleId', value: bundleId });
-		else throw new Error(badArgumentError("The bundle's ID", 'string', bundleId));
+		if (isExtensionManifestArgument(arguments[0])) {
+			const { id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
+			let attributes = [
+				{ name: 'Version', value: '7.0' },
+				{ name: 'ExtensionBundleId', value: bundleId },
+				{ name: 'ExtensionBundleVersion', value: bundleVersion.toString() },
+			];
+			if (bundleName) attributes.push({ name: 'ExtensionBundleName', value: bundleName });
 
-		if (bundleVersion && (typeof bundleVersion === 'number' || isNumeric(bundleVersion)))
-			attributes.push({ name: 'ExtensionBundleVersion', value: bundleVersion.toString() });
-		else throw new Error(badArgumentError("The bundle's version", 'number or string', bundleVersion));
+			let content: XMLElement[] = [];
+			if (authorName) content.push(new Author(authorName));
 
-		if (bundleName && typeof bundleName === 'string')
-			attributes.push({ name: 'ExtensionBundleName', value: bundleName });
-		else if (bundleName) throw new Error(badArgumentError("The bundle's name (optional)", 'string', bundleName));
+			if (contact) content.push(new Contact(contact));
 
-		let content: XMLElement[] = [];
-		if (authorName)
-			if (typeof authorName === 'string') content.push(new Author(authorName));
-			else
-				throw new Error(
-					badArgumentError("ExtensionManifest's author(optional)", 'instance of Author', authorName),
-				);
-		if (contact)
-			if (typeof contact === 'string' && isEmail(contact)) content.push(new Contact(contact));
-			else
-				throw new Error(
-					badArgumentError(
-						"ExtensionManifest's contact(optional)",
-						'string containing a valid email',
-						contact,
-					),
-				);
-		if (legal)
-			if (typeof legal === 'string' && isValidUrl(legal)) content.push(new Legal(legal));
-			else
-				throw new Error(
-					badArgumentError("ExtensionManifest's legal(optional)", 'string containing a valid URL', legal),
-				);
-		if (abstract)
-			if (typeof abstract === 'string' && isValidUrl(abstract)) content.push(new Abstract(abstract));
-			else
-				throw new Error(
-					badArgumentError(
-						"ExtensionManifest's abstract(optional)",
-						'string containing a valid URL',
-						abstract,
-					),
-				);
+			if (legal) content.push(new Legal(legal));
+			if (abstract) content.push(new Abstract(abstract));
 
-		if (extensions) {
-			if (!(extensions instanceof Array)) extensions = [extensions];
-			for (const extension of extensions) {
-				if (!isExtensionArgument(extension))
-					throw new Error(
-						badArgumentError(
-							"ExtensionManifest's extensions",
-							'object of type ExtensionArgument(type)',
-							extension,
-						),
-					);
+			if (extensions) {
+				if (!(extensions instanceof Array)) extensions = [extensions];
+				content.push(new ExtensionList(extensions));
+				if (isExecutionEnvironmentArgument(executionEnvironment)) {
+					content.push(new ExecutionEnvironment(executionEnvironment));
+				}
+				content.push(new DispatchInfoList(extensions));
 			}
-			content.push(new ExtensionList(extensions));
-			content.push(new DispatchInfoList(extensions));
-		} else
-			throw new Error(
-				badArgumentError(
-					"ExtensionManifest's extensions",
-					'instance of Extension(class) or an array of instances of Extension(class)',
-					extensions,
-				),
-			);
 
-		if (isExecutionEnvironmentArgument(executionEnvironment)) {
-			content.push(new ExecutionEnvironment(executionEnvironment));
+			super({
+				name: 'ExtensionManifest',
+				attributes: attributes,
+				content,
+				context: contextContainsNoneOf('.debug'),
+			});
 		}
-
-		super({ name: 'ExtensionManifest', attributes: attributes, content, context: contextContainsNoneOf('.debug') });
 	}
 }

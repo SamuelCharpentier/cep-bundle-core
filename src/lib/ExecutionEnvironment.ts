@@ -27,7 +27,13 @@ export const isExecutionEnvironmentArgument = <(argument: any) => argument is Ex
 			);
 		return true;
 	}
-	throw new Error('executionEnvironment could not be validated');
+	throw new Error(
+		badArgumentError(
+			'executionEnvironment',
+			'an object of type ExecutionEnvironmentArgument(type):\n{ \n\thostList?: HostArgument; \n\tlocaleList?: LocaleListArgument \n}',
+			argument,
+		),
+	);
 
 	return false;
 });
