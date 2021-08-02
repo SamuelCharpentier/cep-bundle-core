@@ -5,30 +5,50 @@ import { HostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValida
 import { badArgumentError } from './errorMessages';
 
 export class HostList extends XMLElement {
-	constructor(hosts: Host | Host[]) {
+	constructor(hosts: HostArgument | HostArgument[]) {
+		let content: Host[] = [];
+		if (!(hosts instanceof Array)) hosts = [hosts];
+
+		for (const host of hosts) {
+			if (isValidHostArgument(host)) content.push(new Host(host));
+			else throw new Error(badArgumentError("Every hostList's hosts", 'HostArgument(type)', host));
+		}
+
 		super({
 			name: 'HostList',
-			content: hosts,
+			content,
 			context: contextContainsOneOf(['ExecutionEnvironment', 'DispatchInfoList', '.debug']),
 		});
 	}
 }
 
-export class Host extends XMLElement {
-	constructor(
-		hostName: HostEngine | keyof typeof HostEngine,
-		version: 'All' | 'ALL' | 'all' | RangedVersion,
-		debugLocalhostPort: number,
-	) {
+export type HostArgument = {
+	host: HostEngine | keyof typeof HostEngine;
+	version: 'All' | 'ALL' | 'all' | RangedVersion;
+	debugPort?: number;
+};
+export function isValidHostArgument(host: any) {
+	return (
+		typeof host === 'object' &&
+		host !== null &&
+		host.host &&
+		host.version &&
+		(isHostEngineValue(host.host) || isHostEngineKey(host.host)) &&
+		(isRangedVersion(host.version) || (typeof host.version === 'string' && host.version.toUpperCase() === 'ALL')) &&
+		(host.debugPort === undefined || (host.debugPort && typeof host.debugPort === 'number'))
+	);
+}
+class Host extends XMLElement {
+	constructor({ host, version, debugPort }: HostArgument) {
 		let attribute = [];
-		if (hostName && isHostEngineValue(hostName)) attribute.push({ name: 'Name', value: hostName });
-		else if (hostName && isHostEngineKey(hostName)) attribute.push({ name: 'Name', value: HostEngine[hostName] });
+		if (host && isHostEngineValue(host)) attribute.push({ name: 'Name', value: host });
+		else if (host && isHostEngineKey(host)) attribute.push({ name: 'Name', value: HostEngine[host] });
 		else
 			throw new Error(
 				badArgumentError(
 					'Host Engine Name',
 					'string containing a key of HostEngine (enum) or a value of HostEngine',
-					hostName,
+					host,
 				),
 			);
 
@@ -56,8 +76,7 @@ export class Host extends XMLElement {
 			context: contextContainsAllOf(['.debug', 'ExtensionList']),
 			value: '',
 		};
-		if (debugLocalhostPort && typeof debugLocalhostPort === 'number')
-			debugPortAttribute.value = debugLocalhostPort.toString();
+		if (debugPort && typeof debugPort === 'number') debugPortAttribute.value = debugPort.toString();
 		attribute.push(debugPortAttribute);
 
 		super({ name: 'Host', attributes: attribute });

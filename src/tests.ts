@@ -1,37 +1,41 @@
 import { ExtensionManifest } from './lib/ExtensionManifest';
 import { Extension } from './lib/Extension';
-import { DispatchInfoList, DispatchInfo } from './lib/DispatchInfo';
-import { ExtensionList } from './lib/ExtensionList';
-import { HostList, Host } from './lib/Host';
-import { Resources } from './lib/Resources';
-import { MainPath } from './lib/MainPath';
-import { ScriptPath } from './lib/ScriptPath';
-import { CEFCommandLine } from './lib/CEFCommandLine';
-import { Lifecycle } from './lib/Lifecycle';
-import { StartOn } from './lib/Lifecycle';
-import { UI } from './lib/UI';
-import { Type } from './lib/UIType';
-
-let myExt = new Extension({
-	id: 'my.extension',
-	version: '9',
-	hostList: new HostList(new Host('ILLUSTRATOR', '7.2', 9999)),
-	dispatchInfo: new DispatchInfo({
-		resources: new Resources({
-			mainPath: new MainPath('./dst/index.html'),
-			scriptPath: new ScriptPath('./scripts/main.jsx'),
-			cefCommandLine: new CEFCommandLine(['--parameter1=value1', '--enable-nodejs']),
-		}),
-		lifecycle: new Lifecycle({
-			startOn: new StartOn(['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate']),
-		}),
-		ui: new UI({ type: new Type('Panel') }),
-	}),
-});
 
 console.log(
 	'<?xml version="1.0" encoding="UTF-8"?>\n' +
-		new ExtensionManifest({ bundleId: 'my.bundle', bundleVersion: '0.0.0.1', bundleName: 'Awsome Extensions' }, [
-			myExt,
-		]).xml(['manifest.xml']),
+		new ExtensionManifest({
+			bundleId: 'my.bundle',
+			bundleVersion: '0.0.0.1',
+			bundleName: 'Awsome Extensions',
+			authorName: 'Samuel Charpentier',
+			contact: 'samuel@jaunemoutarde.ca',
+			legal: 'https://AwsomeExtensions.com/legal',
+			abstract: 'https://AwsomeExtensions.com/legal',
+			executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
+			extensions: {
+				id: 'my.extension',
+				version: '9',
+				hostList: [
+					{ host: 'Illustrator', version: 'ALL' },
+					{ host: 'InDesign', version: 12 },
+				],
+				dispatchInfo: {
+					resources: {
+						mainPath: './dst/index.html',
+						scriptPath: './scripts/main.jsx',
+						cefCommands: ['--parameter1=value1', '--enable-nodejs'],
+					},
+					lifecycle: {
+						startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+					},
+					ui: {
+						type: 'Panel',
+						menu: { menuName: 'My Extension' },
+						geometry: {
+							minSize: { width: 200, height: 200 },
+						},
+					},
+				},
+			},
+		}).xml(['manifest.xml']),
 );

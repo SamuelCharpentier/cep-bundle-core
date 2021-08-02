@@ -1,24 +1,52 @@
 import { XMLElement } from './XMLElement';
-import { HostList } from './Host';
-import { DispatchInfo } from './DispatchInfo';
-import { DependencyList } from './Dependency';
-import type { AttributeArgument } from './typesAndValidators';
+import { HostArgument, HostList, isValidHostArgument } from './Host';
+import { DispatchInfo, DispatchInfoArgument, isDispatchInfoArgument } from './DispatchInfo';
+import { DependencyList, DependencyArgument, isDependencyArgument } from './Dependency';
+import { AttributeArgument, isVersionNumber, isValidId } from './typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError, printVariableInError } from './errorMessages';
+
+export type ExtensionArgument = {
+	id: string;
+	version?: string;
+	hostList?: HostArgument | HostArgument[];
+	dispatchInfo?: DispatchInfoArgument;
+	dependencyList?: DependencyArgument | DependencyArgument[];
+};
+
+export const isExtensionArgument: (arg: any) => boolean = (argument): argument is ExtensionArgument => {
+	if (argument && typeof argument === 'object' && !(argument instanceof Array)) {
+		if (!isValidId(argument.id)) {
+			throw new Error(
+				`Extension id(required) should be a string, ${printVariableInError(
+					argument.id,
+				)} received.\nIt's advised to use a fully qualified id (com.companyName.bundleId.extensionId)`,
+			);
+		}
+		if (argument.version) {
+			if (isVersionNumber(argument.version)) return true;
+			else
+				throw new Error(
+					`Extension's version(optional) should be of type VersionNumber(type),\n${printVariableInError(
+						argument.version,
+					)} received`,
+				);
+		}
+		if (argument.hostList) {
+			isValidHostArgument(argument.hostList);
+		}
+		if (argument.dispatchInfo) {
+			isDispatchInfoArgument(argument.dispatchInfo);
+		}
+		if (argument.dependencyList) {
+			isDependencyArgument(argument.dependencyList);
+		}
+		return true;
+	}
+	return false;
+};
 export class Extension extends XMLElement {
-	constructor({
-		id,
-		version,
-		hostList,
-		dispatchInfo,
-		dependencyList,
-	}: {
-		id: string;
-		version?: string;
-		hostList?: HostList;
-		dispatchInfo?: DispatchInfo;
-		dependencyList?: DependencyList;
-	}) {
+	constructor({ id, version, hostList, dispatchInfo, dependencyList }: any) {
 		let attributes: AttributeArgument[] = [];
 		if (!id || typeof id !== 'string' || id.length <= 0)
 			throw new Error(badArgumentError('Extension Id', 'string', id));
@@ -35,24 +63,28 @@ export class Extension extends XMLElement {
 				});
 		}
 		let content = [];
-		if (hostList)
-			if (!(hostList instanceof HostList))
-				throw new Error(badArgumentError("Extension's host list (optional)", 'HostList class', hostList));
-			else content.push(hostList);
+		if (hostList) {
+			if (!(hostList instanceof Array)) hostList = [hostList];
+			for (const host of hostList) {
+				if (!isValidHostArgument(host))
+					throw new Error(badArgumentError("Extension's hostList (optional)", 'HostArgument type', host));
+			}
+			content.push(new HostList(hostList));
+		}
 
 		if (dispatchInfo)
-			if (!(dispatchInfo instanceof DispatchInfo))
+			if (isDispatchInfoArgument(dispatchInfo)) content.push(new DispatchInfo(dispatchInfo));
+			else
 				throw new Error(
 					badArgumentError(
 						"Extension's dispatch info (optional)",
-						'instance of the class DispatchInfo',
+						'object of type DispatchInfoArgument(type)',
 						dispatchInfo,
 					),
 				);
-			else content.push(dispatchInfo);
 
 		if (dependencyList)
-			if (!(dependencyList instanceof DependencyList))
+			if (!isDependencyArgument(dependencyList))
 				throw new Error(
 					badArgumentError(
 						"Extension's dependency list (optional)",
@@ -60,7 +92,7 @@ export class Extension extends XMLElement {
 						dependencyList,
 					),
 				);
-			else content.push(dependencyList);
+			else content.push(new DependencyList(dependencyList));
 
 		super({
 			name: 'Extension',

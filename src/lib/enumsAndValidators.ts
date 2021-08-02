@@ -3,8 +3,8 @@ const isEnumToken = <T>(testedEnum: T) => {
 		(Object as any).values(testedEnum).includes(token as T[keyof T]);
 	return generatedFunction;
 };
-const isEnumKey = <T>(testesEnum: T) => {
-	let generatedFunction = (testedKey: string) => Object.keys(testesEnum).includes(testedKey.toUpperCase());
+const isEnumKey = <T>(testedEnum: T) => {
+	let generatedFunction = (key: any): key is keyof T => Object.keys(testedEnum).includes(key);
 	return generatedFunction;
 };
 
@@ -70,6 +70,7 @@ export enum AdobeLocaleCodes {
 	'en_IL' = 'en_IL',
 }
 
+export const isAdobeLocaleCodesKey = isEnumKey(AdobeLocaleCodes);
 export const isAdobeLocaleCodesValue = isEnumToken(AdobeLocaleCodes);
 
 export enum UIType {
@@ -92,3 +93,12 @@ export enum IconType {
 }
 export const isIconTypeKey = isEnumKey(IconType);
 export const isIconTypeValue = isEnumToken(IconType);
+
+export enum SizesTypes {
+	'screenPercentage' = 'screenPercentage',
+	'size' = 'size',
+	'minSize' = 'minSize',
+	'maxSize' = 'maxSize',
+}
+export const isSizesTypesKey = isEnumKey(SizesTypes);
+export const isSizesTypesValue = isEnumToken(SizesTypes);

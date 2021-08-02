@@ -2,10 +2,22 @@ import { XMLElement } from './XMLElement';
 import { RelativePath, isRelativePath } from './typesAndValidators';
 import { IconType, isIconTypeKey, isIconTypeValue } from './enumsAndValidators';
 import { badArgumentError } from './errorMessages';
+import { type } from 'os';
+
+export type IconsArgument = { [key in IconType]?: RelativePath };
+
+export const isIconsArgument: (arg: any) => boolean = (arg): arg is IconsArgument => {
+	throw new Error('isIconArgument to do');
+
+	return false;
+};
 export class Icons extends XMLElement {
-	constructor(icons: Icon[] | Icon) {
-		if (icons instanceof Icon) icons = [icons];
-		super({ name: 'Icons', content: icons });
+	constructor(icons: IconsArgument) {
+		if (isIconsArgument(icons)) {
+			let content: Icon[] = [];
+
+			super({ name: 'Icons', content });
+		}
 	}
 }
 export class Icon extends XMLElement {

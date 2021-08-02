@@ -6,7 +6,7 @@ export function isNumeric(str: any): boolean {
 	return !isNaN(parseFloat(str));
 }
 
-export type EmailAdress = `${string}@${string}.${string}`;
+export type EmailAddress = `${string}@${string}.${string}`;
 
 const emailRegex =
 	/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -15,11 +15,26 @@ export function isEmail(email: any): boolean {
 	return emailRegex.test(email);
 }
 
+export const isValidUrl = (url: URL | string) => {
+	try {
+		new URL(url);
+	} catch (e) {
+		console.error(e);
+		return false;
+	}
+	return true;
+};
 export type VersionNumber =
 	| `${number}`
 	| `${number}.${number}`
 	| `${number}.${number}.${number}`
 	| `${number}.${number}.${number}.${number}`;
+
+export function isVersionNumber(value: any): boolean {
+	if (typeof value === 'string' && /^\d|\d\.\d|\d\.\d\.\d|\d\.\d\.\d\.\d$/.test(value)) return true;
+	return false;
+}
+
 export type RangedVersion = number | VersionNumber | `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
 
 const rangedVersionRegex =
@@ -56,20 +71,30 @@ export type Command =
 	| `--${string}`
 	| `--${string}=${string}`;
 
-export function isValidCommand(command: Command): boolean {
-	return /^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command);
+export function isValidCommand(commands: Command | Command[]): boolean {
+	if (!(commands instanceof Array)) commands = [commands];
+	for (const command of commands) {
+		if (!/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command)) return false;
+	}
+	return true;
 }
 
 export type EventType = string;
 
-export function isEvent(event: EventType[]): boolean {
+export const isEvent: (e: any) => boolean = (event): event is EventType => {
+	if (typeof event !== 'string') return false;
+	console.warn('isEvent validator to do, blind validation');
 	return true;
-}
+};
 
 export type Placement = string;
 
 export function isPlacement(placement: Placement): boolean {
+	console.warn('isPlacement validator to do, blind validation');
 	return true;
 }
-import { ScreenPercentage, Size, MinSize, MaxSize } from './Size';
-export type Sizes = ScreenPercentage | Size | MinSize | MaxSize;
+export type ID = string;
+
+export const isValidId: (val: any) => boolean = (value): value is ID => {
+	return typeof value === 'string';
+};

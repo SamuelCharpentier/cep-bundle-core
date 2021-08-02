@@ -1,17 +1,22 @@
 import { XMLElement } from './XMLElement';
 import { badArgumentError } from './errorMessages';
-export class ScriptPath extends XMLElement {
-	constructor(relativePathLocation?: string) {
-		let content: string | undefined;
-		if (relativePathLocation && typeof relativePathLocation !== 'string')
-			throw new Error(
-				badArgumentError(
-					"Script Path's first argument",
-					'string containing a relative path from the extension root to the main script file',
-					relativePathLocation,
-				),
-			);
+import { RelativePath, isRelativePath } from './typesAndValidators';
 
+export const isScriptPathArgument: (value: any) => boolean = (value): value is RelativePath => {
+	if (!isRelativePath(value))
+		throw new Error(
+			badArgumentError(
+				'extensions.dispatchInfo.resources.scriptPath',
+				'string containing a relative path from the extension root to the main script file',
+				value,
+			),
+		);
+	return true;
+};
+export class ScriptPath extends XMLElement {
+	constructor(relativePathLocation?: RelativePath) {
+		let content: string | undefined;
+		isScriptPathArgument(relativePathLocation);
 		content = relativePathLocation;
 		super({ name: 'ScriptPath', content });
 	}

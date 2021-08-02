@@ -2,19 +2,27 @@ import { XMLElement } from './XMLElement';
 import { VersionNumber, AttributeArgument, isNumeric } from './typesAndValidators';
 import { badArgumentError } from './errorMessages';
 export class DependencyList extends XMLElement {
-	constructor(dependencies: Dependency | Dependency[]) {
-		if (dependencies instanceof Dependency) dependencies = [dependencies];
+	constructor(dependencies: DependencyArgument | DependencyArgument[]) {
+		if (!(dependencies instanceof Array)) dependencies = [dependencies];
+		let content: Dependency[] = [];
 		for (const dependency of dependencies) {
-			if (!(dependencies instanceof Dependency))
+			if (!isDependencyArgument(dependencies))
 				throw new Error(
 					badArgumentError("Every DependencyList's dependencies", 'instances of Dependency', dependency),
 				);
+			else content.push(new Dependency(dependency));
 		}
-		super({ name: 'DependencyList', content: dependencies });
+		super({ name: 'DependencyList', content });
 	}
 }
-export class Dependency extends XMLElement {
-	constructor(id: string, version?: VersionNumber) {
+
+export type DependencyArgument = { id: string; version?: VersionNumber };
+
+export const isDependencyArgument: (arg: any) => boolean = (argument) => {
+	return false;
+};
+class Dependency extends XMLElement {
+	constructor({ id, version }: DependencyArgument) {
 		if (id) {
 			let attributes: AttributeArgument[] = [];
 			if (typeof id !== 'string') throw new Error(badArgumentError("Dependency's Id", 'string', id));

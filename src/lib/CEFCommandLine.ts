@@ -3,20 +3,34 @@ import { Command, isValidCommand } from './typesAndValidators';
 import { StringContent } from './StringContent';
 import { badArgumentError } from './errorMessages';
 import { contextContainsOneOf } from './Context';
-export class CEFCommandLine extends XMLElement {
-	constructor(commandParameters: Command | Command[]) {
-		let content = [];
-		commandParameters = typeof commandParameters === 'string' ? [commandParameters] : commandParameters;
-		for (const command of commandParameters) {
-			if (!isValidCommand(command))
+
+export type CEFCommandLineArgument = Command | Command[];
+
+export const isCEFCommandLineArgument: (args: any) => boolean = (args): args is CEFCommandLineArgument => {
+	if (args && (typeof args === 'string' || (typeof args === 'object' && args instanceof Array))) {
+		if (!(args instanceof Array)) args = [args];
+		for (const arg of args) {
+			if (!isValidCommand(arg))
 				throw new Error(
 					badArgumentError(
-						'CEF Command Line command parameters',
-						'string of type Command or an array of strings of type Command',
-						commandParameters,
+						'extension.dispatchInfo.resources.cefCommands',
+						'a string or array of string of valid Command(type)',
+						arg,
 					),
 				);
-			content.push(new Parameter(command));
+		}
+		return true;
+	}
+	return false;
+};
+export class CEFCommandLine extends XMLElement {
+	constructor(commandParameters: CEFCommandLineArgument) {
+		let content = [];
+		if (isCEFCommandLineArgument(commandParameters)) {
+			if (typeof commandParameters === 'string') commandParameters = [commandParameters];
+			for (const command of commandParameters) {
+				content.push(new Parameter(command));
+			}
 		}
 		super({ name: 'CEFCommandLine', content });
 	}
