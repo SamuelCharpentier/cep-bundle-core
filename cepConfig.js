@@ -1,15 +1,18 @@
 export default {
-	extensionBundle: {
-		id: 'my.bundle',
-		version: '0.0.0.1',
-		name: 'Awsome Extensions Bundle',
-	},
-	authorName: 'Samuel Charpentier',
-	contact: 'samuel@jaunemoutarde.ca',
-	legal: 'https://AwsomeExtensions.com/legal',
-	abstract: 'https://AwsomeExtensions.com/legal',
-	executionEnvironment: {
-		localeList: ['fr_CA', 'en_US'],
+	manifest: {
+		extensionBundle: {
+			id: 'my.bundle',
+			version: '0.0.0.1',
+			name: 'Awsome Extensions Bundle',
+			cepVersion: '8.0',
+		},
+		authorName: 'Samuel Charpentier',
+		contact: 'samuel@jaunemoutarde.ca',
+		legal: 'https://AwsomeExtensions.com/legal',
+		abstract: 'https://AwsomeExtensions.com/legal',
+		executionEnvironment: {
+			localeList: ['fr_CA', 'en_US'],
+		},
 	},
 	extensions: {
 		id: 'my.extension',
@@ -22,7 +25,7 @@ export default {
 			resources: {
 				mainPath: './dst/index.html',
 				scriptPath: './scripts/main.jsx',
-				cefCommands: ['--parameter1=value1', '--enable-nodejs'],
+				cefParams: ['--parameter1=value1', '--enable-nodejs'],
 			},
 			lifecycle: {
 				startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
