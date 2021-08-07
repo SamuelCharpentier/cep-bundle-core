@@ -1,16 +1,40 @@
 import { XMLElement } from './XMLElement';
 import { RangedVersion, AttributeArgument, isRangedVersion } from './typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
-import { HostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
+import { HostEngine, isHostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
 import { badArgumentError, printVariableInError } from './errorMessages';
 
-export class HostList extends XMLElement {
-	constructor(hosts: HostArgument | HostArgument[]) {
-		let content: Host[] = [];
-		if (!(hosts instanceof Array)) hosts = [hosts];
+type All = 'All' | 'ALL' | 'all';
+export type HostListArgument = HostArgument | HostArgument[] | All;
 
-		for (const host of hosts) {
-			if (isValidHostArgument(host)) content.push(new Host(host));
+const hostListIsAll = (hostList: any): hostList is All =>
+	typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
+
+export function isValidHostListArgument(hostList: any): hostList is HostListArgument {
+	if (hostList) {
+		if (hostListIsAll(hostList)) return true;
+		if (!(hostList instanceof Array)) hostList = [hostList];
+		for (const host of hostList) {
+			isHostArgument(host);
+		}
+		return true;
+	}
+
+	throw new Error('hostList could not validate ,' + printVariableInError(hostList));
+}
+export class HostList extends XMLElement {
+	constructor(hostList: HostListArgument) {
+		let content: Host[] = [];
+		if (hostListIsAll(hostList)) {
+			hostList = [];
+			for (const host in HostEngine) {
+				if (isHostEngine(host)) hostList.push({ host, version: 'All' });
+			}
+		}
+		if (!(hostList instanceof Array)) hostList = [hostList];
+
+		for (const host of hostList) {
+			if (isHostArgument(host)) content.push(new Host(host));
 			else throw new Error(badArgumentError("Every hostList's hosts", 'HostArgument(type)', host));
 		}
 
@@ -27,45 +51,32 @@ export type HostArgument = {
 	version: 'All' | 'ALL' | 'all' | RangedVersion;
 	debugPort?: number | `${number}`;
 };
-export function isValidHostArgument(host: any): host is HostArgument {
-	if (host && typeof host === 'object') {
-		if (!host.host || !isHostEngineKey(host.host))
-			throw new Error(
-				badArgumentError(`[any].hostList.host.version`, "as a RangedVersion or the string 'ALL'", host.host),
-			);
 
+export function isHostArgument(host: any): host is HostArgument {
+	if (!host.host || !isHostEngineKey(host.host))
+		throw new Error(badArgumentError(`host.version`, "as a RangedVersion or the string 'ALL'", host.host));
+
+	if (
+		!host.version ||
+		(!isRangedVersion(host.version) && !(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
+	)
+		throw new Error(badArgumentError(`host.version`, "as a RangedVersion or the string 'ALL'", host.version));
+
+	if (host.debugPort)
 		if (
-			!host.version ||
-			(!isRangedVersion(host.version) &&
-				!(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
-		)
+			!(
+				host.debugPort &&
+				(typeof host.debugPort === 'number' ||
+					(typeof host.debugPort === 'string' && Number.isInteger(parseInt(host.debugPort))))
+			)
+		) {
 			throw new Error(
-				badArgumentError(`[any].hostList.host.version`, "as a RangedVersion or the string 'ALL'", host.version),
+				badArgumentError('host.debugPort', 'a number or a string containing a number', host.debugPort),
 			);
-
-		if (host.debugPort)
-			if (
-				!(
-					host.debugPort &&
-					(typeof host.debugPort === 'number' ||
-						(typeof host.debugPort === 'string' && Number.isInteger(parseInt(host.debugPort))))
-				)
-			) {
-				throw new Error(
-					badArgumentError(
-						'[any].hostList.host.debugPort',
-						'a number or a string containing a number',
-						host.debugPort,
-					),
-				);
-			}
-		return true;
-	}
-
-	throw new Error('isValidHostArgument could not validate ,' + printVariableInError(host));
-
-	return false;
+		}
+	return true;
 }
+
 class Host extends XMLElement {
 	constructor({ host, version, debugPort }: HostArgument) {
 		let attribute = [];
