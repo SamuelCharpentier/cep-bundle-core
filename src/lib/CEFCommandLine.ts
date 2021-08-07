@@ -13,7 +13,7 @@ export const isCEFCommandLineArgument: (args: any) => boolean = (args): args is 
 			if (!isValidCommand(arg))
 				throw new Error(
 					badArgumentError(
-						'extension.dispatchInfo.resources.cefCommands',
+						'extension.dispatchInfo.resources.cefParams',
 						'a string or array of string of valid Command(type)',
 						arg,
 					),
