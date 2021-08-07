@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { badArgumentError, bothWidthAndHeightRequired, printVariableInError } from './errorMessages';
 import { StringContent } from './StringContent';
-import { SizesTypes, isSizesTypesKey, isSizesTypesValue } from './enumsAndValidators';
+import { SizesTypes, isSizesTypes } from './enumsAndValidators';
 
 export type WidthHeight = { width: `${number}` | number; height: `${number}` | number };
 export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
@@ -9,7 +9,7 @@ export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 export const isGeometryArgument = <(arg: any) => arg is GeometryArgument>((arg) => {
 	if (typeof arg === 'object') {
 		for (const sizeType in arg) {
-			if (!isSizesTypesValue(sizeType) || !isSizesTypesKey(sizeType))
+			if (!isSizesTypes(sizeType))
 				throw new Error(
 					badArgumentError('extension.dispatchInfo.ui.geometry[key]', 'as a SizesTypes(enum)', sizeType),
 				);
@@ -44,7 +44,7 @@ export class Geometry extends XMLElement {
 		if (isGeometryArgument(geometry)) {
 			let content: SizeConstructor[] = [];
 			for (const sizeTypeName in geometry) {
-				if (!isSizesTypesValue(sizeTypeName) || !isSizesTypesKey(sizeTypeName)) {
+				if (!isSizesTypes(sizeTypeName)) {
 					throw new Error(
 						badArgumentError(
 							'extension.dispatchInfo.ui.geometry[key]',
