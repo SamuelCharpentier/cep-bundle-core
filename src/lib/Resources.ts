@@ -7,24 +7,24 @@ import { RelativePath, isRelativePath, isValidCommand } from './typesAndValidato
 export type ResourcesArgument = {
 	mainPath?: RelativePath;
 	scriptPath?: RelativePath;
-	cefCommands?: CEFCommandLineArgument;
+	cefParams?: CEFCommandLineArgument;
 };
 
 export const isResourcesArgument: (argument: any) => boolean = (argument) => {
 	if (argument && typeof argument === 'object') {
 		if (argument.mainPath) isMainPathArgument(argument.mainPath);
 		if (argument.scriptPath) isScriptPathArgument(argument.scriptPath);
-		if (argument.cefCommands) isCEFCommandLineArgument(argument.cefCommands);
+		if (argument.cefParams) isCEFCommandLineArgument(argument.cefParams);
 		return false;
 	}
 	return false;
 };
 export class Resources extends XMLElement {
-	constructor({ mainPath, scriptPath, cefCommands }: ResourcesArgument = {}) {
+	constructor({ mainPath, scriptPath, cefParams }: ResourcesArgument = {}) {
 		let content: XMLElement[] = [];
 		if (mainPath !== undefined && isRelativePath(mainPath)) content.push(new MainPath(mainPath));
 		if (scriptPath !== undefined && isRelativePath(scriptPath)) content.push(new ScriptPath(scriptPath));
-		if (cefCommands !== undefined && isValidCommand(cefCommands)) content.push(new CEFCommandLine(cefCommands));
+		if (cefParams !== undefined && isValidCommand(cefParams)) content.push(new CEFCommandLine(cefParams));
 		super({ name: 'Resources', content });
 	}
 }
