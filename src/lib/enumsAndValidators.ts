@@ -22,6 +22,9 @@ export enum HostEngine {
 
 export const isHostEngineKey = isEnumKey(HostEngine);
 export const isHostEngineValue = isEnumToken(HostEngine);
+export const isHostEngine = <(val: any) => val is HostEngine>(
+	((val) => isEnumKey(HostEngine)(val) || isEnumToken(HostEngine)(val))
+);
 
 export enum AdobeLocaleCodes {
 	'All' = 'All',
@@ -61,8 +64,7 @@ export enum AdobeLocaleCodes {
 	'en_IL' = 'en_IL',
 }
 
-export const isAdobeLocaleCodesKey = isEnumKey(AdobeLocaleCodes);
-export const isAdobeLocaleCodesValue = isEnumToken(AdobeLocaleCodes);
+export const isAdobeLocaleCode = isEnumToken(AdobeLocaleCodes);
 
 export enum UIType {
 	'Panel' = 'Panel',
@@ -72,8 +74,7 @@ export enum UIType {
 	'Embedded' = 'Embedded',
 	'Dashboard' = 'Dashboard',
 }
-export const isUITypeKey = isEnumKey(UIType);
-export const isUITypeValue = isEnumToken(UIType);
+export const isUIType = isEnumToken(UIType);
 
 export enum IconType {
 	'Normal' = 'Normal',
@@ -82,9 +83,8 @@ export enum IconType {
 	'DarkNormal' = 'DarkNormal',
 	'DarkRollOver' = 'DarkRollOver',
 }
-export const isIconTypeKey = isEnumKey(IconType);
-export const isIconTypeValue = isEnumToken(IconType);
-export const isIconType = <(val: any) => val is IconType>((val: any) => isIconTypeKey(val) || isIconTypeValue(val));
+
+export const isIconType = isEnumToken(IconType);
 
 export enum SizesTypes {
 	'screenPercentage' = 'screenPercentage',
@@ -92,5 +92,17 @@ export enum SizesTypes {
 	'minSize' = 'minSize',
 	'maxSize' = 'maxSize',
 }
-export const isSizesTypesKey = isEnumKey(SizesTypes);
-export const isSizesTypesValue = isEnumToken(SizesTypes);
+export const isSizesTypes = isEnumToken(SizesTypes);
+
+export enum CEPVersion {
+	'11.0' = '11.0',
+	'10.0' = '10.0',
+	'9.0' = '9.0',
+	'8.0' = '8.0',
+	'7.0' = '7.0',
+	'6.0' = '6.0',
+	'5.0' = '5.0',
+	'4.0' = '4.0',
+}
+
+export const isCEPVersion = isEnumToken(CEPVersion);
