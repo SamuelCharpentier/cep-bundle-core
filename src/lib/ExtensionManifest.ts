@@ -1,10 +1,17 @@
 import { XMLElement } from './XMLElement';
-import { VersionNumber, isVersionNumber, EmailAddress, isEmail, isValidUrl } from './typesAndValidators';
+import {
+	VersionNumber,
+	isVersionNumber,
+	EmailAddress,
+	isEmail,
+	isValidUrl,
+	AttributeArgument,
+} from './typesAndValidators';
 import { Author } from './Author';
 import { Contact } from './Contact';
 import { Legal } from './Legal';
 import { Abstract } from './Abstract';
-import { ExtensionList } from './ExtensionList';
+import { ExtensionList, isExtensionListArgument } from './ExtensionList';
 import {
 	ExecutionEnvironment,
 	ExecutionEnvironmentArgument,
@@ -12,10 +19,11 @@ import {
 } from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfo';
 import { badArgumentError } from './errorMessages';
-import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
+import { ExtensionArgument, isExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';
+import { CEPVersion, isCEPVersion } from './enumsAndValidators';
 
-type bundleInfos = { id: string; version: VersionNumber; name?: string };
+type bundleInfos = { id: string; version: VersionNumber; name?: string; cepVersion: CEPVersion };
 export type ExtensionManifestArgument = {
 	extensionBundle: bundleInfos;
 	authorName?: string;
@@ -29,10 +37,10 @@ export type ExtensionManifestArgument = {
 export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManifestArgument>((argument) => {
 	if (argument && typeof argument === 'object') {
 		let { extensionBundle, authorName, contact, legal, abstract, extensions, executionEnvironment } = argument;
-		console.log(extensionBundle);
-		let { id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
+		let { cepVersion, id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
+		if (!isCEPVersion(cepVersion))
+			throw new Error(badArgumentError('cepVersion', 'a CEPVersion(enum)', cepVersion));
 		if (typeof bundleId !== 'string') throw new Error(badArgumentError('bundleId', 'a string', bundleId));
-
 		if (typeof bundleVersion !== 'number' && !isVersionNumber(bundleVersion))
 			throw new Error(
 				badArgumentError('bundleVersion', 'a number or string containing a VersionNumber(type)', bundleVersion),
@@ -57,21 +65,11 @@ export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManife
 			if (!isValidUrl(abstract))
 				throw new Error(badArgumentError('abstract(optional)', 'string containing a valid URL', abstract));
 
-		if (!extensions)
+		if (!isExtensionListArgument(extensions))
 			throw new Error(
 				badArgumentError('extensions', 'an object or array of objects of type ExtensionArgument', extensions),
 			);
-		if (!(extensions instanceof Array)) extensions = [extensions];
-		for (const extension of extensions) {
-			if (!isExtensionArgument(extension))
-				throw new Error(
-					badArgumentError(
-						"ExtensionManifest's extensions",
-						'object of type ExtensionArgument(type)',
-						extension,
-					),
-				);
-		}
+
 		if (!isExecutionEnvironmentArgument(executionEnvironment))
 			throw new Error(
 				badArgumentError(
@@ -98,12 +96,13 @@ export class ExtensionManifest extends XMLElement {
 		executionEnvironment,
 	}: ExtensionManifestArgument) {
 		if (isExtensionManifestArgument(arguments[0])) {
-			const { id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
-			let attributes = [
-				{ name: 'Version', value: '7.0' },
+			const { id: bundleId, version: bundleVersion, name: bundleName, cepVersion } = extensionBundle;
+			let attributes: AttributeArgument[] = [];
+			if (cepVersion !== '4.0') attributes = [{ name: 'Version', value: cepVersion }];
+			attributes.push(
 				{ name: 'ExtensionBundleId', value: bundleId },
 				{ name: 'ExtensionBundleVersion', value: bundleVersion.toString() },
-			];
+			);
 			if (bundleName) attributes.push({ name: 'ExtensionBundleName', value: bundleName });
 
 			let content: XMLElement[] = [];
