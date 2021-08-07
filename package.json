@@ -1,6 +1,7 @@
 {
 	"name": "@samuel-charpentier/cep-bundler-core",
 	"version": "0.0.2",
+	"author": "Samuel Charpentier",
 	"description": "Core functionality for making bundler extensions to compile CEP",
 	"main": "dist/cep-bundler-core.cjs.js",
 	"types": "dist/index.d.ts",
@@ -26,7 +27,6 @@
 		"Extension",
 		"Plugin"
 	],
-	"author": "Samuel Charpentier",
 	"license": "MIT",
 	"dependencies": {
 		"fs-extra": "^10.0.0",
