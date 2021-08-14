@@ -1,8 +1,7 @@
 export function getDefaultConfig() {
 	return {
-		out: './dist',
+		outputFolder: './dist',
 		root: process.cwd(),
-		env: process.env.NODE_ENV,
 		debugInProduction: false,
 		extensionBundle: { cepVersion: '8.0' },
 		extension: {
