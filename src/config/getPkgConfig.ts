@@ -1,11 +1,11 @@
-import fs from 'fs-extra';
+import { existsSync } from 'fs-extra';
 import path from 'path';
 
 export function getPkgConfig(root?: string, env?: string) {
 	let pgkConfig: any = {};
 	root = root ? path.resolve(root) : process.cwd();
 	let packageJSONPath = path.join(root, '/package.json');
-	if (fs.existsSync(packageJSONPath)) {
+	if (existsSync(packageJSONPath)) {
 		if (env !== undefined) {
 			return require(packageJSONPath).cep[env];
 		}
