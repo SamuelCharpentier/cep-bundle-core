@@ -30,8 +30,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"fs-extra": "^10.0.0",
-		"sudo-prompt": "^9.2.1",
 		"prettier": "^2.3.2",
+		"sudo-prompt": "^9.2.1",
 		"yargs": "^17.0.1"
 	},
 	"devDependencies": {
