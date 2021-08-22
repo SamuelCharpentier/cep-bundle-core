@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
-import { EventType, isEvent } from './typesAndValidators';
-import { badArgumentError } from './errorMessages';
+import { EventType, isEvent } from '../typesAndValidators';
+import { badArgumentError } from '../errorMessages';
 
 export type LifecycleArgument = { autoVisible?: boolean; startOn?: EventType | EventType[] };
 

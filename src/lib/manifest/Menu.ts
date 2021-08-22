@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
-import { AttributeArgument, Placement, isPlacement } from './typesAndValidators';
-import { badArgumentError, printVariableInError } from './errorMessages';
+import { AttributeArgument, Placement, isPlacement } from '../typesAndValidators';
+import { badArgumentError, printVariableInError } from '../errorMessages';
 
 export type MenuArgument = { menuName: string; placement?: Placement };
 

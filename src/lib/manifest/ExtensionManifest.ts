@@ -6,7 +6,7 @@ import {
 	isEmail,
 	isValidUrl,
 	AttributeArgument,
-} from './typesAndValidators';
+} from '../typesAndValidators';
 import { Author } from './Author';
 import { Contact } from './Contact';
 import { Legal } from './Legal';
@@ -18,7 +18,7 @@ import {
 	isExecutionEnvironmentArgument,
 } from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfo';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 import { ExtensionArgument, isExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';
 import { CEPVersion, isCEPVersion } from './enumsAndValidators';
@@ -37,6 +37,7 @@ export type ExtensionManifestArgument = {
 export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManifestArgument>((argument) => {
 	if (argument && typeof argument === 'object') {
 		let { extensionBundle, authorName, contact, legal, abstract, extensions, executionEnvironment } = argument;
+		console.log(argument);
 		let { cepVersion, id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
 		if (!isCEPVersion(cepVersion))
 			throw new Error(badArgumentError('cepVersion', 'a CEPVersion(enum)', cepVersion));

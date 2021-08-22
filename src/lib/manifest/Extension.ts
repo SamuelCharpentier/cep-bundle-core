@@ -2,9 +2,9 @@ import { XMLElement } from './XMLElement';
 import { HostList, HostArgument, isValidHostArgument } from './Host';
 import { DispatchInfo, DispatchInfoArgument, isDispatchInfoArgument } from './DispatchInfo';
 import { DependencyList, DependencyArgument, isDependencyArgument } from './Dependency';
-import { AttributeArgument, isVersionNumber, isValidId } from './typesAndValidators';
+import { AttributeArgument, isVersionNumber, isValidId } from '../typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
-import { badArgumentError, printVariableInError } from './errorMessages';
+import { badArgumentError, printVariableInError } from '../errorMessages';
 
 export type ExtensionArgument = {
 	id: string;

@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
-import { RelativePath, isRelativePath } from './typesAndValidators';
+import { RelativePath, isRelativePath } from '../typesAndValidators';
 import { IconType, isIconType } from './enumsAndValidators';
-import { badArgumentError, printVariableInError } from './errorMessages';
+import { badArgumentError, printVariableInError } from '../errorMessages';
 
 export type IconsArgument = { [key in IconType]?: RelativePath };
 

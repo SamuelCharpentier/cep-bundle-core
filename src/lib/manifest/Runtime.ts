@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
-import { RangedVersion, isRangedVersion } from './typesAndValidators';
-import { badArgumentError } from './errorMessages';
+import { RangedVersion, isRangedVersion } from '../typesAndValidators';
+import { badArgumentError } from '../errorMessages';
 export class RequiredRuntimeList extends XMLElement {
 	constructor(content?: RequiredRuntime | RequiredRuntime[]) {
 		if (content !== undefined && content instanceof RequiredRuntime) content = [content];

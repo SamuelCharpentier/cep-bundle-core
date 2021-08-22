@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 export class Author extends XMLElement {
 	constructor(authorName: string) {
 		if (!authorName || typeof authorName !== 'string' || authorName.length <= 0)

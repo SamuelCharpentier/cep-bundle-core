@@ -1,5 +1,9 @@
-import { ExtensionList, isExtensionListArgument } from './lib/ExtensionList';
-import { ExtensionManifest, ExtensionManifestArgument, isExtensionManifestArgument } from './lib/ExtensionManifest';
+import { ExtensionList, isExtensionListArgument } from './lib/manifest/ExtensionList';
+import {
+	ExtensionManifest,
+	ExtensionManifestArgument,
+	isExtensionManifestArgument,
+} from './lib/manifest/ExtensionManifest';
 import cepConfig from '../cepConfig.js';
 
 const config = cepConfig;

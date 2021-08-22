@@ -2,7 +2,7 @@ import { XMLElement } from './XMLElement';
 import { MainPath, isMainPathArgument } from './MainPath';
 import { isScriptPathArgument, ScriptPath } from './ScriptPath';
 import { CEFCommandLine, CEFCommandLineArgument, isCEFCommandLineArgument } from './CEFCommandLine';
-import { RelativePath, isRelativePath, isValidCommand } from './typesAndValidators';
+import { RelativePath, isRelativePath, isValidCommand } from '../typesAndValidators';
 
 export type ResourcesArgument = {
 	mainPath?: RelativePath;

@@ -5,7 +5,7 @@ import { Lifecycle, LifecycleArgument, isLifecycleArgument } from './Lifecycle';
 import { UI, UIArgument, isUIArgument } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';
-import { badArgumentError, printVariableInError } from './errorMessages';
+import { badArgumentError, printVariableInError } from '../errorMessages';
 export class DispatchInfoList extends XMLElement {
 	constructor(extensions: ExtensionArgument[]) {
 		if (!(extensions instanceof Array)) extensions = [extensions];

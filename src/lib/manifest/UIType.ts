@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { UIType, isUIType } from './enumsAndValidators';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 
 export type TypeArgument = UIType | keyof typeof UIType;
 

@@ -1,8 +1,8 @@
 import { XMLElement } from './XMLElement';
-import { RangedVersion, AttributeArgument, isRangedVersion } from './typesAndValidators';
+import { RangedVersion, AttributeArgument, isRangedVersion } from '../typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import { HostEngine, isHostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
-import { badArgumentError, printVariableInError } from './errorMessages';
+import { badArgumentError, printVariableInError } from '../errorMessages';
 
 type All = 'All' | 'ALL' | 'all';
 export type HostListArgument = HostArgument | HostArgument[] | All;

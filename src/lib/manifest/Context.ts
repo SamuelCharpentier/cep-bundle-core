@@ -1,4 +1,4 @@
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 export type Context =
 	| '.debug'
 	| 'manifest.xml'

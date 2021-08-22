@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { HostArgument, HostList, isValidHostArgument } from './Host';
 import { LocaleList, LocaleListArgument, isLocaleListArgument } from './LocaleList';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 
 export type ExecutionEnvironmentArgument = { hostList?: HostArgument; localeList?: LocaleListArgument };
 

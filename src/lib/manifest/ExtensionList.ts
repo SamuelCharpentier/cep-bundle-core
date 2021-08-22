@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
-import { badArgumentError } from './errorMessages';
+import { badArgumentError } from '../errorMessages';
 
 export type ExtensionListArgument = ExtensionArgument | ExtensionArgument[];
 

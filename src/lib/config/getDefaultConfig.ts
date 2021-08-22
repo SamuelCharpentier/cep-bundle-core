@@ -1,8 +1,7 @@
-export function getDefaultConfig() {
-	return {
-		outputFolder: './dist',
-		root: process.cwd(),
-		debugInProduction: false,
+export const defaultConfig = {
+	outputFolder: './dist',
+	debugInProduction: false,
+	manifest: {
 		extensionBundle: { cepVersion: '8.0' },
 		extension: {
 			hostList: 'All',
@@ -12,8 +11,8 @@ export function getDefaultConfig() {
 				},
 			},
 		},
-	};
-}
+	},
+};
 
 export const defaultDebugPorts = {
 	PHXS: 3001,

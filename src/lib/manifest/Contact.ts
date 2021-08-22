@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
-import { EmailAddress, isEmail } from './typesAndValidators';
-import { badArgumentError } from './errorMessages';
+import { EmailAddress, isEmail } from '../typesAndValidators';
+import { badArgumentError } from '../errorMessages';
 export class Contact extends XMLElement {
 	constructor(contactEmail: EmailAddress) {
 		if (!isEmail) throw new Error(badArgumentError('Contact email', 'valid email string', contactEmail));

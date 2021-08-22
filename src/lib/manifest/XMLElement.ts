@@ -1,7 +1,7 @@
 import { Attribute } from './Attribute';
 import { StringContent } from './StringContent';
-import { AttributeArgument } from './typesAndValidators';
-import { badArgumentError } from './errorMessages';
+import { AttributeArgument } from '../typesAndValidators';
+import { badArgumentError } from '../errorMessages';
 import { isValidContext, Context } from './Context';
 export class XMLElement {
 	readonly name: string;

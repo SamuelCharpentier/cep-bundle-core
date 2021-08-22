@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
-import { RelativePath, isRelativePath } from './typesAndValidators';
-import { badArgumentError } from './errorMessages';
+import { RelativePath, isRelativePath } from '../typesAndValidators';
+import { badArgumentError } from '../errorMessages';
 
 export const isMainPathArgument: (value: any) => boolean = (value): value is RelativePath => {
 	if (!isRelativePath(value))
