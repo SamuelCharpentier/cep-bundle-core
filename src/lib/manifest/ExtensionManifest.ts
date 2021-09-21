@@ -23,15 +23,17 @@ import { ExtensionArgument, isExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';
 import { CEPVersion, isCEPVersion } from './enumsAndValidators';
 
-type bundleInfos = { id: string; version: VersionNumber; name?: string; cepVersion: CEPVersion };
-export type ExtensionManifestArgument = {
-	extensionBundle: bundleInfos;
+type BundleInfos = { id: string; version: VersionNumber; name?: string; cepVersion: CEPVersion };
+export type ManifestArgument = {
+	extensionBundle: BundleInfos;
 	authorName?: string;
 	contact?: EmailAddress;
 	legal?: URL | string;
 	abstract?: URL | string;
-	extensions: ExtensionArgument | ExtensionArgument[];
 	executionEnvironment?: ExecutionEnvironmentArgument;
+};
+export type ExtensionManifestArgument = ManifestArgument & {
+	extensions: ExtensionArgument | ExtensionArgument[];
 };
 
 export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManifestArgument>((argument) => {
