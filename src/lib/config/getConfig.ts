@@ -5,7 +5,17 @@ import { getRuntimeConfig } from './getRuntimeConfig';
 import path from 'path';
 import { isValidConfig } from './isValidConfig';
 
-export function getConfig(configOverrides?: { [key: string]: any }, root?: string) {
+import type { ExtensionManifestArgument, ManifestArgument } from '../manifest/ExtensionManifest';
+import { ExtensionArgument } from '../manifest/Extension';
+
+type Config = {
+	outputFolder: string;
+	isDev: boolean;
+	devHost: URL | string;
+	manifest: ManifestArgument;
+	extensions: ExtensionArgument | ExtensionArgument[];
+};
+export function getConfig(configOverrides?: Partial<Config>, root?: string): Config {
 	root = root ? path.resolve(root) : process.cwd();
 	configOverrides = configOverrides && isObject(configOverrides) ? configOverrides : {};
 	const config = deepObjectMerge(defaultConfig, getPkgConfig(root), getRuntimeConfig(root), configOverrides);
