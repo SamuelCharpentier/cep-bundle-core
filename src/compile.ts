@@ -1,57 +1,63 @@
-import path from 'path';
-
-import { getProcessEnvConfig } from './lib/config/getProcessEnvConfig';
-import { getConfig } from './lib/config/getConfig';
+import { Config, getConfig } from './lib/config/getConfig';
+import { enablePlayerDebugMode } from './debugMode';
+import { symlinkExtension } from './symlink';
+import { copyDependencies } from './copyDependencies';
+import { writeExtensionTemplates } from './writeTemplates';
+import { copyIcons } from './copyIcons';
 
 export interface CompileOptions {
-	env?: string;
-	root?: string;
-	htmlFilename?: string;
-	isDev?: boolean;
-	pkg?: any;
+	root: string;
+	outputFolder: string;
+	htmlFilename: string;
+	devHost: URL | string;
+	devHostPort?: string;
+	isDev: boolean;
+	noSymlink: boolean;
+	debugInProduction: boolean;
 }
 
-export function compile(parameterConfig?: CompileOptions) {
-	const config = getConfig(parameterConfig);
-	console.log(config);
-	return;
-	/* parameterConfig = { ...parameterConfig };
-
-	let defaultConfig = getConfigDefaults();
-
-	let processEnvVarConfig = getProcessEnvConfig();
-
-	let combinedConfig = { ...defaultConfig, ...pgkConfig, ...processEnvVarConfig, ...parameterConfig };
-
-	let cepEnvConfig = combinedConfig[combinedConfig.env];
-
-	combinedConfig = { ...combinedConfig, ...cepEnvConfig };
-	return;
-	parameterConfig.htmlFilename = parameterConfig.htmlFilename ? parameterConfig.htmlFilename : './index.html';
-	parameterConfig.pkg = parameterConfig.pkg
-		? parameterConfig.pkg
-		: require(path.join(parameterConfig.root, '/package.json'));
-	parameterConfig.isDev = parameterConfig.hasOwnProperty('isDev') ? confjig.isDev : false;
-	const config = getConfig(parameterConfig.pkg, parameterConfig.env);
-	const allOpts = {
-		...parameterConfig,
-		...parameterConfig,
-	};
+export function compile(usersCompileOption: Partial<CompileOptions>, configOverrides?: Partial<Config>) {
+	const compileOptions = getCompileOptions(usersCompileOption);
+	const config = getConfig(compileOptions, configOverrides);
+	console.log(usersCompileOption.htmlFilename);
 	let chain = Promise.resolve();
-	if (parameterConfig.isDev) {
+	if (usersCompileOption.isDev) {
 		enablePlayerDebugMode();
-		if (!parameterConfig.noSymlink) {
-			chain = chain.then(() => symlinkExtension(allOpts));
+		if (!usersCompileOption.noSymlink) {
+			chain = chain.then(() =>
+				symlinkExtension({
+					bundleId: config.manifest.extensionBundle.id,
+					out: compileOptions.outputFolder,
+					root: compileOptions.root,
+				}),
+			);
 		}
 	}
 	chain = chain
-		.then(() => copyDependencies(allOpts))
-		.then(() => writeExtensionTemplates(allOpts))
-		.then(() => copyIcons(allOpts))
+		.then(() => copyDependencies({ root: compileOptions.root, out: compileOptions.outputFolder }))
+		.then(() => writeExtensionTemplates(compileOptions, config))
+		.then(() => copyIcons(config))
 		.then(() => {
 			// noop
 		});
-	return chain; */
+	return chain;
 }
 
-compile();
+const getCompileOptions = (usersCompileOptions: Partial<CompileOptions>): CompileOptions => {
+	const defaultCompileOptions: CompileOptions = {
+		root: process.cwd(),
+		outputFolder: '',
+		htmlFilename: 'index.html',
+		devHost: 'localhost',
+		isDev: true,
+		noSymlink: false,
+		debugInProduction: false,
+	};
+	let compileOptions: CompileOptions = {
+		...defaultCompileOptions,
+		...usersCompileOptions,
+	};
+	return compileOptions;
+};
+
+compile({ isDev: true, outputFolder: './myOutputFolder' }, { extensions: { id: 'some.extension.id' } });

@@ -1,5 +1,6 @@
 export const defaultConfig = {
 	outputFolder: './dist',
+	isDev: false,
 	debugInProduction: false,
 	manifest: {
 		extensionBundle: { cepVersion: '8.0' },
