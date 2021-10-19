@@ -8,7 +8,7 @@ import { isValidConfig } from './isValidConfig';
 import type { ExtensionManifestArgument, ManifestArgument } from '../manifest/ExtensionManifest';
 import { ExtensionArgument } from '../manifest/Extension';
 
-type Config = {
+export type Config = {
 	outputFolder: string;
 	isDev: boolean;
 	devHost: URL | string;
@@ -20,9 +20,8 @@ export function getConfig(configOverrides?: Partial<Config>, root?: string): Con
 	configOverrides = configOverrides && isObject(configOverrides) ? configOverrides : {};
 	const config = deepObjectMerge(defaultConfig, getPkgConfig(root), getRuntimeConfig(root), configOverrides);
 
-	isValidConfig(config);
-
-	return config;
+	if (isValidConfig(config)) return config;
+	throw new Error('Invalid CEP configs');
 }
 
 getConfig(); //?

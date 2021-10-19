@@ -97,7 +97,7 @@ export class ExtensionManifest extends XMLElement {
 		abstract,
 		extensions,
 		executionEnvironment,
-	}: ExtensionManifestArgument) {
+	}: ExtensionManifestArgument | any) {
 		if (isExtensionManifestArgument(arguments[0])) {
 			const { id: bundleId, version: bundleVersion, name: bundleName, cepVersion } = extensionBundle;
 			let attributes: AttributeArgument[] = [];

@@ -2,8 +2,9 @@ import { badArgumentError } from '../errorMessages';
 import { isExtensionManifestArgument } from '../manifest/ExtensionManifest';
 import { isRelativePath } from '../typesAndValidators';
 import { getManifestArgFromConfig } from './getManifestArgFromConfig';
+import type { Config } from './getConfig';
 
-export function isValidConfig(config: any) {
+export function isValidConfig(config: any): config is Config {
 	const { outputFolder, isDev, devHost } = config;
 	if (!isRelativePath(outputFolder))
 		throw new Error(badArgumentError('outputFolder', 'string of type RelativePath', outputFolder));

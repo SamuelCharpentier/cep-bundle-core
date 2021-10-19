@@ -1,6 +1,4 @@
 import path from 'path';
-
-import { getProcessEnvConfig } from './lib/config/getProcessEnvConfig';
 import { getConfig } from './lib/config/getConfig';
 
 export interface CompileOptions {
