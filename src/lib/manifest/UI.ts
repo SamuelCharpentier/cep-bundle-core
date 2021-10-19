@@ -3,7 +3,6 @@ import { Type, TypeArgument, isTypeArgument } from './UIType';
 import { Menu, MenuArgument, isMenuArgument } from './Menu';
 import { Geometry, GeometryArgument, isGeometryArgument } from './Geometry';
 import { Icons, IconsArgument, isIconsArgument } from './Icons';
-import { isUITypeKey, isUITypeValue } from './enumsAndValidators';
 
 export type UIArgument = {
 	type?: TypeArgument;

@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { HostArgument, HostList, isValidHostArgument } from './Host';
+import { HostArgument, HostList, isHostArgument } from './Host';
 import { LocaleList, LocaleListArgument, isLocaleListArgument } from './LocaleList';
 import { badArgumentError } from '../errorMessages';
 
@@ -9,7 +9,7 @@ export const isExecutionEnvironmentArgument = <(argument: any) => argument is Ex
 	argument,
 ) => {
 	if (typeof argument === 'object' && (argument.hostList || argument.localeList)) {
-		if (argument.hostList && !isValidHostArgument(argument.hostList))
+		if (argument.hostList && !isHostArgument(argument.hostList))
 			throw new Error(
 				badArgumentError(
 					'executionEnvironment.hostList',

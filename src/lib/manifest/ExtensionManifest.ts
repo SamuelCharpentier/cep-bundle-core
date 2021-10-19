@@ -39,7 +39,6 @@ export type ExtensionManifestArgument = ManifestArgument & {
 export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManifestArgument>((argument) => {
 	if (argument && typeof argument === 'object') {
 		let { extensionBundle, authorName, contact, legal, abstract, extensions, executionEnvironment } = argument;
-		console.log(argument);
 		let { cepVersion, id: bundleId, version: bundleVersion, name: bundleName } = extensionBundle;
 		if (!isCEPVersion(cepVersion))
 			throw new Error(badArgumentError('cepVersion', 'a CEPVersion(enum)', cepVersion));
