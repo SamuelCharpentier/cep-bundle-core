@@ -12,8 +12,13 @@
 		"declaration": true,
 		"declarationDir": "dist",
 		"outDir": "./dist",
-		"sourceMap": true
+		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"@src/*": ["src/*"],
+			"@manifest/*": ["src/lib/manifest/*"]
+		}
 	},
-	"include": ["./src/**/*"],
+	"include": ["src", "__tests__"],
 	"exclude": ["node_modules", "dist"]
 }
