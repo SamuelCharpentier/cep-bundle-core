@@ -1,5 +1,6 @@
 # This will be updated in time to reflect the new workflow of this package
 
+<!--
 # cep-bundler-core
 
 Core functionality for making bundler extensions to compile CEP.
@@ -328,3 +329,4 @@ CEP_DEV_PORT="8080"
 ## Credits
 
 This code is mostly taken from (an old version of) [cep-bundler-core](https://www.npmjs.com/package/cep-bundler-core) by [@fusepilot](https://github.com/fusepilot).
+-->
