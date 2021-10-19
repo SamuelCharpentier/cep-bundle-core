@@ -16,7 +16,7 @@ module.exports = {
 	},
 	extensions: {
 		id: 'my.extension',
-		version: '9',
+		version: '0.0.1',
 		hostList: [
 			{ host: 'Illustrator', version: 'ALL', debugPort: '999' },
 			{ host: 'InDesign', version: 12, debugPort: '998' },
