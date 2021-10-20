@@ -24,7 +24,7 @@ export const isExtensionListArgument = <(arg: any) => arg is ExtensionListArgume
 });
 
 export class ExtensionList extends XMLElement {
-	constructor(extensions: ExtensionArgument | ExtensionArgument[]) {
+	constructor(extensions: any | ExtensionArgument | ExtensionArgument[]) {
 		if (!(extensions instanceof Array)) extensions = [extensions];
 		let content: Extension[] = [];
 		for (const extension of extensions) {

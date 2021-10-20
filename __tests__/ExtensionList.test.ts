@@ -1,0 +1,11 @@
+import { ExtensionList } from '@manifest/ExtensionList';
+import cepConfig from './.cep.config.js';
+
+describe('Extension List', () => {
+	it('Generates xml', () => {
+		let extensionList = new ExtensionList(cepConfig.extensions);
+		let debugXML = extensionList.xml(['.debug']);
+		expect(debugXML).not.toBe('');
+		expect(typeof debugXML).toBe('string');
+	});
+});

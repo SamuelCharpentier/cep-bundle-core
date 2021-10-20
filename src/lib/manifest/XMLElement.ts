@@ -8,6 +8,7 @@ export class XMLElement {
 	readonly attributes?: Attribute[];
 	readonly content?: XMLElement[] | StringContent;
 	private context?: (parents: string[]) => boolean;
+
 	constructor({
 		name,
 		attributes,
@@ -46,6 +47,7 @@ export class XMLElement {
 			else if (typeof content === 'string') this.content = new StringContent({ value: content });
 		}
 	}
+
 	xml(parents: Context[] = [], indent: number = 0): string {
 		const containsAttributeOrContent = (str: string): boolean => {
 			const regexp = new RegExp(/<.* .*=".*" ?\/?>|(<.*?>)+([^<\r\n])+(<\/.*?>)+/);
