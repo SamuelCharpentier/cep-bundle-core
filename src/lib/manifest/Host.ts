@@ -11,7 +11,7 @@ const hostListIsAll = (hostList: any): hostList is All =>
 	typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
 
 export function isValidHostListArgument(hostList: any): hostList is HostListArgument {
-	if (hostList !== undefined) {
+	if ((hostList !== undefined && typeof hostList === 'object') || hostListIsAll(hostList)) {
 		if (hostListIsAll(hostList)) return true;
 		if (!(hostList instanceof Array)) hostList = [hostList];
 		for (const host of hostList) {
@@ -20,7 +20,7 @@ export function isValidHostListArgument(hostList: any): hostList is HostListArgu
 		return true;
 	}
 
-	throw new Error(badArgumentError('hostList', 'HostListArgument (type)', hostList));
+	throw new Error(badArgumentError('hostList', 'an instance or array of HostListArgument (type)', hostList));
 }
 
 export class HostList extends XMLElement {
@@ -117,18 +117,20 @@ export interface HostArgument {
 }
 
 export function isHostArgument(host: any): host is HostArgument {
-	if (!host) throw new Error(badArgumentError(`host`, 'a HostArgument', host));
+	if (!host) throw new Error(badArgumentError(`hostArgument`, 'a HostArgument', host));
 
 	if (!host.host || !isHostEngine(host.host))
 		throw new Error(
-			badArgumentError(`host.host`, "as a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
+			badArgumentError(`hostArgument.host`, "as a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
 		);
 
 	if (
 		!host.version ||
 		(!isRangedVersion(host.version) && !(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
 	)
-		throw new Error(badArgumentError(`host.version`, "as a RangedVersion or the string 'ALL'", host.version));
+		throw new Error(
+			badArgumentError(`hostArgument.version`, "as a RangedVersion or the string 'ALL'", host.version),
+		);
 
 	if (host.debugPort)
 		if (
@@ -139,7 +141,7 @@ export function isHostArgument(host: any): host is HostArgument {
 			)
 		) {
 			throw new Error(
-				badArgumentError('host.debugPort', 'a number or a string containing a number', host.debugPort),
+				badArgumentError('hostArgument.debugPort', 'a number or a string containing a number', host.debugPort),
 			);
 		}
 	return true;
@@ -183,7 +185,8 @@ class Host extends XMLElement {
 			context: contextContainsAllOf(['.debug', 'ExtensionList']),
 			value: '',
 		};
-		if (debugPort && typeof debugPort === 'number') debugPortAttribute.value = debugPort.toString();
+		if (debugPort && (typeof debugPort === 'number' || /^\d+$/.test(debugPort)))
+			debugPortAttribute.value = debugPort.toString();
 		attribute.push(debugPortAttribute);
 
 		super({ name: 'Host', attributes: attribute });
