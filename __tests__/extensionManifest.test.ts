@@ -9,5 +9,7 @@ describe('Extension Manifest', () => {
 		expect(manifestXML).not.toBe('');
 		expect(typeof manifestXML).toBe('string');
 		expect(manifestXML).toMatch(/^<ExtensionManifest/);
+		expect(manifestXML).toMatch(/<\/ExtensionManifest>$/m);
+		console.log(manifestXML);
 	});
 });

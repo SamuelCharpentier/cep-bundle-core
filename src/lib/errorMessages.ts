@@ -18,8 +18,7 @@ export const printVariableInError: (v: any) => string = (val) => {
 };
 
 export const badArgumentError = (argumentName: string, argumentType: string, valueReceived: any) =>
-	`${argumentName} must be provided as ${argumentType},
-	${printVariableInError(valueReceived)} received`;
+	`${argumentName} must be provided as ${argumentType}, ${printVariableInError(valueReceived)} received`;
 
 export const bothNeedsToBeProvided: (
 	arg1: string,

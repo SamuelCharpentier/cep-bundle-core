@@ -11,7 +11,7 @@ const hostListIsAll = (hostList: any): hostList is All =>
 	typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
 
 export function isValidHostListArgument(hostList: any): hostList is HostListArgument {
-	if (hostList) {
+	if (hostList !== undefined) {
 		if (hostListIsAll(hostList)) return true;
 		if (!(hostList instanceof Array)) hostList = [hostList];
 		for (const host of hostList) {
@@ -20,10 +20,74 @@ export function isValidHostListArgument(hostList: any): hostList is HostListArgu
 		return true;
 	}
 
-	throw new Error('hostList could not validate ,' + printVariableInError(hostList));
+	throw new Error(badArgumentError('hostList', 'HostListArgument (type)', hostList));
 }
+
 export class HostList extends XMLElement {
+	/**
+	 * Creates an instance of HostList.
+	 *
+	 * Extends **XMLElement**. Holds an array of **Host**.
+	 *
+	 * ```typescript
+	 * type HostListArgument = HostArgument | HostArgument[] | All;
+	 * ```
+	 *
+	 * ----
+	 *
+	 * ```typescript
+	 * type All = 'All' | 'ALL' | 'all';
+	 * ```
+	 *
+	 * ----
+	 *
+	 * ```typescript
+	 * interface HostArgument {
+	 * 		host: HostEngine | keyof typeof HostEngine;
+	 * 		version: All | RangedVersion;
+	 * 		debugPort?: number | \`${number}\`;
+	 * }
+	 * ```
+	 *
+	 * ----
+	 *
+	 * ```typescript
+	 * enum HostEngine {
+	 * 		'InCopy' = 'AICY',
+	 * 		'InDesign' = 'IDSN',
+	 * 		'Illustrator' = 'ILST',
+	 * 		'Photoshop' = 'PHXS',
+	 * 		'Prelude' = 'PRLD',
+	 * 		'Premiere Pro' = 'PPRO',
+	 * 		'Dreamweaver' = 'DRWV',
+	 * 		'Flash Pro' = 'FLPR',
+	 * 		'After Effects' = 'AEFT',
+	 * }
+	 * ```
+	 *
+	 * ----
+	 *
+	 * ```typescript
+	 * type RangedVersion =
+	 *  | number
+	 *  | VersionNumber
+	 *  | `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`
+	 * ```
+	 * ----
+	 *
+	 *```typescript
+	 * type VersionNumber =
+	 * | `${number}`
+	 * | `${number}.${number}`
+	 * | `${number}.${number}.${number}`
+	 * | `${number}.${number}.${number}.${number}`;
+	 * ```
+	 *
+	 * @param  {HostListArgument} hostList
+	 * @memberof HostList
+	 */
 	constructor(hostList: HostListArgument) {
+		isValidHostListArgument(hostList);
 		let content: Host[] = [];
 		if (hostListIsAll(hostList)) {
 			hostList = [];
@@ -46,15 +110,19 @@ export class HostList extends XMLElement {
 	}
 }
 
-export type HostArgument = {
+export interface HostArgument {
 	host: HostEngine | keyof typeof HostEngine;
-	version: 'All' | 'ALL' | 'all' | RangedVersion;
+	version: All | RangedVersion;
 	debugPort?: number | `${number}`;
-};
+}
 
 export function isHostArgument(host: any): host is HostArgument {
-	if (!host.host || !isHostEngineKey(host.host))
-		throw new Error(badArgumentError(`host.version`, "as a RangedVersion or the string 'ALL'", host.host));
+	if (!host) throw new Error(badArgumentError(`host`, 'a HostArgument', host));
+
+	if (!host.host || !isHostEngine(host.host))
+		throw new Error(
+			badArgumentError(`host.host`, "as a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
+		);
 
 	if (
 		!host.version ||

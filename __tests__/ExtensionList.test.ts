@@ -7,5 +7,8 @@ describe('Extension List', () => {
 		let debugXML = extensionList.xml(['.debug']);
 		expect(debugXML).not.toBe('');
 		expect(typeof debugXML).toBe('string');
+		expect(debugXML).toMatch(/^<ExtensionList>/);
+		expect(debugXML).toMatch(/<\/ExtensionList>$/m);
+		console.log(debugXML);
 	});
 });
