@@ -1,5 +1,3 @@
-export type AttributeArgument = { name: string; value: string; context?: (parents: string[]) => boolean };
-
 export type NumberString = `${number}` | `${number}.${number}` | number;
 export function isNumeric(str: any): boolean {
 	if (typeof str !== 'string') return false;
@@ -92,7 +90,8 @@ export const isEvent: (e: any) => boolean = (event): event is EventType => {
 
 export type Placement = string;
 
-export function isPlacement(placement: Placement): boolean {
+export function isPlacement(placement: Placement): placement is Placement {
+	if (typeof placement !== 'string') return false;
 	console.warn('isPlacement validator to do, blind validation —', placement);
 	return true;
 }
