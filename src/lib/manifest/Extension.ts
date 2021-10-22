@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { HostList, HostArgument, isHostArgument } from './Host';
+import { HostList, HostArgument, isValidHostListArgument } from './Host';
 import { DispatchInfo, DispatchInfoArgument, isDispatchInfoArgument } from './DispatchInfo';
 import { DependencyList, DependencyArgument, isDependencyArgument } from './Dependency';
 import { AttributeArgument, isVersionNumber, isValidId } from '../typesAndValidators';
@@ -33,7 +33,7 @@ export const isExtensionArgument: (arg: any) => boolean = (argument): argument i
 				);
 		}
 		if (argument.hostList) {
-			isHostArgument(argument.hostList);
+			isValidHostListArgument(argument.hostList);
 		}
 		if (argument.dispatchInfo) {
 			isDispatchInfoArgument(argument.dispatchInfo);
@@ -66,7 +66,7 @@ export class Extension extends XMLElement {
 		if (hostList) {
 			if (!(hostList instanceof Array)) hostList = [hostList];
 			for (const host of hostList) {
-				if (!isHostArgument(host))
+				if (!isValidHostListArgument(host))
 					throw new Error(badArgumentError("Extension's hostList (optional)", 'HostArgument type', host));
 			}
 			content.push(new HostList(hostList));
