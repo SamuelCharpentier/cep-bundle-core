@@ -1,6 +1,10 @@
 # [CEP Bundle Core](../README.md) **ENUMS**
 
-## HostEngine
+The enum validator used for this package is designed to allow the config to use eighter the enum key or enum assigned value.
+
+---
+
+## **HostEngine**
 
 ```typescript
 enum HostEngine {
@@ -13,5 +17,20 @@ enum HostEngine {
 	'Dreamweaver' = 'DRWV',
 	'Flash Pro' = 'FLPR',
 	'After Effects' = 'AEFT',
+}
+```
+
+---
+
+## **UIType**
+
+```typescript
+enum UIType {
+	'Panel' = 'Panel',
+	'ModalDialog' = 'ModalDialog',
+	'Modeless' = 'Modeless',
+	'Custom' = 'Custom',
+	'Embedded' = 'Embedded',
+	'Dashboard' = 'Dashboard',
 }
 ```

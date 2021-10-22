@@ -11,3 +11,51 @@ interface HostArgument {
 	debugPort?: number | `${number}`;
 }
 ```
+
+---
+
+## **URL**
+
+```typescript
+interface URL {
+	hash: string;
+	host: string;
+	hostname: string;
+	href: string;
+	readonly origin: string;
+	password: string;
+	pathname: string;
+	port: string;
+	protocol: string;
+	search: string;
+	username: string;
+	toString(): string;
+}
+```
+
+**Note :** This interface is pre-built right into typescript.
+
+---
+
+## **AttributeArgument**
+
+```typescript
+interface AttributeArgument {
+	name: string;
+	value: string;
+	context?: (parents: string[]) => boolean;
+}
+```
+
+---
+
+## **MenuArgument**
+
+[Placement (type)](types.md#Placement)
+
+```typescript
+interface MenuArgument {
+	menuName: string;
+	placement?: Placement;
+}
+```
