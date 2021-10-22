@@ -106,6 +106,8 @@ type EventType = string;
 type Placement = string;
 ```
 
+**Note :** This needs to be enhanced.
+
 ---
 
 ## **ID**
