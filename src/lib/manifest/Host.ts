@@ -98,8 +98,7 @@ export class HostList extends XMLElement {
 		if (!(hostList instanceof Array)) hostList = [hostList];
 
 		for (const host of hostList) {
-			if (isHostArgument(host)) content.push(new Host(host));
-			else throw new Error(badArgumentError("Every hostList's hosts", 'HostArgument(type)', host));
+			content.push(new Host(host));
 		}
 
 		super({
@@ -111,14 +110,12 @@ export class HostList extends XMLElement {
 }
 
 export interface HostArgument {
-	host: HostEngine | keyof typeof HostEngine;
+	host: `${HostEngine}` | keyof typeof HostEngine;
 	version: All | RangedVersion;
 	debugPort?: number | `${number}`;
 }
 
-export function isHostArgument(host: any): host is HostArgument {
-	if (!host) throw new Error(badArgumentError(`hostArgument`, 'a HostArgument', host));
-
+function isHostArgument(host: any): host is HostArgument {
 	if (!host.host || !isHostEngine(host.host))
 		throw new Error(
 			badArgumentError(`hostArgument.host`, "as a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
@@ -152,14 +149,6 @@ class Host extends XMLElement {
 		let attribute = [];
 		if (host && isHostEngineValue(host)) attribute.push({ name: 'Name', value: host });
 		else if (host && isHostEngineKey(host)) attribute.push({ name: 'Name', value: HostEngine[host] });
-		else
-			throw new Error(
-				badArgumentError(
-					'Host Engine Name',
-					'string containing a key of HostEngine (enum) or a value of HostEngine',
-					host,
-				),
-			);
 
 		let versionAttr: AttributeArgument = {
 			name: 'Version',
@@ -170,14 +159,7 @@ class Host extends XMLElement {
 			versionAttr.value = version.toString();
 		} else if (version && typeof version === 'string' && version.toUpperCase() === 'ALL') {
 			versionAttr.value = '[0,99]';
-		} else
-			throw new Error(
-				badArgumentError(
-					'Host version',
-					"string containing a version number, a version range ([1,13]) or the word 'ALL'",
-					version,
-				),
-			);
+		}
 		attribute.push(versionAttr);
 
 		let debugPortAttribute: AttributeArgument = {
