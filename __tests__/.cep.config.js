@@ -36,7 +36,7 @@ module.exports = {
 				geometry: {
 					minSize: { width: 200, height: 400 },
 				},
-				icons: { Normal: './icons/normal.jpg' },
+				icons: { normal: './icons/normal.jpg' },
 			},
 		},
 	},
