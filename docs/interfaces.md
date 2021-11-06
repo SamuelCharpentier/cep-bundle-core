@@ -59,3 +59,14 @@ interface MenuArgument {
 	placement?: Placement;
 }
 ```
+
+---
+
+## **WidthHeight**
+
+```typescript
+interface WidthHeight {
+	width: `${number}` | number;
+	height: `${number}` | number;
+}
+```

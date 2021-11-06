@@ -14,6 +14,8 @@
 
     -   [Menu](#Menu)
 
+    -   [Geometry](#Geometry)
+
 ---
 
 ## **HostList**
@@ -72,7 +74,7 @@ Used by [UI (class)](#UI)
 
 ## **Menu**
 
-Extends [XMLElement (class)](#XMLElement).Holds the menu item name and its placement (optional).
+Extends [XMLElement (class)](#XMLElement). Holds the menu item name and its placement (optional).
 
 ### Argument
 
@@ -85,3 +87,44 @@ new Menu({menuName:string, placement?:Placement}: MenuArgument)
 ```
 
 Used by [UI (class)](#UI)
+
+---
+
+## **Geometry**
+
+Extends [XMLElement (class)](#XMLElement). Holds the Width and Height of the extension pannel (optional).
+
+### Argument
+
+It expects an argument of type [GeometryArgument (type)](types.md#GeometryArgument)
+
+### Usage
+
+```typescript
+new Geometry({ [key in SizesTypes]: Undefined | WidthHeight });
+```
+
+Used by [UI (class)](#UI)
+
+---
+
+<!-- ## **UI**
+
+Extends [XMLElement (class)](#XMLElement). Holds the UI elements.
+
+### Argument
+
+It expects an argument of type [UIArgument (interface)](interfaces.md#UIArgument)
+
+### Usage
+
+```typescript
+new UI({
+	type: Undefined | TypeArgument,
+	menu: Undefined | MenuArgument,
+	geometry: Undefined | GeometryArgument,
+	icons: Undefined | IconsArgument,
+});
+```
+
+Used by [UI (class)](#UI) -->

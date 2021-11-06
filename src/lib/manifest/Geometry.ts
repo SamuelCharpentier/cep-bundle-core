@@ -3,62 +3,54 @@ import { badArgumentError, bothWidthAndHeightRequired, printVariableInError } fr
 import { StringContent } from './StringContent';
 import { SizesTypes, isSizesTypes } from './enumsAndValidators';
 
-export type WidthHeight = { width: `${number}` | number; height: `${number}` | number };
+export interface WidthHeight {
+	width: `${number}` | number;
+	height: `${number}` | number;
+}
+
+const isWidthHeight = (size: any, sizeTypeName: SizesTypes): size is WidthHeight => {
+	if (size.width === undefined || size.height === undefined) {
+		throw new Error(badArgumentError(`Geometry ${sizeTypeName}`, 'as a WidthHeight (interface)', size));
+	}
+	if (!Number.isInteger(parseFloat(size.width.toString())))
+		throw new Error(
+			badArgumentError(`Geometry ${sizeTypeName} width`, 'as a number or a string of a number', size.width),
+		);
+	if (!Number.isInteger(parseFloat(size.height.toString())))
+		throw new Error(
+			badArgumentError(`Geometry ${sizeTypeName} height`, 'as a number or a string of a number', size.height),
+		);
+
+	return true;
+};
+
 export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
-export const isGeometryArgument = <(arg: any) => arg is GeometryArgument>((arg) => {
-	if (typeof arg === 'object') {
-		for (const sizeType in arg) {
-			if (!isSizesTypes(sizeType))
-				throw new Error(
-					badArgumentError('extension.dispatchInfo.ui.geometry[key]', 'as a SizesTypes(enum)', sizeType),
-				);
+const isGeometryArgument = <(arg: any) => arg is GeometryArgument>((arg) => {
+	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length === 0)
+		throw new Error(badArgumentError('geometry', 'GeometryArgument (type)', arg));
 
-			let sizing = arg[sizeType];
+	for (const sizeTypeName in arg) {
+		if (!isSizesTypes(sizeTypeName))
+			throw new Error(badArgumentError('Each geometry keys', 'as a SizesTypes (enum)', sizeTypeName));
 
-			if (sizing && (sizing.width === undefined || !Number.isInteger(parseFloat(sizing.width.toString()))))
-				throw new Error(
-					badArgumentError(
-						`extension.dispatchInfo.ui.geometry.${sizeType}.width`,
-						'as a number or a string of a number',
-						sizing.width,
-					),
-				);
-			if (sizing && (sizing.height === undefined || !Number.isInteger(parseFloat(sizing.height.toString()))))
-				throw new Error(
-					badArgumentError(
-						`extension.dispatchInfo.ui.geometry.${sizeType}.height`,
-						'as a number or a string of a number',
-						sizing.height,
-					),
-				);
-		}
-		return true;
+		isWidthHeight(arg[sizeTypeName], sizeTypeName);
 	}
-	throw new Error('extension.dispatchInfo.ui.geometry could not be validated' + printVariableInError(arg));
-
-	return false;
+	return true;
 });
 export class Geometry extends XMLElement {
 	constructor(geometry: GeometryArgument) {
 		if (isGeometryArgument(geometry)) {
 			let content: SizeConstructor[] = [];
 			for (const sizeTypeName in geometry) {
-				if (!isSizesTypes(sizeTypeName)) {
-					throw new Error(
-						badArgumentError(
-							'extension.dispatchInfo.ui.geometry[key]',
-							'as a SizesTypes(enum)',
-							sizeTypeName,
-						),
-					);
-				}
-				let name: string = sizeTypeName;
-				let sizing = geometry[sizeTypeName];
-				if (sizing) {
-					let width: `${number}` | number = sizing.width;
-					let height: `${number}` | number = sizing.height;
-					content.push(new SizeConstructor({ name, width, height }));
+				if (isSizesTypes(sizeTypeName)) {
+					let name: string = sizeTypeName;
+					let size: undefined | WidthHeight = geometry[sizeTypeName];
+					if (size) {
+						let width: `${number}` = `${size.width}`;
+						let height: `${number}` = `${size.height}`;
+						content.push(new SizeConstructor({ name, width, height }));
+					}
 				}
 			}
 
@@ -68,10 +60,10 @@ export class Geometry extends XMLElement {
 }
 
 class SizeConstructor extends XMLElement {
-	constructor({ name, width, height }: { name: string; width: `${number}` | number; height: `${number}` | number }) {
+	constructor({ name, width, height }: { name: string; width: `${number}`; height: `${number}` }) {
 		let content: XMLElement[] = [];
-		if (typeof width === 'number') width = `${width}`;
-		if (typeof height === 'number') height = `${height}`;
+
+		name = name.charAt(0).toUpperCase() + name.slice(1);
 		content.push(new Width(width));
 		content.push(new Height(height));
 

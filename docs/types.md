@@ -126,12 +126,25 @@ type ID = string;
 type TypeArgument = UIType | `${UIType}` | keyof typeof UIType;
 ```
 
+## **GeometryArgument**
+
+[SizesTypes (enum)](enums.md#SizesTypes)
+
+[WidthHeight (interface)](interfaces.md#WidthHeight)
+
+```typescript
+type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
+```
+
+---
+
 <!--
 
-## \*\*\*\*
+## ****
 
 ```typescript
 
 ```
 
+---
 -->

@@ -34,3 +34,16 @@ enum UIType {
 	'Dashboard' = 'Dashboard',
 }
 ```
+
+---
+
+## **SizesTypes**
+
+```typescript
+enum SizesTypes {
+	'screenPercentage' = 'screenPercentage',
+	'size' = 'size',
+	'minSize' = 'minSize',
+	'maxSize' = 'maxSize',
+}
+```
