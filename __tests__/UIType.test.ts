@@ -1,6 +1,9 @@
 import { Type, TypeArgument } from '@manifest/UIType';
 
-describe('Type (UIType.ts)', () => {
+describe('Type', () => {
+	it('should be defined', () => {
+		expect(Type).toBeDefined();
+	});
 	let badArgument: any;
 	it('Invalidates undefined argument', () => {
 		expect(() => {

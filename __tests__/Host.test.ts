@@ -2,6 +2,9 @@ import { HostList, HostListArgument } from '@manifest/Host';
 import type { HostEngine } from '@manifest/enumsAndValidators';
 
 describe('HostList', () => {
+	it('should be defined', () => {
+		expect(HostList).toBeDefined();
+	});
 	let incorrectParameters: any;
 	it('Invalidates undefined argument', () => {
 		expect(() => {

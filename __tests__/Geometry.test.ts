@@ -2,6 +2,9 @@ import { Geometry, GeometryArgument } from '@manifest/Geometry';
 import { SizesTypes } from '@src/lib/manifest/enumsAndValidators';
 
 describe('Geometry', () => {
+	it('should be defined', () => {
+		expect(Geometry).toBeDefined();
+	});
 	let badArgument: any;
 	it('Invalidates an empty argument', () => {
 		expect(() => {

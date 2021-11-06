@@ -1,9 +1,11 @@
 import { Menu, MenuArgument } from '@manifest/Menu';
 
 describe('Menu', () => {
+	it('should be defined', () => {
+		expect(Menu).toBeDefined();
+	});
 	let badArgument: any;
 	it('Invalidates an empty argument', () => {
-		console.log(badArgument);
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
