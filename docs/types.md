@@ -138,6 +138,26 @@ type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
 ---
 
+## **IconsArgument**
+
+[IconType (enum)](enums.md#IconType)
+
+[RelativePath (type)](types.md#RelativePath)
+
+```typescript
+type IconsArgument = { [key in IconType]?: RelativePath };
+```
+
+---
+
+## **RelativePath**
+
+```typescript
+type RelativePath = `./${string}`;
+```
+
+---
+
 <!--
 
 ## ****

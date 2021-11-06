@@ -47,3 +47,17 @@ enum SizesTypes {
 	'maxSize' = 'maxSize',
 }
 ```
+
+---
+
+## **IconType**
+
+```typescript
+enum IconType {
+	'normal' = 'normal',
+	'disabled' = 'disabled',
+	'rollOver' = 'rollOver',
+	'darkNormal' = 'darkNormal',
+	'darkRollOver' = 'darkRollOver',
+}
+```

@@ -108,6 +108,24 @@ Used by [UI (class)](#UI)
 
 ---
 
+## **Icons**
+
+Extends [XMLElement (class)](#XMLElement). Holds path to the extension's icons (optional).
+
+### Argument
+
+It expects an argument of type [IconsArgument (type)](types.md#IconsArgument)
+
+### Usage
+
+```typescript
+new Icon({ [key in IconType]: RelativePath });
+```
+
+Used by [UI (class)](#UI)
+
+---
+
 <!-- ## **UI**
 
 Extends [XMLElement (class)](#XMLElement). Holds the UI elements.

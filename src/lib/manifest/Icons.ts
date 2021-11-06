@@ -3,36 +3,39 @@ import { RelativePath, isRelativePath } from '../typesAndValidators';
 import { IconType, isIconType } from './enumsAndValidators';
 import { badArgumentError, printVariableInError } from '../errorMessages';
 
-export type IconsArgument = { [key in IconType]?: RelativePath };
+export type IconsArgument = { [key in keyof typeof IconType | IconType]?: RelativePath };
 
-export const isIconsArgument = <(arg: any) => arg is IconsArgument>((arg): arg is IconsArgument => {
-	if (typeof arg === 'object') {
-		if (arg instanceof Array)
+const isIconsArgument = <(arg: any) => arg is IconsArgument>((arg): arg is IconsArgument => {
+	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length === 0)
+		throw new Error(badArgumentError('Icon', 'IconsArgument (type)', arg));
+
+	for (const iconType in arg) {
+		if (!isIconType(iconType)) throw new Error(badArgumentError('Each icon keys', 'IconType (enum)', iconType));
+		if (!isRelativePath(arg[iconType]))
 			throw new Error(
-				badArgumentError('extension.dispatchInfo.ui.geometry', 'an object of type IconsArgument', arg),
+				badArgumentError(
+					`${iconType[0].toUpperCase()}${iconType.slice(1)} icon path`,
+					'a RelativePath (type)',
+					arg[iconType],
+				),
 			);
-
-		for (const iconType in arg) {
-			if (!isIconType(iconType))
-				throw new Error(
-					badArgumentError('extension.dispatchInfo.ui.geometry[key]', 'as a IconType(enum)', iconType),
-				);
-			if (!isRelativePath(arg[iconType]))
-				throw new Error(
-					badArgumentError(
-						`extension.dispatchInfo.ui.icons.${iconType}`,
-						'as a relative path starting with a ./ to the icon resource ',
-						arg[iconType],
-					),
-				);
-		}
-		return true;
 	}
-	throw new Error('extension.dispatchInfo.ui.geometry could not be validated' + printVariableInError(arg));
-
-	return false;
+	return true;
 });
+
+/**
+ *
+ *
+ * @export
+ * @class Icons
+ * @extends {XMLElement}
+ */
 export class Icons extends XMLElement {
+	/**
+	 * Creates an instance of Icons.
+	 * @param {IconsArgument} icons
+	 * @memberof Icons
+	 */
 	constructor(icons: IconsArgument) {
 		if (isIconsArgument(icons)) {
 			let content: Icon[] = [];
@@ -48,7 +51,11 @@ export class Icons extends XMLElement {
 	}
 }
 class Icon extends XMLElement {
-	constructor({ relativePath, type }: { relativePath: RelativePath; type: IconType }) {
-		super({ name: 'Icon', attributes: { name: 'Type', value: type }, content: relativePath });
+	constructor({ relativePath, type }: { relativePath: RelativePath; type: keyof typeof IconType | `${IconType}` }) {
+		super({
+			name: 'Icon',
+			attributes: { name: 'Type', value: type.charAt(0).toUpperCase() + type.slice(1) },
+			content: relativePath,
+		});
 	}
 }

@@ -8,6 +8,12 @@ const isEnumKey = <T>(testedEnum: T) => {
 	return generatedFunction;
 };
 
+const isEnumTokenOrKey = <T>(testedEnum: T) => {
+	return <(val: any) => val is T[keyof T] | keyof T>(
+		((val) => isEnumKey(testedEnum)(val) || isEnumToken(testedEnum)(val))
+	);
+};
+
 export enum HostEngine {
 	'InCopy' = 'AICY',
 	'InDesign' = 'IDSN',
@@ -22,9 +28,9 @@ export enum HostEngine {
 
 export const isHostEngineKey = isEnumKey(HostEngine);
 export const isHostEngineValue = isEnumToken(HostEngine);
-export const isHostEngine = <(val: any) => val is HostEngine>(
+export const isHostEngine = isEnumTokenOrKey(HostEngine); /* <(val: any) => val is HostEngine>(
 	((val) => isEnumKey(HostEngine)(val) || isEnumToken(HostEngine)(val))
-);
+); */
 
 export enum AdobeLocaleCodes {
 	'All' = 'All',
@@ -77,14 +83,13 @@ export enum UIType {
 export const isUIType = isEnumToken(UIType);
 
 export enum IconType {
-	'Normal' = 'Normal',
-	'Disabled' = 'Disabled',
-	'RollOver' = 'RollOver',
-	'DarkNormal' = 'DarkNormal',
-	'DarkRollOver' = 'DarkRollOver',
+	'normal' = 'normal',
+	'disabled' = 'disabled',
+	'rollOver' = 'rollOver',
+	'darkNormal' = 'darkNormal',
+	'darkRollOver' = 'darkRollOver',
 }
-
-export const isIconType = isEnumToken(IconType);
+export const isIconType = isEnumTokenOrKey(IconType);
 
 export enum SizesTypes {
 	'screenPercentage' = 'screenPercentage',
