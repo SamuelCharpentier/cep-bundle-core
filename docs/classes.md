@@ -16,6 +16,8 @@
 
     -   [Geometry](#Geometry)
 
+    -   [Icons](#Icons)
+
 ---
 
 ## **HostList**
@@ -51,6 +53,29 @@ new Host({ host, version, debugPort }: HostArgument)
 ```
 
 Used by [HostList (class)](#HostList)
+
+---
+
+## **UI**
+
+Extends [XMLElement (class)](#XMLElement). Holds the UI elements: [Type](#Type), [Menu](#Menu), [Geometry](#Geometry) and [Icons](#Icons).
+
+### Argument
+
+It expects an argument of type [UIArgument (interface)](interfaces.md#UIArgument)
+
+### Usage
+
+```typescript
+new UI({
+	type: Undefined | TypeArgument,
+	menu: Undefined | MenuArgument,
+	geometry: Undefined | GeometryArgument,
+	icons: Undefined | IconsArgument,
+});
+```
+
+Used by [DispatchInfo (class)](#DispatchInfo)
 
 ---
 
@@ -125,24 +150,3 @@ new Icon({ [key in IconType]: RelativePath });
 Used by [UI (class)](#UI)
 
 ---
-
-<!-- ## **UI**
-
-Extends [XMLElement (class)](#XMLElement). Holds the UI elements.
-
-### Argument
-
-It expects an argument of type [UIArgument (interface)](interfaces.md#UIArgument)
-
-### Usage
-
-```typescript
-new UI({
-	type: Undefined | TypeArgument,
-	menu: Undefined | MenuArgument,
-	geometry: Undefined | GeometryArgument,
-	icons: Undefined | IconsArgument,
-});
-```
-
-Used by [UI (class)](#UI) -->

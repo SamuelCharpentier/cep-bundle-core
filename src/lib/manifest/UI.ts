@@ -1,28 +1,42 @@
 import { XMLElement } from './XMLElement';
-import { Type, TypeArgument, isTypeArgument } from './UIType';
-import { Menu, MenuArgument, isMenuArgument } from './Menu';
-import { Geometry, GeometryArgument, isGeometryArgument } from './Geometry';
-import { Icons, IconsArgument, isIconsArgument } from './Icons';
+import { Type, TypeArgument } from './UIType';
+import { Menu, MenuArgument } from './Menu';
+import { Geometry, GeometryArgument } from './Geometry';
+import { Icons, IconsArgument } from './Icons';
+import { badArgumentError } from '../errorMessages';
 
-export type UIArgument = {
+export interface UIArgument {
 	type?: TypeArgument;
 	menu?: MenuArgument;
 	geometry?: GeometryArgument;
 	icons?: IconsArgument;
-};
+}
 
 export const isUIArgument: (arg: any) => boolean = (argument): argument is UIArgument => {
-	if ((typeof argument === 'object' && argument.type) || argument.menu || argument.geometry || argument.icons) {
-		if (argument.type) isTypeArgument(argument.type);
-		if (argument.menu) isMenuArgument(argument.menu);
-		if (argument.geometry) isGeometryArgument(argument.geometry);
-		if (argument.icons) isIconsArgument(argument.icons);
+	if (
+		typeof argument === 'object' &&
+		(argument.type !== undefined ||
+			argument.menu !== undefined ||
+			argument.geometry !== undefined ||
+			argument.icons !== undefined)
+	) {
 		return true;
 	}
-	throw new Error(`extension.dispatchInfo.ui could not be validated`);
-	return false;
+	throw new Error(badArgumentError('ui', 'UIArgument (interface)', argument));
 };
+/**
+ *
+ *
+ * @export
+ * @class UI
+ * @extends {XMLElement}
+ */
 export class UI extends XMLElement {
+	/**
+	 * Creates an instance of UI.
+	 * @param {UIArgument} uiConfig
+	 * @memberof UI
+	 */
 	constructor(uiConfig: UIArgument) {
 		let content: XMLElement[] = [];
 		if (isUIArgument(uiConfig)) {

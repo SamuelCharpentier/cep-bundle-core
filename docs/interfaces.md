@@ -70,3 +70,24 @@ interface WidthHeight {
 	height: `${number}` | number;
 }
 ```
+
+---
+
+## **UIArgument**
+
+[TypeArgument (type)](types.md#TypeArgument)
+
+[MenuArgument (interface)](#MenuArgument)
+
+[GeometryArgument (type)](types.md#GeometryArgument)
+
+[IconsArgument (type)](types.md#IconsArgument)
+
+```typescript
+interface UIArgument {
+	type?: TypeArgument;
+	menu?: MenuArgument;
+	geometry?: GeometryArgument;
+	icons?: IconsArgument;
+}
+```
