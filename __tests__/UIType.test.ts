@@ -62,4 +62,9 @@ describe('Type (UIType.ts)', () => {
 			new Type(goodArgument);
 		}).not.toThrow();
 	});
+
+	it('Outputs XML in any context', () => {
+		let goodArgument: TypeArgument = 'Panel';
+		expect(new Type(goodArgument).xml(['MainPath'])).toBe(`<Type>${goodArgument}</Type>\n`);
+	});
 });

@@ -78,4 +78,11 @@ describe('Menu', () => {
 			new Menu(goodArgument);
 		}).not.toThrow();
 	});
+	it('Outputs XML in any context', () => {
+		let goodArgument: MenuArgument;
+		let menuName = 'My menu name';
+		goodArgument = { menuName: menuName };
+		let myMenu = new Menu(goodArgument);
+		expect(myMenu.xml(['Host'])).toBe(`<Menu>${menuName}</Menu>\n`);
+	});
 });
