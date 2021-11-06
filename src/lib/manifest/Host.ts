@@ -1,5 +1,5 @@
-import { XMLElement } from './XMLElement';
-import { RangedVersion, AttributeArgument, isRangedVersion } from '../typesAndValidators';
+import { XMLElement, AttributeArgument } from './XMLElement';
+import { RangedVersion, isRangedVersion } from '../typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import { HostEngine, isHostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
 import { badArgumentError, printVariableInError } from '../errorMessages';
