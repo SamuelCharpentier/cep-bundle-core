@@ -158,6 +158,22 @@ type RelativePath = `./${string}`;
 
 ---
 
+## **LifecycleArgument**
+
+```typescript
+type LifecycleArgument = { autoVisible?: boolean; startOn?: EventType | EventType[] };
+```
+
+---
+
+## **EventType**
+
+```typescript
+type EventType = string;
+```
+
+---
+
 <!--
 
 ## ****

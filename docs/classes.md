@@ -4,19 +4,31 @@
 
 [XMLElement](#XMLElement)
 
--   [HostList](#HostList)
+-   [Extensions](#Extensions)
 
-    -   [Host](#Host)
+    -   [HostList](#HostList)
 
--   [UI](#UI)
+        -   [Host](#Host)
 
-    -   [Type](#Type)
+    -   [DispatchInfo](#DispatchInfo)
 
-    -   [Menu](#Menu)
+        -   [Resources](#Resources)
 
-    -   [Geometry](#Geometry)
+            -   [MainPath](#MainPath)
+            -   [isScriptPathArgument](#isScriptPathArgument)
+            -   [CEFCommandLine](#CEFCommandLine)
 
-    -   [Icons](#Icons)
+        -   [Lifecycle](#Lifecycle)
+
+            -   [AutoVisible](#AutoVisible)
+            -   [StartOn](#StartOn)
+
+        -   [UI](#UI)
+
+            -   [Type](#Type)
+            -   [Menu](#Menu)
+            -   [Geometry](#Geometry)
+            -   [Icons](#Icons)
 
 ---
 
@@ -53,6 +65,60 @@ new Host({ host, version, debugPort }: HostArgument)
 ```
 
 Used by [HostList (class)](#HostList)
+
+---
+
+## **Lifecycle**
+
+Extends [XMLElement (class)](#XMLElement). Holds the information of the extension's lifecycle.
+
+### Argument
+
+It expects an argument of type [LifecycleArgument (type)](types.md#LifecycleArgument)
+
+### Usage
+
+```typescript
+new Lifecycle({ autoVisible?: boolean; startOn?: EventType | EventType[] });
+```
+
+Used by [DispatchInfo (class)](#DispatchInfo)
+
+---
+
+## **AutoVisible**
+
+Extends [XMLElement (class)](#XMLElement). Contains wether it should be visible automatically.
+
+### Argument
+
+It expects a boolean argument
+
+### Usage
+
+```typescript
+new AutoVisible(Boolean);
+```
+
+Used by [Lifecycle (class)](#Lifecycle)
+
+---
+
+## **StartOn**
+
+Extends [XMLElement (class)](#XMLElement). Holds the event(s) on which the extension should start.
+
+### Argument
+
+It expects an argument of type [EventType (type)](types.md#EventType) or an array of [EventType (type)](types.md#EventType)
+
+### Usage
+
+```typescript
+new StartOn(EventType|EventType[])
+```
+
+Used by [Lifecycle (class)](#Lifecycle)
 
 ---
 
