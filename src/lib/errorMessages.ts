@@ -13,7 +13,13 @@ function prettierJSON(string: string) {
 
 export const printVariableInError: (v: any) => string = (val) => {
 	return `${
-		typeof val === 'string' ? `'${val}'` : typeof val === 'object' ? '\n' + prettierJSON(JSON.stringify(val)) : val
+		typeof val === 'string'
+			? `'${val}'`
+			: typeof val === 'function'
+			? '[Function]'
+			: typeof val === 'object'
+			? '\n' + prettierJSON(JSON.stringify(val))
+			: val
 	} (${val instanceof Array ? 'array' : typeof val})`;
 };
 

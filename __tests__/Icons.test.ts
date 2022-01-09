@@ -1,7 +1,7 @@
 import { Icons, IconsArgument } from '@manifest/Icons';
 
 describe('Icons', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(Icons).toBeDefined();
 	});
 	let badArgument: any;

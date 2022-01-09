@@ -34,7 +34,7 @@
 
 ## **HostList**
 
-Extends [XMLElement (class)](#XMLElement). Holds an array of [Host (class)](#Host).
+Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host).
 
 ### Argument
 
@@ -46,13 +46,13 @@ It expects an argument of type [HostListArgument (type)](types.md#HostListArgume
 new HostList(hostList: HostListArgument)
 ```
 
-Used by [ExecutionEnvironment (class)](#ExecutionEnvironment) and [Extension (class)](#Extension)
+Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment) and [Extension (class)](#Extension)
 
 ---
 
 ## **Host**
 
-Extends [XMLElement (class)](#XMLElement).Holds the information of each hosts the extension will be available in.
+Extends [XMLElement (class)](#XMLElement).Contains the information of each hosts the extension will be available in.
 
 ### Argument
 
@@ -64,13 +64,89 @@ It expects an argument of type [HostArgument (type)](types.md#HostArgument)
 new Host({ host, version, debugPort }: HostArgument)
 ```
 
-Used by [HostList (class)](#HostList)
+Nested in [HostList (class)](#HostList)
+
+---
+
+## **Resources**
+
+Extends [XMLElement (class)](#XMLElement). Contains a [MainPath (class)](#MainPath), a [ScriptPath (class)](#ScriptPath) and a [CEFCommandLine (class)](#CEFCommandLine).
+
+### Argument
+
+It expects an argument of type [ResourcesArgument (type)](types.md#ResourcesArgument)
+
+### Usage
+
+```typescript
+new Resources({
+    mainPath?: RelativePath;
+    scriptPath?: RelativePath;
+    cefParams?: CEFCommandLineArgument;
+});
+```
+
+Nested in [DispatchInfo (class)](#DispatchInfo)
+
+---
+
+## **MainPath**
+
+Extends [XMLElement (class)](#XMLElement). Contains the path to the main file of the extension (e.g. main.swf / index.html).
+
+### Argument
+
+It expects an argument of type [RelativePath (type)](types.md#RelativePath)
+
+### Usage
+
+```typescript
+new MainPath(mainPath: RelativePath)
+```
+
+Nested in [Resources (class)](#Resources)
+
+---
+
+## **ScriptPath**
+
+Extends [XMLElement (class)](#XMLElement). Contains the path to the extension's script file.
+
+### Argument
+
+It expects an argument of type [RelativePath (type)](types.md#RelativePath)
+
+### Usage
+
+```typescript
+new ScriptPath(scriptPath: RelativePath)
+```
+
+Nested in [Resources (class)](#Resources)
+
+---
+
+## **CEFCommandLine**
+
+Extends [XMLElement (class)](#XMLElement). Contains the command line arguments for the extension.
+
+### Argument
+
+It expects an argument of type [CEFCommandLineArgument (type)](types.md#CEFCommandLineArgument)
+
+### Usage
+
+```typescript
+new CEFCommandLine(cefParams: CEFCommandLineArgument)
+```
+
+Nested in [Resources (class)](#Resources)
 
 ---
 
 ## **Lifecycle**
 
-Extends [XMLElement (class)](#XMLElement). Holds the information of the extension's lifecycle.
+Extends [XMLElement (class)](#XMLElement). Contains the information of the extension's lifecycle.
 
 ### Argument
 
@@ -79,16 +155,19 @@ It expects an argument of type [LifecycleArgument (type)](types.md#LifecycleArgu
 ### Usage
 
 ```typescript
-new Lifecycle({ autoVisible?: boolean; startOn?: EventType | EventType[] });
+new Lifecycle({
+    autoVisible?: boolean;
+    startOn?: EventType | EventType[]
+});
 ```
 
-Used by [DispatchInfo (class)](#DispatchInfo)
+Nested in [DispatchInfo (class)](#DispatchInfo)
 
 ---
 
 ## **AutoVisible**
 
-Extends [XMLElement (class)](#XMLElement). Contains wether it should be visible automatically.
+Extends [XMLElement (class)](#XMLElement). Controls whether the extension's UI should be made visible automatically when started or if the extension wants to control this itself. Panel type extensions should always be made visible automatically in order to maintain consistency with non-CEP panels.
 
 ### Argument
 
@@ -100,13 +179,13 @@ It expects a boolean argument
 new AutoVisible(Boolean);
 ```
 
-Used by [Lifecycle (class)](#Lifecycle)
+Nested in [Lifecycle (class)](#Lifecycle)
 
 ---
 
 ## **StartOn**
 
-Extends [XMLElement (class)](#XMLElement). Holds the event(s) on which the extension should start.
+Extends [XMLElement (class)](#XMLElement). Contains the event(s) on which the extension should start.
 
 ### Argument
 
@@ -118,13 +197,13 @@ It expects an argument of type [EventType (type)](types.md#EventType) or an arra
 new StartOn(EventType|EventType[])
 ```
 
-Used by [Lifecycle (class)](#Lifecycle)
+Nested in [Lifecycle (class)](#Lifecycle)
 
 ---
 
 ## **UI**
 
-Extends [XMLElement (class)](#XMLElement). Holds the UI elements: [Type](#Type), [Menu](#Menu), [Geometry](#Geometry) and [Icons](#Icons).
+Extends [XMLElement (class)](#XMLElement). Contains the UI elements: [Type](#Type), [Menu](#Menu), [Geometry](#Geometry) and [Icons](#Icons).
 
 ### Argument
 
@@ -141,13 +220,13 @@ new UI({
 });
 ```
 
-Used by [DispatchInfo (class)](#DispatchInfo)
+Nested in [DispatchInfo (class)](#DispatchInfo)
 
 ---
 
 ## **Type**
 
-Extends [XMLElement (class)](#XMLElement).Holds the information of which type the extension UI should be.
+Extends [XMLElement (class)](#XMLElement).Contains the information of which type the extension UI should be.
 
 ### Argument
 
@@ -159,13 +238,13 @@ It expects an argument of type [TypeArgument (type)](types.md#TypeArgument)
 new Type(type: TypeArgument)
 ```
 
-Used by [UI (class)](#UI)
+Nested in [UI (class)](#UI)
 
 ---
 
 ## **Menu**
 
-Extends [XMLElement (class)](#XMLElement). Holds the menu item name and its placement (optional).
+Extends [XMLElement (class)](#XMLElement). Contains the menu item name and its placement (optional).
 
 ### Argument
 
@@ -177,13 +256,13 @@ It expects an argument of type [MenuArgument (interface)](interfaces.md#MenuArgu
 new Menu({menuName:string, placement?:Placement}: MenuArgument)
 ```
 
-Used by [UI (class)](#UI)
+Nested in [UI (class)](#UI)
 
 ---
 
 ## **Geometry**
 
-Extends [XMLElement (class)](#XMLElement). Holds the Width and Height of the extension pannel (optional).
+Extends [XMLElement (class)](#XMLElement). Contains the Width and Height of the extension pannel (optional).
 
 ### Argument
 
@@ -195,13 +274,13 @@ It expects an argument of type [GeometryArgument (type)](types.md#GeometryArgume
 new Geometry({ [key in SizesTypes]: Undefined | WidthHeight });
 ```
 
-Used by [UI (class)](#UI)
+Nested in [UI (class)](#UI)
 
 ---
 
 ## **Icons**
 
-Extends [XMLElement (class)](#XMLElement). Holds path to the extension's icons (optional).
+Extends [XMLElement (class)](#XMLElement). Contains path to the extension's icons (optional).
 
 ### Argument
 
@@ -213,6 +292,6 @@ It expects an argument of type [IconsArgument (type)](types.md#IconsArgument)
 new Icon({ [key in IconType]: RelativePath });
 ```
 
-Used by [UI (class)](#UI)
+Nested in [UI (class)](#UI)
 
 ---

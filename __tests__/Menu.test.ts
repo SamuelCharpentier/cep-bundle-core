@@ -1,7 +1,7 @@
 import { Menu, MenuArgument } from '@manifest/Menu';
 
 describe('Menu', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(Menu).toBeDefined();
 	});
 	let badArgument: any;

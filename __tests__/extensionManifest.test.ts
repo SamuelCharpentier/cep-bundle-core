@@ -3,7 +3,7 @@ import cepConfig from './.cep.config.js';
 
 const manifestConfig = { ...cepConfig.manifest, extensions: cepConfig.extensions };
 describe('Extension Manifest', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(ExtensionManifest).toBeDefined();
 	});
 	it('Generates xml', () => {

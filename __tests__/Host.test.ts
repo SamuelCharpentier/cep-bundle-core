@@ -2,7 +2,7 @@ import { HostList, HostListArgument } from '@manifest/Host';
 import type { HostEngine } from '@manifest/enumsAndValidators';
 
 describe('HostList', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(HostList).toBeDefined();
 	});
 	let incorrectParameters: any;

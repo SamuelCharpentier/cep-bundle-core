@@ -1,45 +1,38 @@
 import { XMLElement } from './XMLElement';
 import { Command, isValidCommand } from '../typesAndValidators';
-import { StringContent } from './StringContent';
 import { badArgumentError } from '../errorMessages';
 import { contextContainsOneOf } from './Context';
 
 export type CEFCommandLineArgument = Command | Command[];
 
-export const isCEFCommandLineArgument: (args: any) => boolean = (args): args is CEFCommandLineArgument => {
-	if (args && (typeof args === 'string' || (typeof args === 'object' && args instanceof Array))) {
-		if (!(args instanceof Array)) args = [args];
-		for (const arg of args) {
-			if (!isValidCommand(arg))
-				throw new Error(
-					badArgumentError(
-						'extension.dispatchInfo.resources.cefParams',
-						'a string or array of string of valid Command(type)',
-						arg,
-					),
-				);
-		}
-		return true;
+const isCEFCommandLineArgument: (commands: any) => boolean = (commands): commands is CEFCommandLineArgument => {
+	if (commands === undefined || !(commands instanceof Array))
+		throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Commands (type)', commands));
+
+	for (const command of commands) {
+		if (!isValidCommand(command))
+			throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Command (type)', command));
 	}
-	return false;
+	return true;
 };
 export class CEFCommandLine extends XMLElement {
-	constructor(commandParameters: CEFCommandLineArgument) {
-		let content = [];
-		if (isCEFCommandLineArgument(commandParameters)) {
-			if (typeof commandParameters === 'string') commandParameters = [commandParameters];
-			for (const command of commandParameters) {
+	constructor(commands: CEFCommandLineArgument) {
+		commands = typeof commands === 'string' ? [commands] : commands;
+		if (isCEFCommandLineArgument(commands)) {
+			let content = [];
+			if (typeof commands === 'string') commands = [commands];
+			for (const command of commands) {
 				content.push(new Parameter(command));
 			}
+			super({ name: 'CEFCommandLine', content });
 		}
-		super({ name: 'CEFCommandLine', content });
 	}
 }
-export class Parameter extends XMLElement {
+class Parameter extends XMLElement {
 	constructor(commandParameter: Command) {
 		super({
 			name: 'Parameter',
-			content: new StringContent({ value: commandParameter, context: contextContainsOneOf('CEFCommandLine') }),
+			content: { value: commandParameter, context: contextContainsOneOf('CEFCommandLine') },
 		});
 	}
 }

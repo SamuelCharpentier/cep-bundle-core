@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
-import { Resources, ResourcesArgument, isResourcesArgument } from './Resources';
-import { Lifecycle, LifecycleArgument, isLifecycleArgument } from './Lifecycle';
+import { Resources, ResourcesArgument } from './Resources';
+import { Lifecycle, LifecycleArgument } from './Lifecycle';
 import { UI, UIArgument, isUIArgument } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';

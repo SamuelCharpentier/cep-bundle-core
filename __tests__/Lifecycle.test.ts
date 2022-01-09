@@ -1,13 +1,13 @@
 import { Lifecycle, LifecycleArgument } from '@manifest/Lifecycle';
 
 describe('Lifecycle', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(Lifecycle).toBeDefined();
 	});
 	let badArgument: any;
 	it('Invalidated undefined argument', () => {
 		expect(() => {
-			new Lifecycle(validArgument);
+			new Lifecycle(badArgument);
 		}).toThrow();
 	});
 	it('Invalidates an argument other than an object', () => {

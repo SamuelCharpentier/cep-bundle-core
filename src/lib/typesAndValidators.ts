@@ -72,11 +72,9 @@ export type Command =
 	| `--${string}`
 	| `--${string}=${string}`;
 
-export function isValidCommand(commands: Command | Command[]): boolean {
-	if (!(commands instanceof Array)) commands = [commands];
-	for (const command of commands) {
-		if (!/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command)) return false;
-	}
+export function isValidCommand(command: any): command is Command {
+	if (typeof command !== 'string' || !/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command))
+		return false;
 	return true;
 }
 

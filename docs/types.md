@@ -142,7 +142,7 @@ type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
 [IconType (enum)](enums.md#IconType)
 
-[RelativePath (type)](types.md#RelativePath)
+[RelativePath (type)](#RelativePath)
 
 ```typescript
 type IconsArgument = { [key in IconType]?: RelativePath };
@@ -170,6 +170,56 @@ type LifecycleArgument = { autoVisible?: boolean; startOn?: EventType | EventTyp
 
 ```typescript
 type EventType = string;
+```
+
+---
+
+## **ResourcesArgument**
+
+[RelativePath (type)](#RelativePath)
+
+[CEFCommandLineArgument](#CEFCommandLineArgument)
+
+```typescript
+type ResourcesArgument = {
+	mainPath?: RelativePath;
+	scriptPath?: RelativePath;
+	cefParams?: CEFCommandLineArgument;
+};
+```
+
+---
+
+## **CEFCommandLineArgument**
+
+[Command (type)](#Command)
+
+```typescript
+type CEFCommandLineArgument = Command | Command[];
+```
+
+---
+
+## **Command**
+
+```typescript
+type Command =
+	| '--enable-media-stream'
+	| '--enable-speech-input'
+	| '--persist-session-cookies'
+	| '--disable-image-loading'
+	| '--disable-javascript-open-windows'
+	| '--disable-javascript-close-windows'
+	| '--disable-javascript-access-clipboard'
+	| '--enable-caret-browsing'
+	| '--proxy-auto-detect'
+	| '--user-agent'
+	| '--disable-application-cache'
+	| '--enable-nodejs'
+	| '--disable-pinch'
+	| '--mixed-conext'
+	| `--${string}`
+	| `--${string}=${string}`;
 ```
 
 ---

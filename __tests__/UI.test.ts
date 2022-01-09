@@ -1,7 +1,7 @@
 import { UI, UIArgument } from '@manifest/UI';
 
 describe('UI', () => {
-	it('should be defined', () => {
+	it('Is defined', () => {
 		expect(UI).toBeDefined();
 	});
 	let badArgument: any;

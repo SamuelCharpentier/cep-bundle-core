@@ -4,7 +4,7 @@ import { badArgumentError } from '../errorMessages';
 
 export type LifecycleArgument = { autoVisible?: boolean; startOn?: EventType | EventType[] };
 
-export const isLifecycleArgument: (arg: any) => boolean = (arg): arg is LifecycleArgument => {
+const isLifecycleArgument: (arg: any) => boolean = (arg): arg is LifecycleArgument => {
 	if (typeof arg === 'object' && (arg.autoVisible !== undefined || arg.startOn !== undefined)) return true;
 	throw new Error(badArgumentError('lifecycle', 'LifecycleArgument (type)', arg));
 };

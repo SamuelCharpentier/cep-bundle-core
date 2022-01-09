@@ -2,7 +2,7 @@ import { XMLElement } from './XMLElement';
 import { badArgumentError } from '../errorMessages';
 import { RelativePath, isRelativePath } from '../typesAndValidators';
 
-export const isScriptPathArgument: (value: any) => boolean = (value): value is RelativePath => {
+const isScriptPathArgument: (value: any) => boolean = (value): value is RelativePath => {
 	if (!isRelativePath(value))
 		throw new Error(
 			badArgumentError(
