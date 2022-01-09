@@ -15,7 +15,7 @@
         -   [Resources](#Resources)
 
             -   [MainPath](#MainPath)
-            -   [isScriptPathArgument](#isScriptPathArgument)
+            -   [ScriptPath](#ScriptPath)
             -   [CEFCommandLine](#CEFCommandLine)
 
         -   [Lifecycle](#Lifecycle)
