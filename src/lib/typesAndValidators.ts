@@ -68,7 +68,7 @@ export type Command =
 	| '--disable-application-cache'
 	| '--enable-nodejs'
 	| '--disable-pinch'
-	| '--mixed-conext'
+	| '--mixed-context'
 	| `--${string}`
 	| `--${string}=${string}`;
 

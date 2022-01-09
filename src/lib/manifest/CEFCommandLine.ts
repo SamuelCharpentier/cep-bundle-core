@@ -11,7 +11,7 @@ const isCEFCommandLineArgument: (commands: any) => boolean = (commands): command
 
 	for (const command of commands) {
 		if (!isValidCommand(command))
-			throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Command (type)', command));
+			throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Commands (type)', command));
 	}
 	return true;
 };
@@ -20,7 +20,6 @@ export class CEFCommandLine extends XMLElement {
 		commands = typeof commands === 'string' ? [commands] : commands;
 		if (isCEFCommandLineArgument(commands)) {
 			let content = [];
-			if (typeof commands === 'string') commands = [commands];
 			for (const command of commands) {
 				content.push(new Parameter(command));
 			}
