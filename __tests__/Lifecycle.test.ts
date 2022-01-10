@@ -5,7 +5,7 @@ describe('Lifecycle', () => {
 		expect(Lifecycle).toBeDefined();
 	});
 	let badArgument: any;
-	it('Invalidated undefined argument', () => {
+	it('Invalidates undefined argument', () => {
 		expect(() => {
 			new Lifecycle(badArgument);
 		}).toThrow();

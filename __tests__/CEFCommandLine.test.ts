@@ -1,18 +1,19 @@
 import { CEFCommandLine } from '@manifest/CEFCommandLine';
+import { Command } from '@src/lib/typesAndValidators';
 
 describe('CEFCommandLine', () => {
 	it('Is defined', () => {
 		expect(CEFCommandLine).toBeDefined();
 	});
 	let badArgument: any;
-	it('Invalidated undefined argument', () => {
+	it('Invalidates undefined argument', () => {
 		expect(() => {
 			new CEFCommandLine(badArgument);
 		}).toThrow(
 			'Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), undefined (undefined) received',
 		);
 	});
-	it('Invalidate invalid commands argument', () => {
+	it('Invalidate non-string argument', () => {
 		badArgument = 42;
 		expect(() => {
 			new CEFCommandLine(badArgument);
@@ -52,14 +53,15 @@ describe('CEFCommandLine', () => {
 			"Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), 'test' (string) received",
 		);
 	});
+	let validArgument: Command | Command[];
 	it('validates a valid command string or an array of valid commands', () => {
-		badArgument = '--enable-media-stream';
+		validArgument = '--enable-media-stream';
 		expect(() => {
-			new CEFCommandLine(badArgument);
+			new CEFCommandLine(validArgument);
 		}).not.toThrow();
-		badArgument = ['--enable-media-stream', '--disable-pinch'];
+		validArgument = ['--enable-media-stream', '--disable-pinch'];
 		expect(() => {
-			new CEFCommandLine(badArgument);
+			new CEFCommandLine(validArgument);
 		}).not.toThrow();
 	});
 	it('Outputs XML in any context', () => {

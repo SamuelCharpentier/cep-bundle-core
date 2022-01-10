@@ -6,7 +6,7 @@ describe('MainPath', () => {
 		expect(MainPath).toBeDefined();
 	});
 	let badArgument: any;
-	it('Invalidated undefined argument', () => {
+	it('Invalidates undefined argument', () => {
 		expect(() => {
 			new MainPath(badArgument);
 		}).toThrow(
