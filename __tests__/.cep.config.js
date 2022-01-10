@@ -21,23 +21,30 @@ module.exports = {
 			{ host: 'Illustrator', version: 'ALL', debugPort: '999' },
 			{ host: 'InDesign', version: 12, debugPort: '998' },
 		],
-		dispatchInfo: {
-			resources: {
-				mainPath: './dst/index.html',
-				scriptPath: './scripts/main.jsx',
-				cefParams: ['--parameter1=value1', '--enable-nodejs'],
-			},
-			lifecycle: {
-				startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
-			},
-			ui: {
-				type: 'Panel',
-				menu: { menuName: 'My awesome extension' },
-				geometry: {
-					minSize: { width: 200, height: 400 },
+		dispatchInfo: [
+			{
+				extensionData: ['This extension is awesome'],
+				resources: {
+					mainPath: './dst/index.html',
+					scriptPath: './scripts/main.jsx',
+					cefParams: ['--parameter1=value1', '--enable-nodejs'],
 				},
-				icons: { normal: './icons/normal.jpg' },
+				lifecycle: {
+					startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+				},
+				ui: {
+					type: 'Panel',
+					menu: { menuName: 'My awesome extension' },
+					geometry: {
+						minSize: { width: 200, height: 400 },
+					},
+					icons: { normal: './icons/normal.jpg' },
+				},
 			},
-		},
+			{
+				extensionData: ['This DispatchInfo is for InDesign'],
+				host: 'InDesign',
+			},
+		],
 	},
 };
