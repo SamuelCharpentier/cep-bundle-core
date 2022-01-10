@@ -10,25 +10,27 @@
 
         -   [Host](#Host)
 
-    -   [DispatchInfo](#DispatchInfo)
+    -   [DispatchInfoList](#DispatchInfoList)
 
-        -   [Resources](#Resources)
+        -   [DispatchInfo](#DispatchInfo)
 
-            -   [MainPath](#MainPath)
-            -   [ScriptPath](#ScriptPath)
-            -   [CEFCommandLine](#CEFCommandLine)
+            -   [Resources](#Resources)
 
-        -   [Lifecycle](#Lifecycle)
+                -   [MainPath](#MainPath)
+                -   [ScriptPath](#ScriptPath)
+                -   [CEFCommandLine](#CEFCommandLine)
 
-            -   [AutoVisible](#AutoVisible)
-            -   [StartOn](#StartOn)
+            -   [Lifecycle](#Lifecycle)
 
-        -   [UI](#UI)
+                -   [AutoVisible](#AutoVisible)
+                -   [StartOn](#StartOn)
 
-            -   [Type](#Type)
-            -   [Menu](#Menu)
-            -   [Geometry](#Geometry)
-            -   [Icons](#Icons)
+            -   [UI](#UI)
+
+                -   [Type](#Type)
+                -   [Menu](#Menu)
+                -   [Geometry](#Geometry)
+                -   [Icons](#Icons)
 
 ---
 
@@ -52,7 +54,7 @@ Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment) and [Extension (
 
 ## **Host**
 
-Extends [XMLElement (class)](#XMLElement).Contains the information of each hosts the extension will be available in.
+Extends [XMLElement (class)](#XMLElement). Contains the information of each hosts the extension will be available in.
 
 ### Argument
 
@@ -65,6 +67,30 @@ new Host({ host, version, debugPort }: HostArgument)
 ```
 
 Nested in [HostList (class)](#HostList)
+
+---
+
+## **DispatchInfo**
+
+Extends [XMLElement (class)](#XMLElement). A DispatchInfo contains all parameter which are needed to run an extension. A DispatchInfo can have an optional attribute "Host" to define specific attributes per "Host". If an DispatchInfo has no "Host" it will act as a default for all values which are not set in a specific Host-DispatchInfo. it contains [Resources](#Resources), [Lifecycle](#Lifecycle), [UI](#UI) and [ExtensionData](#ExtensionData).
+
+### Argument
+
+It expects an argument of type [DispatchInfoArgument (type)](types.md#DispatchInfoArgument)
+
+### Usage
+
+```typescript
+new DispatchInfo({
+	resources?: ResourcesArgument;
+	lifecycle?: LifecycleArgument;
+	ui?: UIArgument;
+	extensionData?: string | string[];
+	host?: HostEngine;
+}:DispatchInfoArgument)
+```
+
+Nested in [Extension (class)](#Extension)
 
 ---
 
@@ -290,6 +316,24 @@ It expects an argument of type [IconsArgument (type)](types.md#IconsArgument)
 
 ```typescript
 new Icon({ [key in IconType]: RelativePath });
+```
+
+Nested in [UI (class)](#UI)
+
+---
+
+## **ExtensionData**
+
+Extends [XMLElement (class)](#XMLElement). Contains arbitrary information about this extension. (optional).
+
+### Argument
+
+It expects an argument of type String (type)
+
+### Usage
+
+```typescript
+new ExtensionData(string);
 ```
 
 Nested in [UI (class)](#UI)
