@@ -12,7 +12,7 @@ export interface UIArgument {
 	icons?: IconsArgument;
 }
 
-export const isUIArgument: (arg: any) => boolean = (argument): argument is UIArgument => {
+const isUIArgument: (arg: any) => boolean = (argument): argument is UIArgument => {
 	if (
 		typeof argument === 'object' &&
 		(argument.type !== undefined ||
