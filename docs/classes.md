@@ -86,7 +86,7 @@ new DispatchInfo({
 	lifecycle?: LifecycleArgument;
 	ui?: UIArgument;
 	extensionData?: string | string[];
-	host?: HostEngine;
+	host?: `${HostEngine}` | keyof typeof HostEngine;
 }:DispatchInfoArgument)
 ```
 

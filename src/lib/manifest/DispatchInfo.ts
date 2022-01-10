@@ -1,24 +1,17 @@
-import { XMLElement } from './XMLElement';
-import { Extension, ExtensionArgument, isExtensionArgument } from './Extension';
+import { AttributeArgument, XMLElement } from './XMLElement';
+import { Extension, ExtensionArgument } from './Extension';
 import { Resources, ResourcesArgument } from './Resources';
 import { Lifecycle, LifecycleArgument } from './Lifecycle';
-import { UI, UIArgument, isUIArgument } from './UI';
+import { UI, UIArgument } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';
 import { badArgumentError, printVariableInError } from '../errorMessages';
+import { HostEngine, isHostEngine, isHostEngineValue, isHostEngineKey } from './enumsAndValidators';
 export class DispatchInfoList extends XMLElement {
 	constructor(extensions: ExtensionArgument[]) {
-		if (!(extensions instanceof Array)) extensions = [extensions];
+		extensions = !(extensions instanceof Array) ? [extensions] : extensions;
 		let content: Extension[] = [];
 		for (const extension of extensions) {
-			if (!isExtensionArgument(extension))
-				throw new Error(
-					badArgumentError(
-						"DispatchInfoList's extension argument",
-						'array of objects of type ExtensionArgument(type)',
-						extension,
-					),
-				);
 			content.push(new Extension(extension));
 		}
 		super({ name: 'DispatchInfoList', content });
@@ -30,46 +23,48 @@ export type DispatchInfoArgument = {
 	lifecycle?: LifecycleArgument;
 	ui?: UIArgument;
 	extensionData?: string | string[];
+	host?: `${HostEngine}` | keyof typeof HostEngine;
 };
 
-export const isDispatchInfoArgument: (argument: any) => boolean = (argument): argument is DispatchInfoArgument => {
+const isDispatchInfoArgument: (arg: any) => boolean = (arg): arg is DispatchInfoArgument => {
 	if (
-		argument &&
-		typeof argument === 'object' &&
-		(argument.resources || argument.lifecycle || argument.ui || argument.extensionData)
-	) {
-		if (argument.resources) isResourcesArgument(argument.resources);
-		if (argument.lifecycle) isLifecycleArgument(argument.lifecycle);
-		if (argument.ui) isUIArgument(argument.ui);
-		if (argument.extensionData) {
-			if (typeof argument.extensionData === 'string') argument.extensionData = [argument.extensionData];
-			for (const data of argument.extensionData) {
-				if (typeof data !== 'string')
-					throw new Error(
-						`extensions.dispatchInfo.extensionData should contain a string or an array of string, ${printVariableInError(
-							argument.extensionData,
-						)} received`,
-					);
-			}
-		}
-		return true;
-	}
-	throw new Error('extensions.dispatchInfo could not be validated, ' + printVariableInError(argument));
-
-	return false;
+		arg === undefined ||
+		typeof arg !== 'object' ||
+		(arg.resources === undefined &&
+			arg.lifecycle === undefined &&
+			arg.ui === undefined &&
+			arg.extensionData === undefined)
+	)
+		throw new Error(badArgumentError('dispatchInfo', 'a DispatchInfoArgument (type)', arg));
+	if (arg.host !== undefined && !isHostEngine(arg.host))
+		throw new Error(badArgumentError('dispatchInfo.host', 'a HostEngine(ENUM) key or value', arg.host));
+	return true;
 };
 export class DispatchInfo extends XMLElement {
-	constructor({ resources, lifecycle, ui, extensionData }: DispatchInfoArgument) {
-		let content: XMLElement[] = [];
-		if (resources !== undefined && isResourcesArgument(resources)) content.push(new Resources(resources));
-		if (lifecycle !== undefined && isLifecycleArgument(lifecycle)) content.push(new Lifecycle(lifecycle));
-		if (ui !== undefined && isUIArgument(ui)) content.push(new UI(ui));
-		if (extensionData !== undefined) {
-			if (!(extensionData instanceof Array)) extensionData = [extensionData];
-			for (const data of extensionData) {
-				if (typeof data === 'string') content.push(new ExtensionData(data));
+	constructor(arg: DispatchInfoArgument) {
+		if (isDispatchInfoArgument(arg)) {
+			let { resources, lifecycle, ui, extensionData, host } = arg;
+			let content: XMLElement[] = [];
+			if (resources !== undefined) content.push(new Resources(resources));
+			if (lifecycle !== undefined) content.push(new Lifecycle(lifecycle));
+			if (ui !== undefined) content.push(new UI(ui));
+			if (extensionData !== undefined) {
+				extensionData = !(extensionData instanceof Array) ? [extensionData] : extensionData;
+				for (const data of extensionData) {
+					content.push(new ExtensionData(data));
+				}
 			}
+			let attributes: AttributeArgument[] | undefined;
+			if (host !== undefined) {
+				if (isHostEngineValue(host)) attributes = [{ name: 'Host', value: host }];
+				else if (isHostEngineKey(host)) attributes = [{ name: 'Host', value: HostEngine[host] }];
+			}
+			super({
+				name: 'DispatchInfo',
+				context: contextContainsAllOf('DispatchInfoList'),
+				content,
+				attributes,
+			});
 		}
-		super({ name: 'DispatchInfo', context: contextContainsAllOf('DispatchInfoList'), content });
 	}
 }
