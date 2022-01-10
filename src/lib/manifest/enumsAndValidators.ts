@@ -28,9 +28,7 @@ export enum HostEngine {
 
 export const isHostEngineKey = isEnumKey(HostEngine);
 export const isHostEngineValue = isEnumToken(HostEngine);
-export const isHostEngine = isEnumTokenOrKey(HostEngine); /* <(val: any) => val is HostEngine>(
-	((val) => isEnumKey(HostEngine)(val) || isEnumToken(HostEngine)(val))
-); */
+export const isHostEngine = isEnumTokenOrKey(HostEngine);
 
 export enum AdobeLocaleCodes {
 	'All' = 'All',
