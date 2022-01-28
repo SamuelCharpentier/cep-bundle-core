@@ -7,10 +7,11 @@ import { badArgumentError, printVariableInError } from '../errorMessages';
 type All = 'All' | 'ALL' | 'all';
 export type HostListArgument = HostArgument | HostArgument[] | All;
 
-const hostListIsAll = (hostList: any): hostList is All =>
-	typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
+function hostListIsAll(hostList: any): hostList is All {
+	return typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
+}
 
-export function isValidHostListArgument(hostList: any): hostList is HostListArgument {
+function isValidHostListArgument(hostList: any): hostList is HostListArgument {
 	if ((hostList !== undefined && typeof hostList === 'object') || hostListIsAll(hostList)) {
 		if (hostListIsAll(hostList)) return true;
 		if (!(hostList instanceof Array)) hostList = [hostList];
@@ -89,13 +90,7 @@ export class HostList extends XMLElement {
 	constructor(hostList: HostListArgument) {
 		isValidHostListArgument(hostList);
 		let content: Host[] = [];
-		if (hostListIsAll(hostList)) {
-			hostList = [];
-			for (const host in HostEngine) {
-				if (isHostEngine(host)) hostList.push({ host, version: 'All' });
-			}
-		}
-		if (!(hostList instanceof Array)) hostList = [hostList];
+		hostList = hostListIsAll(hostList) ? getAllHosts() : !(hostList instanceof Array) ? [hostList] : hostList;
 
 		for (const host of hostList) {
 			content.push(new Host(host));
@@ -109,7 +104,15 @@ export class HostList extends XMLElement {
 	}
 }
 
-export interface HostArgument {
+function getAllHosts() {
+	let allHosts: HostArgument[] = [];
+	for (const host in HostEngine) {
+		if (isHostEngine(host)) allHosts.push({ host, version: 'All' });
+	}
+	return allHosts;
+}
+
+interface HostArgument {
 	host: `${HostEngine}` | keyof typeof HostEngine;
 	version: All | RangedVersion;
 	debugPort?: number | `${number}`;
