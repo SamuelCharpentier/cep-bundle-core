@@ -34,6 +34,24 @@
 
 ---
 
+## **Extension**
+
+Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host).
+
+### Argument
+
+It expects an argument of type [HostListArgument (type)](types.md#HostListArgument)
+
+### Usage
+
+```typescript
+new HostList(hostList: HostListArgument)
+```
+
+Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment) and [Extension (class)](#Extension)
+
+---
+
 ## **HostList**
 
 Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host).

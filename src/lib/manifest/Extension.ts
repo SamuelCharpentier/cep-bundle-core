@@ -1,8 +1,8 @@
-import { XMLElement } from './XMLElement';
+import { XMLElement, AttributeArgument } from './XMLElement';
 import { HostList, HostArgument, isValidHostListArgument } from './Host';
-import { DispatchInfo, DispatchInfoArgument, isDispatchInfoArgument } from './DispatchInfo';
+import { DispatchInfo, DispatchInfoArgument } from './DispatchInfo';
 import { DependencyList, DependencyArgument, isDependencyArgument } from './Dependency';
-import { AttributeArgument, isVersionNumber, isValidId } from '../typesAndValidators';
+import { isVersionNumber, isValidId } from '../typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
 import { badArgumentError, printVariableInError } from '../errorMessages';
 
@@ -46,7 +46,7 @@ export const isExtensionArgument: (arg: any) => boolean = (argument): argument i
 	return false;
 };
 export class Extension extends XMLElement {
-	constructor({ id, version, hostList, dispatchInfo, dependencyList }: any) {
+	constructor({ id, version, hostList, dispatchInfos, dependencyList }: any) {
 		let attributes: AttributeArgument[] = [];
 		if (!id || typeof id !== 'string' || id.length <= 0)
 			throw new Error(badArgumentError('Extension Id', 'string', id));
@@ -72,16 +72,12 @@ export class Extension extends XMLElement {
 			content.push(new HostList(hostList));
 		}
 
-		if (dispatchInfo)
-			if (isDispatchInfoArgument(dispatchInfo)) content.push(new DispatchInfo(dispatchInfo));
-			else
-				throw new Error(
-					badArgumentError(
-						"Extension's dispatch info (optional)",
-						'object of type DispatchInfoArgument(type)',
-						dispatchInfo,
-					),
-				);
+		if (dispatchInfos !== undefined) {
+			dispatchInfos = !(dispatchInfos instanceof Array) ? [dispatchInfos] : dispatchInfos;
+			for (const dispatchInfo of dispatchInfos) {
+				content.push(new DispatchInfo(dispatchInfo));
+			}
+		}
 
 		if (dependencyList)
 			if (!isDependencyArgument(dependencyList))
