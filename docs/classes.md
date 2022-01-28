@@ -36,11 +36,11 @@
 
 ## **Extension**
 
-Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host).
+Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfo](#DispatchInfo) and [DependencyList](#DependencyList).
 
 ### Argument
 
-It expects an argument of type [HostListArgument (type)](types.md#HostListArgument)
+It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgument)
 
 ### Usage
 

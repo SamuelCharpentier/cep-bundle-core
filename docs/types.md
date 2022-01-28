@@ -224,6 +224,58 @@ type Command =
 
 ---
 
+## **ExtensionArgument**
+
+[HostListArgument](#HostListArgument)
+
+[DispatchInfoArgument](#DispatchInfoArgument)
+
+[DependencyArgument](#DependencyArgument)
+
+```typescript
+type ExtensionArgument = {
+	id: string;
+	version?: string;
+	hostList?: HostListArgument | HostListArgument[];
+	dispatchInfo?: DispatchInfoArgument;
+	dependencyList?: DependencyArgument | DependencyArgument[];
+};
+```
+
+---
+
+## **DispatchInfoArgument**
+
+[ResourcesArgument](#ResourcesArgument)
+
+[LifecycleArgument](#LifecycleArgument)
+
+[UIArgument](interfaces.md#UIArgument)
+
+[HostEngine](enums.md#HostEngine)
+
+```typescript
+type DispatchInfoArgument = {
+	resources?: ResourcesArgument;
+	lifecycle?: LifecycleArgument;
+	ui?: UIArgument;
+	extensionData?: string | string[];
+	host?: `${HostEngine}` | keyof typeof HostEngine;
+};
+```
+
+---
+
+## **DependencyArgument**
+
+[VersionNumber](#VersionNumber)
+
+```typescript
+type DependencyArgument = { id: string; version?: VersionNumber };
+```
+
+---
+
 <!--
 
 ## ****
