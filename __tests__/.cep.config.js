@@ -2,7 +2,7 @@ module.exports = {
 	manifest: {
 		extensionBundle: {
 			id: 'my.bundle',
-			version: '0.0.0.1',
+			version: '7.0',
 			name: 'Awsome Extensions Bundle',
 			cepVersion: '8.0',
 		},
