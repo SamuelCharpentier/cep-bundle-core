@@ -4,11 +4,16 @@ import { badArgumentError } from '../errorMessages';
 
 export type ExtensionListArgument = ExtensionArgument | ExtensionArgument[];
 
-export function isExtensionListArgument(extensions: any): extensions is ExtensionListArgument {
-	if (!extensions)
+function isExtensionListArgument(arg: any): arg is ExtensionListArgument {
+	if (!arg || typeof arg !== 'object')
 		throw new Error(
-			badArgumentError('extensions', 'an  ExtensionArgument (type) or an array of ExtensionArgument', extensions),
+			badArgumentError('extensions', 'an ExtensionArgument (type) or an array of ExtensionArgument', arg),
 		);
+	arg = !Array.isArray(arg) ? [arg] : arg;
+	for (let argObject of arg) {
+		if (typeof argObject !== 'object' || Object.keys(argObject).length < 1)
+			throw new Error(badArgumentError('every extensions', 'an ExtensionArgument (type)', argObject));
+	}
 	return true;
 }
 
