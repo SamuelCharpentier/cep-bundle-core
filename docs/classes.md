@@ -5,6 +5,7 @@
 [XMLElement](#XMLElement)
 
 -   [ExtensionList](#ExtensionList)
+-   [DispatchInfoList](#DispatchInfoList)
 
     -   [Extension](#Extension)
 
@@ -12,29 +13,27 @@
 
             -   [Host](#Host)
 
-        -   [DispatchInfoList](#DispatchInfoList)
+        -   [DispatchInfo](#DispatchInfo)
 
-            -   [DispatchInfo](#DispatchInfo)
+            -   [Resources](#Resources)
 
-                -   [Resources](#Resources)
+                -   [MainPath](#MainPath)
+                -   [ScriptPath](#ScriptPath)
+                -   [CEFCommandLine](#CEFCommandLine)
 
-                    -   [MainPath](#MainPath)
-                    -   [ScriptPath](#ScriptPath)
-                    -   [CEFCommandLine](#CEFCommandLine)
+            -   [Lifecycle](#Lifecycle)
 
-                -   [Lifecycle](#Lifecycle)
+                -   [AutoVisible](#AutoVisible)
+                -   [StartOn](#StartOn)
 
-                    -   [AutoVisible](#AutoVisible)
-                    -   [StartOn](#StartOn)
+            -   [UI](#UI)
 
-                -   [UI](#UI)
+                -   [Type](#Type)
+                -   [Menu](#Menu)
+                -   [Geometry](#Geometry)
+                -   [Icons](#Icons)
 
-                    -   [Type](#Type)
-                    -   [Menu](#Menu)
-                    -   [Geometry](#Geometry)
-                    -   [Icons](#Icons)
-
-                -   [ExtensionData](#ExtensionData)
+            -   [ExtensionData](#ExtensionData)
 
         -   [DependencyList](#DependencyList)
 
@@ -42,9 +41,27 @@
 
 ---
 
+## **ExtensionList**
+
+Extends [XMLElement (class)](#XMLElement). Contains a list of extensions defined in this ExtensionManifest. It contains a list of [Extension](#Extension).
+
+### Argument
+
+It expects an argument of type [ExtensionListArgument (type)](types.md#EExtensionListArgument)
+
+### Usage
+
+```typescript
+new ExtensionList(extensionListArgument: ExtensionListArgument)
+```
+
+Nested in [ExtensionList (class)](#ExtensionList)
+
+---
+
 ## **Extension**
 
-Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfoList](#DispatchInfoList) and [DependencyList](#DependencyList).
+Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfo](#DispatchInfo) and [DependencyList](#DependencyList).
 
 ### Argument
 
@@ -53,7 +70,7 @@ It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgu
 ### Usage
 
 ```typescript
-new HostList(hostList: HostListArgument)
+new Extension(extensionArgument: ExtensionArgument)
 ```
 
 Nested in [ExtensionList (class)](#ExtensionList)
