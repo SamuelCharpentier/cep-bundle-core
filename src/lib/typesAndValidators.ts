@@ -32,7 +32,7 @@ export type VersionNumber =
 	| `${number}.${number}.${number}.${string}`;
 
 export function isVersionNumber(value: any): value is VersionNumber {
-	if (typeof value === 'string' && /^(\d{1,9}\.){0,2}\d{1,9}(\.\w+)?$/.test(value)) return true;
+	if (typeof value === 'string' && /^(\d{1,9}\.){0,2}\d{1,9}(\.[\w_-]+)?$/.test(value)) return true;
 	return false;
 }
 
