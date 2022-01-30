@@ -1,23 +1,12 @@
 import { XMLElement } from './XMLElement';
 import { AttributeArgument } from './Attribute';
-import { Extension, ExtensionArgument } from './Extension';
 import { Resources, ResourcesArgument } from './Resources';
 import { Lifecycle, LifecycleArgument } from './Lifecycle';
 import { UI, UIArgument } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';
-import { badArgumentError, printVariableInError } from '../errorMessages';
+import { badArgumentError } from '../errorMessages';
 import { HostEngine, isHostEngine, isHostEngineValue, isHostEngineKey } from './enumsAndValidators';
-export class DispatchInfoList extends XMLElement {
-	constructor(extensions: ExtensionArgument[]) {
-		extensions = !(extensions instanceof Array) ? [extensions] : extensions;
-		let content: Extension[] = [];
-		for (const extension of extensions) {
-			content.push(new Extension(extension));
-		}
-		super({ name: 'DispatchInfoList', content });
-	}
-}
 
 export type DispatchInfoArgument = {
 	resources?: ResourcesArgument;

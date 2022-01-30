@@ -47,7 +47,27 @@ Extends [XMLElement (class)](#XMLElement). Contains a list of extensions defined
 
 ### Argument
 
-It expects an argument of type [ExtensionListArgument (type)](types.md#EExtensionListArgument)
+It expects an argument of type [ExtensionListArgument (type)](types.md#ExtensionListArgument)
+
+### Usage
+
+```typescript
+new ExtensionList(extensionListArgument: ExtensionListArgument)
+```
+
+Nested in [ExtensionList (class)](#ExtensionList)
+
+---
+
+---
+
+## **DispatchInfoList**
+
+Extends [XMLElement (class)](#XMLElement). It contains a list for every [Extension](#Extension)'s attributes.
+
+### Argument
+
+It expects an argument of type [DispatchInfoListArgument (type)](types.md#DispatchInfoListArgument)
 
 ### Usage
 
@@ -73,7 +93,7 @@ It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgu
 new Extension(extensionArgument: ExtensionArgument)
 ```
 
-Nested in [ExtensionList (class)](#ExtensionList)
+Nested in [ExtensionList (class)](#ExtensionList) and in [DispatchInfoList (class)](#DispatchInfoList)
 
 ---
 

@@ -11,7 +11,7 @@ import {
 	ExecutionEnvironmentArgument,
 	isExecutionEnvironmentArgument,
 } from './ExecutionEnvironment';
-import { DispatchInfoList } from './DispatchInfo';
+import { DispatchInfoList } from './DispatchInfoList';
 import { badArgumentError } from '../errorMessages';
 import { ExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';

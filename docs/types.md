@@ -290,6 +290,14 @@ type ExtensionListArgument = ExtensionArgument | ExtensionArgument[];
 
 ---
 
+## **DispatchInfoListArgument**
+
+```typescript
+type DispatchInfoListArgument = ExtensionArgument | ExtensionArgument[];
+```
+
+---
+
 <!--
 
 ## ****
