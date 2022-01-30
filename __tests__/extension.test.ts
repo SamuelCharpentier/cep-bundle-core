@@ -9,51 +9,53 @@ describe('Extension', () => {
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension must be provided as an ExtensionArgument (type), undefined (undefined) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), undefined (undefined) received',
 		);
 	});
 	it('Invalidates non-ExtensionArgument argument', () => {
 		badArgument = 42;
 		expect(() => {
 			new Extension(badArgument);
-		}).toThrow('Validation Error: extension must be provided as an ExtensionArgument (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), 42 (number) received',
+		);
 		badArgument = {};
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension must be provided as an ExtensionArgument (type), \n{}\n (object) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n{}\n (object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension must be provided as an ExtensionArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n["hello"]\n (array) received',
 		);
 		badArgument = true;
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension must be provided as an ExtensionArgument (type), true (boolean) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), true (boolean) received',
 		);
 		badArgument = () => {};
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension must be provided as an ExtensionArgument (type), [Function] (function) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), [Function] (function) received',
 		);
 	});
 	it('Invalidates a bad id type', () => {
 		badArgument = { id: 42 };
 		expect(() => {
 			new Extension(badArgument);
-		}).toThrow('Validation Error: extension.id must be provided as a string, 42 (number) received');
+		}).toThrow('Validation Error: extensions[].id must be provided as a string, 42 (number) received');
 	});
 	it('Invalidates a bad version type', () => {
 		badArgument = { id: 'hello', version: 42 };
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: extension.version must be provided as a VersionNumber (type), 42 (number) received',
+			'Validation Error: extensions[].version must be provided as a VersionNumber (type), 42 (number) received',
 		);
 	});
 	let validArgument: ExtensionArgument;
@@ -104,7 +106,7 @@ describe('Extension', () => {
 			],
 			dispatchInfo: [
 				{
-					extensionData: ['This extension is awesome'],
+					extensionData: ['This every extensions is awesome'],
 					resources: {
 						mainPath: './dst/index.html',
 						scriptPath: './scripts/main.jsx',
@@ -163,7 +165,7 @@ describe('Extension', () => {
 				<Icon Type="Normal">./icons/normal.jpg</Icon>
 			</Icons>
 		</UI>
-		<ExtensionData>This extension is awesome</ExtensionData>
+		<ExtensionData>This every extensions is awesome</ExtensionData>
 	</DispatchInfo>
 	<DispatchInfo Host="IDSN">
 		<ExtensionData>This DispatchInfo is for InDesign</ExtensionData>

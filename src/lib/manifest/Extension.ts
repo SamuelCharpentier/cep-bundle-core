@@ -17,13 +17,11 @@ export type ExtensionArgument = {
 
 const isExtensionArgument: (arg: any) => boolean = (arg): arg is ExtensionArgument => {
 	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length < 1)
-		throw new Error(badArgumentError('extension', 'an ExtensionArgument (type)', arg));
-	if (arg.id === undefined) throw new Error(badArgumentError('extension.id', 'a string', arg.id));
-	if (!isValidId(arg.id)) {
-		throw new Error(badArgumentError('extension.id', 'a string', arg.id));
-	}
+		throw new Error(badArgumentError('every extensions', 'an ExtensionArgument (type)', arg));
+	if (arg.id === undefined || !isValidId(arg.id))
+		throw new Error(badArgumentError('extensions[].id', 'a string', arg.id));
 	if (arg.version && !isVersionNumber(arg.version))
-		throw new Error(badArgumentError('extension.version', 'a VersionNumber (type)', arg.version));
+		throw new Error(badArgumentError('extensions[].version', 'a VersionNumber (type)', arg.version));
 	return true;
 };
 export class Extension extends XMLElement {
