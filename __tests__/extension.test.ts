@@ -129,8 +129,8 @@ describe('Extension', () => {
 			],
 		};
 		const extension2 = new Extension(validArgument);
-		expect(extension2.xml(['ExtensionList', 'DispatchInfoList'])).toBe(
-			`<Extension Id="my.extension" Version="0.0.1">
+		expect(extension2.xml(['DispatchInfoList'])).toBe(
+			`<Extension Id="my.extension">
 	<HostList>
 		<Host Name="ILST"/>
 		<Host Name="IDSN"/>
