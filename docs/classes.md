@@ -4,7 +4,7 @@
 
 [XMLElement](#XMLElement)
 
--   [EntensionList](#EntensionList)
+-   [ExtensionList](#ExtensionList)
 
     -   [Extension](#Extension)
 
@@ -34,6 +34,8 @@
                     -   [Geometry](#Geometry)
                     -   [Icons](#Icons)
 
+                -   [ExtensionData](#ExtensionData)
+
         -   [DependencyList](#DependencyList)
 
             -   [Dependency](#Dependency)
@@ -42,7 +44,7 @@
 
 ## **Extension**
 
-Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfo](#DispatchInfo) and [DependencyList](#DependencyList).
+Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfoList](#DispatchInfoList) and [DependencyList](#DependencyList).
 
 ### Argument
 
@@ -378,7 +380,7 @@ It expects an argument of type [DependencyArgument](#DependencyArgument) or an a
 new DependencyList(DependencyArgument|DependencyArgument[]);
 ```
 
-Nested in [extension (class)](#extension)
+Nested in [DispatchInfo (class)](#DispatchInfo)
 
 ---
 
