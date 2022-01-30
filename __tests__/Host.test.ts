@@ -18,7 +18,7 @@ describe('HostList', () => {
 		expect(() => {
 			new HostList(incorrectParameters);
 		}).toThrow(
-			`Validation Error: hostArgument.host must be provided as as a HostEngine(ENUM) key or value or the string 'ALL', undefined (undefined) received`,
+			`Validation Error: hostList[].host must be provided as a HostEngine(ENUM) key or value or the string 'ALL', undefined (undefined) received`,
 		);
 	});
 	it('Invalidates invalid host value', () => {
@@ -26,7 +26,7 @@ describe('HostList', () => {
 		expect(() => {
 			new HostList(incorrectParameters);
 		}).toThrow(
-			`Validation Error: hostArgument.host must be provided as as a HostEngine(ENUM) key or value or the string 'ALL', 'my string' (string) received`,
+			`Validation Error: hostList[].host must be provided as a HostEngine(ENUM) key or value or the string 'ALL', 'my string' (string) received`,
 		);
 	});
 	it('Invalidates missing version', () => {
@@ -34,7 +34,7 @@ describe('HostList', () => {
 		expect(() => {
 			new HostList(incorrectParameters);
 		}).toThrow(
-			`Validation Error: hostArgument.version must be provided as as a RangedVersion or the string 'ALL', undefined (undefined) received`,
+			`Validation Error: hostList[].version must be provided as a RangedVersion or the string 'ALL', undefined (undefined) received`,
 		);
 	});
 	it('Invalidates invalid version number', () => {
@@ -42,7 +42,7 @@ describe('HostList', () => {
 		expect(() => {
 			new HostList(incorrectParameters);
 		}).toThrow(
-			`Validation Error: hostArgument.version must be provided as as a RangedVersion or the string 'ALL', 'Hello' (string) received`,
+			`Validation Error: hostList[].version must be provided as a RangedVersion or the string 'ALL', 'Hello' (string) received`,
 		);
 	});
 	it('Invalidates invalid debug port', () => {
@@ -51,7 +51,7 @@ describe('HostList', () => {
 		expect(() => {
 			new HostList(incorrectParameters);
 		}).toThrow(
-			`Validation Error: hostArgument.debugPort must be provided as a number or a string containing a number, 'Hello' (string) received`,
+			`Validation Error: hostList[].debugPort must be provided as a number or a string containing a number, 'Hello' (string) received`,
 		);
 	});
 

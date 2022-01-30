@@ -1,4 +1,5 @@
-import { XMLElement, AttributeArgument } from './XMLElement';
+import { XMLElement } from './XMLElement';
+import { AttributeArgument } from './Attribute';
 import { RangedVersion, isRangedVersion } from '../typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import { HostEngine, isHostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
@@ -121,16 +122,14 @@ interface HostArgument {
 function isHostArgument(host: any): host is HostArgument {
 	if (!host.host || !isHostEngine(host.host))
 		throw new Error(
-			badArgumentError(`hostArgument.host`, "as a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
+			badArgumentError(`hostList[].host`, "a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
 		);
 
 	if (
 		!host.version ||
 		(!isRangedVersion(host.version) && !(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
 	)
-		throw new Error(
-			badArgumentError(`hostArgument.version`, "as a RangedVersion or the string 'ALL'", host.version),
-		);
+		throw new Error(badArgumentError(`hostList[].version`, "a RangedVersion or the string 'ALL'", host.version));
 
 	if (host.debugPort)
 		if (
@@ -141,7 +140,7 @@ function isHostArgument(host: any): host is HostArgument {
 			)
 		) {
 			throw new Error(
-				badArgumentError('hostArgument.debugPort', 'a number or a string containing a number', host.debugPort),
+				badArgumentError('hostList[].debugPort', 'a number or a string containing a number', host.debugPort),
 			);
 		}
 	return true;
