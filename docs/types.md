@@ -30,12 +30,16 @@ type RangedVersion = number | VersionNumber | `${'[' | '('}${VersionNumber},${Ve
 
 ## **VersionNumber**
 
+A version consists of major.minor.micro.special. major, minor, micro must be numbers (version parts can have up to 9 digits) and special can be any string (regex matching [\W_-]+). At least the major has to be specified, all other elements are optional. If minor or micro versions are not specified, they are assumed to be zero. When it comes to comparing versions the special discriminator will be compared based on UTF-8 encoding.
+
+Each `${number}` is composed with a maximum of 9 digits, so the longest version is `999999999.999999999.999999999.aStringOfAnyLength`
+
 ```typescript
 type VersionNumber =
 	| `${number}`
 	| `${number}.${number}`
 	| `${number}.${number}.${number}`
-	| `${number}.${number}.${number}.${number}`;
+	| `${number}.${number}.${number}.${string}`;
 ```
 
 ---
@@ -272,6 +276,16 @@ type DispatchInfoArgument = {
 
 ```typescript
 type DependencyArgument = { id: string; version?: VersionNumber };
+```
+
+---
+
+## **ExtensionListArgument**
+
+[ExtensionArgument](#ExtensionArgument)
+
+```typescript
+type ExtensionListArgument = ExtensionArgument | ExtensionArgument[];
 ```
 
 ---

@@ -29,10 +29,10 @@ export type VersionNumber =
 	| `${number}`
 	| `${number}.${number}`
 	| `${number}.${number}.${number}`
-	| `${number}.${number}.${number}.${number}`;
+	| `${number}.${number}.${number}.${string}`;
 
-export function isVersionNumber(value: any): boolean {
-	if (typeof value === 'string' && /^\d|\d\.\d|\d\.\d\.\d|\d\.\d\.\d\.\d$/.test(value)) return true;
+export function isVersionNumber(value: any): value is VersionNumber {
+	if (typeof value === 'string' && /^(\d{1,9}\.){0,2}\d{1,9}(\.\w+)?$/.test(value)) return true;
 	return false;
 }
 
