@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { badArgumentError, bothWidthAndHeightRequired, printVariableInError } from '../errorMessages';
+import { badArgumentError } from '../errorMessages';
 import { StringContent } from './StringContent';
 import { SizesTypes, isSizesTypes } from './enumsAndValidators';
 

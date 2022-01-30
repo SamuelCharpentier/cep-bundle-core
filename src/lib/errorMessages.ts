@@ -11,7 +11,7 @@ function prettierJSON(string: string) {
 	});
 }
 
-export const printVariableInError: (v: any) => string = (val) => {
+const printVariableInError: (v: any) => string = (val) => {
 	return `${
 		typeof val === 'string'
 			? `'${val}'`
