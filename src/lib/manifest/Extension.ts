@@ -1,17 +1,17 @@
 import { XMLElement, AttributeArgument } from './XMLElement';
 import { HostList, HostListArgument } from './Host';
 import { DispatchInfo, DispatchInfoArgument } from './DispatchInfo';
-import { DependencyList, DependencyArgument } from './Dependency';
-import { isVersionNumber, isValidId } from '../typesAndValidators';
+import { DependencyList, DependencyListArgument } from './Dependency';
+import { VersionNumber, isVersionNumber, isValidId } from '../typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
 import { badArgumentError } from '../errorMessages';
 
 export type ExtensionArgument = {
 	id: string;
-	version?: string;
+	version?: VersionNumber;
 	hostList?: HostListArgument;
 	dispatchInfo?: DispatchInfoArgument | DispatchInfoArgument[];
-	dependencyList?: DependencyArgument | DependencyArgument[];
+	dependencyList?: DependencyListArgument;
 };
 
 const isExtensionArgument: (arg: any) => boolean = (arg): arg is ExtensionArgument => {

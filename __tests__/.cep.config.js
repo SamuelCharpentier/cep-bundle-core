@@ -46,5 +46,11 @@ module.exports = {
 				host: 'InDesign',
 			},
 		],
+		dependencyList: [
+			{
+				id: 'my.dependency',
+				version: '0.0.1',
+			},
+		],
 	},
 };

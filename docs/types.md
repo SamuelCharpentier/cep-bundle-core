@@ -235,7 +235,7 @@ type Command =
 ```typescript
 type ExtensionArgument = {
 	id: string;
-	version?: string;
+	version?: VersionNumber;
 	hostList?: HostListArgument | HostListArgument[];
 	dispatchInfo?: DispatchInfoArgument;
 	dependencyList?: DependencyArgument | DependencyArgument[];

@@ -4,33 +4,39 @@
 
 [XMLElement](#XMLElement)
 
--   [Extensions](#Extensions)
+-   [EntensionList](#EntensionList)
 
-    -   [HostList](#HostList)
+    -   [Extension](#Extension)
 
-        -   [Host](#Host)
+        -   [HostList](#HostList)
 
-    -   [DispatchInfoList](#DispatchInfoList)
+            -   [Host](#Host)
 
-        -   [DispatchInfo](#DispatchInfo)
+        -   [DispatchInfoList](#DispatchInfoList)
 
-            -   [Resources](#Resources)
+            -   [DispatchInfo](#DispatchInfo)
 
-                -   [MainPath](#MainPath)
-                -   [ScriptPath](#ScriptPath)
-                -   [CEFCommandLine](#CEFCommandLine)
+                -   [Resources](#Resources)
 
-            -   [Lifecycle](#Lifecycle)
+                    -   [MainPath](#MainPath)
+                    -   [ScriptPath](#ScriptPath)
+                    -   [CEFCommandLine](#CEFCommandLine)
 
-                -   [AutoVisible](#AutoVisible)
-                -   [StartOn](#StartOn)
+                -   [Lifecycle](#Lifecycle)
 
-            -   [UI](#UI)
+                    -   [AutoVisible](#AutoVisible)
+                    -   [StartOn](#StartOn)
 
-                -   [Type](#Type)
-                -   [Menu](#Menu)
-                -   [Geometry](#Geometry)
-                -   [Icons](#Icons)
+                -   [UI](#UI)
+
+                    -   [Type](#Type)
+                    -   [Menu](#Menu)
+                    -   [Geometry](#Geometry)
+                    -   [Icons](#Icons)
+
+        -   [DependencyList](#DependencyList)
+
+            -   [Dependency](#Dependency)
 
 ---
 
@@ -48,7 +54,7 @@ It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgu
 new HostList(hostList: HostListArgument)
 ```
 
-Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment) and [Extension (class)](#Extension)
+Nested in [ExtensionList (class)](#ExtensionList)
 
 ---
 
@@ -355,5 +361,41 @@ new ExtensionData(string);
 ```
 
 Nested in [UI (class)](#UI)
+
+---
+
+## **DependencyList**
+
+Extends [XMLElement (class)](#XMLElement). Specifies a list of extensions which this extension depends upon. Adobe Extension Manager will install this extension only if all of its strict dependencies are already installed in the system. (optional).
+
+### Argument
+
+It expects an argument of type [DependencyArgument](#DependencyArgument) or an array of [DependencyArgument](#DependencyArgument)
+
+### Usage
+
+```typescript
+new DependencyList(DependencyArgument|DependencyArgument[]);
+```
+
+Nested in [extension (class)](#extension)
+
+---
+
+## **Dependency**
+
+Extends [XMLElement (class)](#XMLElement). Specifies an extension which this extension depends on. (optional).
+
+### Argument
+
+It expects an argument of type [DependencyArgument](#DependencyArgument)
+
+### Usage
+
+```typescript
+new Dependency({ id: string; version?: VersionNumber });
+```
+
+Nested in [DependencyList (class)](#DependencyList)
 
 ---
