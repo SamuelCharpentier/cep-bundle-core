@@ -1,13 +1,8 @@
-import { Attribute } from './Attribute';
+import { Attribute, AttributeArgument } from './Attribute';
 import { StringContent } from './StringContent';
 import { badArgumentError } from '../errorMessages';
 import { isValidContext, Context } from './Context';
 
-export interface AttributeArgument {
-	name: string;
-	value: string;
-	context?: (parents: string[]) => boolean;
-}
 export class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];

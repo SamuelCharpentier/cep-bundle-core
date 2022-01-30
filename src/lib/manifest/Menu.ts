@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { AttributeArgument } from './XMLElement';
+import { AttributeArgument } from './Attribute';
 import { Placement, isPlacement } from '../typesAndValidators';
 import { badArgumentError, printVariableInError } from '../errorMessages';
 

@@ -1,4 +1,5 @@
-import { XMLElement, AttributeArgument } from './XMLElement';
+import { XMLElement } from './XMLElement';
+import { AttributeArgument } from './Attribute';
 import { VersionNumber, isNumeric, isVersionNumber } from '../typesAndValidators';
 import { badArgumentError } from '../errorMessages';
 

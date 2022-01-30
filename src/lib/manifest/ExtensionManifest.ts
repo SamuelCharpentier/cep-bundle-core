@@ -1,17 +1,11 @@
 import { XMLElement } from './XMLElement';
-import {
-	VersionNumber,
-	isVersionNumber,
-	EmailAddress,
-	isEmail,
-	isValidUrl,
-	AttributeArgument,
-} from '../typesAndValidators';
+import { VersionNumber, isVersionNumber, EmailAddress, isEmail, isValidUrl } from '../typesAndValidators';
+import { AttributeArgument } from './Attribute';
 import { Author } from './Author';
 import { Contact } from './Contact';
 import { Legal } from './Legal';
 import { Abstract } from './Abstract';
-import { ExtensionList, isExtensionListArgument } from './ExtensionList';
+import { ExtensionList } from './ExtensionList';
 import {
 	ExecutionEnvironment,
 	ExecutionEnvironmentArgument,
@@ -19,7 +13,7 @@ import {
 } from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfo';
 import { badArgumentError } from '../errorMessages';
-import { ExtensionArgument, isExtensionArgument } from './Extension';
+import { ExtensionArgument } from './Extension';
 import { contextContainsNoneOf } from './Context';
 import { CEPVersion, isCEPVersion } from './enumsAndValidators';
 
@@ -66,11 +60,6 @@ export const isExtensionManifestArgument = <(arg: any) => arg is ExtensionManife
 		if (abstract)
 			if (!isValidUrl(abstract))
 				throw new Error(badArgumentError('abstract(optional)', 'string containing a valid URL', abstract));
-
-		if (!isExtensionListArgument(extensions))
-			throw new Error(
-				badArgumentError('extensions', 'an object or array of objects of type ExtensionArgument', extensions),
-			);
 
 		if (!isExecutionEnvironmentArgument(executionEnvironment))
 			throw new Error(

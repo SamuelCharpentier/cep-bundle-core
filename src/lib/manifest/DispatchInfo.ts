@@ -1,4 +1,5 @@
-import { AttributeArgument, XMLElement } from './XMLElement';
+import { XMLElement } from './XMLElement';
+import { AttributeArgument } from './Attribute';
 import { Extension, ExtensionArgument } from './Extension';
 import { Resources, ResourcesArgument } from './Resources';
 import { Lifecycle, LifecycleArgument } from './Lifecycle';

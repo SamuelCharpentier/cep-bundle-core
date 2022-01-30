@@ -1,4 +1,5 @@
-import { XMLElement, AttributeArgument } from './XMLElement';
+import { XMLElement } from './XMLElement';
+import { AttributeArgument } from './Attribute';
 import { HostList, HostListArgument } from './Host';
 import { DispatchInfo, DispatchInfoArgument } from './DispatchInfo';
 import { DependencyList, DependencyListArgument } from './Dependency';
@@ -15,9 +16,9 @@ export type ExtensionArgument = {
 };
 
 const isExtensionArgument: (arg: any) => boolean = (arg): arg is ExtensionArgument => {
-	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array)
+	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length < 1)
 		throw new Error(badArgumentError('extension', 'an ExtensionArgument (type)', arg));
-	if (arg.id === undefined) throw new Error(badArgumentError('extension', 'an ExtensionArgument (type)', arg));
+	if (arg.id === undefined) throw new Error(badArgumentError('extension.id', 'a string', arg.id));
 	if (!isValidId(arg.id)) {
 		throw new Error(badArgumentError('extension.id', 'a string', arg.id));
 	}
