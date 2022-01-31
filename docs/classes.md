@@ -6,6 +6,8 @@
 
 -   [ExtensionManifest](#ExtensionManifest)
 
+    -   [Legal](#Legal)
+
     -   [Abstract](#Abstract)
 
     -   [ExtensionList](#ExtensionList)
@@ -44,6 +46,22 @@
                 -   [Dependency](#Dependency)
 
 ---
+
+## **Legal**
+
+Extends [XMLElement (class)](#XMLElement). An optional legal notice for this ExtensionBundle.
+
+### Argument
+
+It expects an argument of type string or URL (native type)
+
+### Usage
+
+```typescript
+new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+## Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ## **Abstract**
 
