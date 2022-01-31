@@ -298,6 +298,14 @@ type DispatchInfoListArgument = ExtensionArgument | ExtensionArgument[];
 
 ---
 
+## **EmailAddress**
+
+```typescript
+type EmailAddress = `${string}@${string}.${string}`;
+```
+
+---
+
 <!--
 
 ## ****

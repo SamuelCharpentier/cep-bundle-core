@@ -6,6 +6,8 @@
 
 -   [ExtensionManifest](#ExtensionManifest)
 
+    -   [Contact](#Contact)
+
     -   [Legal](#Legal)
 
     -   [Abstract](#Abstract)
@@ -47,6 +49,24 @@
 
 ---
 
+## **Contact**
+
+Extends [XMLElement (class)](#XMLElement). An optional contact for this ExtensionBundle.
+
+### Argument
+
+It expects an argument of type [EmailAddress](types.md#EmailAddress).
+
+### Usage
+
+```typescript
+new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+
+---
+
 ## **Legal**
 
 Extends [XMLElement (class)](#XMLElement). An optional legal notice for this ExtensionBundle.
@@ -62,6 +82,8 @@ new Legal(new URL('https://legal.com' | 'https://legal.com'));
 ```
 
 ## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+
+---
 
 ## **Abstract**
 
