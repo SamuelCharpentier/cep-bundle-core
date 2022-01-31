@@ -4,40 +4,62 @@
 
 [XMLElement](#XMLElement)
 
--   [ExtensionList](#ExtensionList)
--   [DispatchInfoList](#DispatchInfoList)
+-   [ExtensionManifest](#ExtensionManifest)
 
-    -   [Extension](#Extension)
+    -   [Abscract](#Abscract)
 
-        -   [HostList](#HostList)
+    -   [ExtensionList](#ExtensionList)
+    -   [DispatchInfoList](#DispatchInfoList)
 
-            -   [Host](#Host)
+        -   [Extension](#Extension)
 
-        -   [DispatchInfo](#DispatchInfo)
+            -   [HostList](#HostList)
 
-            -   [Resources](#Resources)
+                -   [Host](#Host)
 
-                -   [MainPath](#MainPath)
-                -   [ScriptPath](#ScriptPath)
-                -   [CEFCommandLine](#CEFCommandLine)
+            -   [DispatchInfo](#DispatchInfo)
 
-            -   [Lifecycle](#Lifecycle)
+                -   [Resources](#Resources)
 
-                -   [AutoVisible](#AutoVisible)
-                -   [StartOn](#StartOn)
+                    -   [MainPath](#MainPath)
+                    -   [ScriptPath](#ScriptPath)
+                    -   [CEFCommandLine](#CEFCommandLine)
 
-            -   [UI](#UI)
+                -   [Lifecycle](#Lifecycle)
 
-                -   [Type](#Type)
-                -   [Menu](#Menu)
-                -   [Geometry](#Geometry)
-                -   [Icons](#Icons)
+                    -   [AutoVisible](#AutoVisible)
+                    -   [StartOn](#StartOn)
 
-            -   [ExtensionData](#ExtensionData)
+                -   [UI](#UI)
 
-        -   [DependencyList](#DependencyList)
+                    -   [Type](#Type)
+                    -   [Menu](#Menu)
+                    -   [Geometry](#Geometry)
+                    -   [Icons](#Icons)
 
-            -   [Dependency](#Dependency)
+                -   [ExtensionData](#ExtensionData)
+
+            -   [DependencyList](#DependencyList)
+
+                -   [Dependency](#Dependency)
+
+---
+
+## **Abscract**
+
+Extends [XMLElement (class)](#XMLElement). An optional abstract for this ExtensionBundle.
+
+### Argument
+
+It expects an argument of type string or URL (native type)
+
+### Usage
+
+```typescript
+new Abscract(new URL('https://abstract.com' | 'https://abstract.com'));
+```
+
+Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 
@@ -56,8 +78,6 @@ new ExtensionList(extensionListArgument: ExtensionListArgument)
 ```
 
 Nested in [ExtensionList (class)](#ExtensionList)
-
----
 
 ---
 

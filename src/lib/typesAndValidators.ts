@@ -13,7 +13,8 @@ export function isEmail(email: any): boolean {
 	return typeof email === 'string' && emailRegex.test(email);
 }
 
-export const isValidUrl = <(url: any) => url is URL>((url: any) => {
+export function isValidUrl(url: any): url is URL {
+	if (typeof url !== 'string' && !(url instanceof URL)) return false;
 	if (typeof url === 'string') {
 		try {
 			new URL(url);
@@ -21,10 +22,10 @@ export const isValidUrl = <(url: any) => url is URL>((url: any) => {
 			console.error(e);
 			return false;
 		}
-		return true;
 	}
-	return false;
-});
+	return true;
+}
+
 export type VersionNumber =
 	| `${number}`
 	| `${number}.${number}`

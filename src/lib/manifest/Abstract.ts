@@ -16,7 +16,7 @@ export class Abstract extends HrefElement {
 	 * @memberof Abstract
 	 */
 	constructor(href: URL | string) {
-		if (!isValidUrl(href)) throw new Error(badArgumentError('href', 'as a valid URL (type)', href));
+		if (!isValidUrl(href)) throw new Error(badArgumentError('abstract', 'a valid URL (type)', href));
 		super('Abstract', href);
 	}
 }
