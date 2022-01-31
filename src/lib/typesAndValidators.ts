@@ -1,8 +1,4 @@
 export type NumberString = `${number}` | `${number}.${number}` | number;
-export function isNumeric(str: any): boolean {
-	if (typeof str !== 'string') return false;
-	return !isNaN(parseFloat(str));
-}
 
 export type EmailAddress = `${string}@${string}.${string}`;
 
