@@ -6,6 +6,8 @@
 
 -   [ExtensionManifest](#ExtensionManifest)
 
+    -   [Author](#Author)
+
     -   [Contact](#Contact)
 
     -   [Legal](#Legal)
@@ -13,6 +15,7 @@
     -   [Abstract](#Abstract)
 
     -   [ExtensionList](#ExtensionList)
+    -   [ExecutionEnvironment](#ExecutionEnvironment)
     -   [DispatchInfoList](#DispatchInfoList)
 
         -   [Extension](#Extension)
@@ -46,6 +49,24 @@
             -   [DependencyList](#DependencyList)
 
                 -   [Dependency](#Dependency)
+
+---
+
+## **Author**
+
+Extends [XMLElement (class)](#XMLElement). An optional author of this ExtensionBundle.
+
+### Argument
+
+It expects an argument of type string.
+
+### Usage
+
+```typescript
+new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+## Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 
