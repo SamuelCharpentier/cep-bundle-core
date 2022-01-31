@@ -6,7 +6,7 @@
 
 -   [ExtensionManifest](#ExtensionManifest)
 
-    -   [Abscract](#Abscract)
+    -   [Abstract](#Abstract)
 
     -   [ExtensionList](#ExtensionList)
     -   [DispatchInfoList](#DispatchInfoList)
@@ -45,7 +45,7 @@
 
 ---
 
-## **Abscract**
+## **Abstract**
 
 Extends [XMLElement (class)](#XMLElement). An optional abstract for this ExtensionBundle.
 
