@@ -40,7 +40,7 @@ describe('Geometry', () => {
 		expect(() => {
 			new Geometry(badArgument);
 		}).toThrow(
-			"Validation Error: Each geometry keys must be provided as as a SizesTypes (enum), 'someWrongKeyName' (string) received",
+			"Validation Error: Each geometry keys must be provided as a SizesTypes (enum), 'someWrongKeyName' (string) received",
 		);
 	});
 	it('Invalidates an empty SizeType', () => {
@@ -50,7 +50,7 @@ describe('Geometry', () => {
 		expect(() => {
 			new Geometry(badArgument);
 		}).toThrow(
-			'Validation Error: Geometry size must be provided as as a WidthHeight (interface), \n{}\n (object) received',
+			'Validation Error: geometry.size must be provided as a WidthHeight (interface), \n{}\n (object) received',
 		);
 	});
 	it('Invalidates bad value to key', () => {
@@ -63,7 +63,7 @@ describe('Geometry', () => {
 		expect(() => {
 			new Geometry(badArgument);
 		}).toThrow(
-			"Validation Error: Geometry size width must be provided as as a number or a string of a number, 'hello' (string) received",
+			"Validation Error: geometry.size.width must be provided as a number or a string of a number, 'hello' (string) received",
 		);
 		badArgument = {
 			size: {
@@ -74,7 +74,7 @@ describe('Geometry', () => {
 		expect(() => {
 			new Geometry(badArgument);
 		}).toThrow(
-			"Validation Error: Geometry size height must be provided as as a number or a string of a number, 'hello' (string) received",
+			"Validation Error: geometry.size.height must be provided as a number or a string of a number, 'hello' (string) received",
 		);
 	});
 	it('Validates valid MenuArgument type', () => {

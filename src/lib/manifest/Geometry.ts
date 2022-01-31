@@ -8,36 +8,36 @@ export interface WidthHeight {
 	height: `${number}` | number;
 }
 
-const isWidthHeight = (size: any, sizeTypeName: SizesTypes): size is WidthHeight => {
+function isWidthHeight(size: any, sizeTypeName: SizesTypes): size is WidthHeight {
 	if (size.width === undefined || size.height === undefined) {
-		throw new Error(badArgumentError(`Geometry ${sizeTypeName}`, 'as a WidthHeight (interface)', size));
+		throw new Error(badArgumentError(`geometry.${sizeTypeName}`, 'a WidthHeight (interface)', size));
 	}
 	if (!Number.isInteger(parseFloat(size.width.toString())))
 		throw new Error(
-			badArgumentError(`Geometry ${sizeTypeName} width`, 'as a number or a string of a number', size.width),
+			badArgumentError(`geometry.${sizeTypeName}.width`, 'a number or a string of a number', size.width),
 		);
 	if (!Number.isInteger(parseFloat(size.height.toString())))
 		throw new Error(
-			badArgumentError(`Geometry ${sizeTypeName} height`, 'as a number or a string of a number', size.height),
+			badArgumentError(`geometry.${sizeTypeName}.height`, 'a number or a string of a number', size.height),
 		);
 
 	return true;
-};
+}
 
 export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
-const isGeometryArgument = <(arg: any) => arg is GeometryArgument>((arg) => {
+function isGeometryArgument(arg: any): arg is GeometryArgument {
 	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length === 0)
 		throw new Error(badArgumentError('geometry', 'GeometryArgument (type)', arg));
 
 	for (const sizeTypeName in arg) {
 		if (!isSizesTypes(sizeTypeName))
-			throw new Error(badArgumentError('Each geometry keys', 'as a SizesTypes (enum)', sizeTypeName));
+			throw new Error(badArgumentError('Each geometry keys', 'a SizesTypes (enum)', sizeTypeName));
 
 		isWidthHeight(arg[sizeTypeName], sizeTypeName);
 	}
 	return true;
-});
+}
 export class Geometry extends XMLElement {
 	constructor(geometry: GeometryArgument) {
 		if (isGeometryArgument(geometry)) {
