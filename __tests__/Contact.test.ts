@@ -13,33 +13,35 @@ describe('Contact', () => {
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			'Validation Error: contact must be provided as a valid email string, undefined (undefined) received',
+			'Validation Error: contact must be provided as a valid EmailAdress (type), undefined (undefined) received',
 		);
 	});
-	it('Invalidates non-URL argument', () => {
+	it('Invalidates non-EmailAdress argument', () => {
 		badArgument = 42;
 		expect(() => {
 			new Contact(badArgument);
-		}).toThrow('Validation Error: contact must be provided as a valid email string, 42 (number) received');
+		}).toThrow('Validation Error: contact must be provided as a valid EmailAdress (type), 42 (number) received');
 		badArgument = {};
 		expect(() => {
 			new Contact(badArgument);
-		}).toThrow('Validation Error: contact must be provided as a valid email string, \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: contact must be provided as a valid EmailAdress (type), \n{}\n (object) received',
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			'Validation Error: contact must be provided as a valid email string, \n["hello"]\n (array) received',
+			'Validation Error: contact must be provided as a valid EmailAdress (type), \n["hello"]\n (array) received',
 		);
 		badArgument = true;
 		expect(() => {
 			new Contact(badArgument);
-		}).toThrow('Validation Error: contact must be provided as a valid email string, true (boolean) received');
+		}).toThrow('Validation Error: contact must be provided as a valid EmailAdress (type), true (boolean) received');
 		badArgument = () => {};
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			'Validation Error: contact must be provided as a valid email string, [Function] (function) received',
+			'Validation Error: contact must be provided as a valid EmailAdress (type), [Function] (function) received',
 		);
 	});
 	it('Invalidates bad URL value', () => {
@@ -47,7 +49,7 @@ describe('Contact', () => {
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			"Validation Error: contact must be provided as a valid email string, 'Some legal text' (string) received",
+			"Validation Error: contact must be provided as a valid EmailAdress (type), 'Some legal text' (string) received",
 		);
 	});
 	let validArgument: EmailAddress = 'contact@extension.com';
