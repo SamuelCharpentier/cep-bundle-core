@@ -15,7 +15,9 @@
     -   [Abstract](#Abstract)
 
     -   [ExtensionList](#ExtensionList)
-    -   [ExecutionEnvironment](#ExecutionEnvironment)
+
+        -   [Extension](#Extension)
+
     -   [DispatchInfoList](#DispatchInfoList)
 
         -   [Extension](#Extension)
@@ -49,6 +51,20 @@
             -   [DependencyList](#DependencyList)
 
                 -   [Dependency](#Dependency)
+
+    -   [ExecutionEnvironment](#ExecutionEnvironment)
+
+        -   [HostList](#HostList)
+
+            -   [Host](#Host)
+
+        -   [RequiredRuntimeList](#RequiredRuntimeList)
+
+            -   [RequiredRuntime](#RequiredRuntime)
+
+        -   [LocaleList](#LocaleList)
+
+            -   [Locale](#Locale)
 
 ---
 
@@ -142,6 +158,24 @@ Nested in [ExtensionList (class)](#ExtensionList)
 
 ---
 
+## **Extension**
+
+Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfo](#DispatchInfo) and [DependencyList](#DependencyList). These contained elements are only outputted if the context contains `DispatchInfoList` and `manifes.xml`. the debug port is only outputted if the context contains `.debug`.
+
+### Argument
+
+It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgument)
+
+### Usage
+
+```typescript
+new Extension(extensionArgument: ExtensionArgument)
+```
+
+Nested in [ExtensionList (class)](#ExtensionList) and in [DispatchInfoList (class)](#DispatchInfoList)
+
+---
+
 ## **DispatchInfoList**
 
 Extends [XMLElement (class)](#XMLElement). It contains a list for every [Extension](#Extension)'s attributes.
@@ -160,27 +194,9 @@ Nested in [ExtensionList (class)](#ExtensionList)
 
 ---
 
-## **Extension**
-
-Extends [XMLElement (class)](#XMLElement). An Extension contains the name and version as well as all parameter used to control the extension. The only mandatory attribute to the extension is its ID. It has an optional version attribute. It contains [HostList](#HostList), [DispatchInfo](#DispatchInfo) and [DependencyList](#DependencyList).
-
-### Argument
-
-It expects an argument of type [ExtensionArgument (type)](types.md#ExtensionArgument)
-
-### Usage
-
-```typescript
-new Extension(extensionArgument: ExtensionArgument)
-```
-
-Nested in [ExtensionList (class)](#ExtensionList) and in [DispatchInfoList (class)](#DispatchInfoList)
-
----
-
 ## **HostList**
 
-Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host).
+Extends [XMLElement (class)](#XMLElement). Contains an array of [Host (class)](#Host). Outputs XML when within [Extension (class)](#Extension) in [ExtensionList (class)](#ExtensionList) in [DispatchInfoList (class)](#DispatchInfoList) in `manifest.xml`.
 
 ### Argument
 
@@ -216,7 +232,7 @@ Nested in [HostList (class)](#HostList)
 
 ## **DispatchInfo**
 
-Extends [XMLElement (class)](#XMLElement). A DispatchInfo contains all parameter which are needed to run an extension. A DispatchInfo can have an optional attribute "Host" to define specific attributes per "Host". If an DispatchInfo has no "Host" it will act as a default for all values which are not set in a specific Host-DispatchInfo. it contains [Resources](#Resources), [Lifecycle](#Lifecycle), [UI](#UI) and [ExtensionData](#ExtensionData).
+Extends [XMLElement (class)](#XMLElement). A DispatchInfo contains all parameter which are needed to run an extension. A DispatchInfo can have an optional attribute "Host" to define specific attributes per "Host". If an DispatchInfo has no "Host" it will act as a default for all values which are not set in a specific Host-DispatchInfo. it contains [Resources](#Resources), [Lifecycle](#Lifecycle), [UI](#UI) and [ExtensionData](#ExtensionData). Outputs XML when within [Extension (class)](#Extension) in [ExtensionList (class)](#ExtensionList) in [DispatchInfoList (class)](#DispatchInfoList) in `manifest.xml`.
 
 ### Argument
 
@@ -486,11 +502,11 @@ Nested in [UI (class)](#UI)
 
 ## **DependencyList**
 
-Extends [XMLElement (class)](#XMLElement). Specifies a list of extensions which this extension depends upon. Adobe Extension Manager will install this extension only if all of its strict dependencies are already installed in the system. (optional).
+Extends [XMLElement (class)](#XMLElement). Specifies a list of extensions which this extension depends upon. Adobe Extension Manager will install this extension only if all of its strict dependencies are already installed in the system. (optional). Outputs XML when within [Extension (class)](#Extension) in [ExtensionList (class)](#ExtensionList) in [DispatchInfoList (class)](#DispatchInfoList) in `manifest.xml`.
 
 ### Argument
 
-It expects an argument of type [DependencyArgument](#DependencyArgument) or an array of [DependencyArgument](#DependencyArgument)
+It expects an argument of type [DependencyArgument](types.md#DependencyArgument) or an array of [DependencyArgument](#DependencyArgument)
 
 ### Usage
 
@@ -498,7 +514,7 @@ It expects an argument of type [DependencyArgument](#DependencyArgument) or an a
 new DependencyList(DependencyArgument|DependencyArgument[]);
 ```
 
-Nested in [DispatchInfo (class)](#DispatchInfo)
+Nested in [Extension (class)](#Extension)
 
 ---
 
@@ -508,7 +524,7 @@ Extends [XMLElement (class)](#XMLElement). Specifies an extension which this ext
 
 ### Argument
 
-It expects an argument of type [DependencyArgument](#DependencyArgument)
+It expects an argument of type [DependencyArgument](types.md#DependencyArgument)
 
 ### Usage
 
@@ -517,5 +533,45 @@ new Dependency({ id: string; version?: VersionNumber });
 ```
 
 Nested in [DependencyList (class)](#DependencyList)
+
+---
+
+## **ExecutionEnvironment**
+
+Extends [XMLElement (class)](#XMLElement). Contains a list for all required runtimes. The absence for any runtime implies no requirement. (optional).
+
+### Argument
+
+It expects an argument of type [ExecutionEnvironmentArgument](types.md#ExecutionEnvironmentArgument)
+
+### Usage
+
+```typescript
+new ExecutionEnvironment(ExecutionEnvironmentArgument:{
+    hostList?: HostListArgument;
+	localeList?: LocaleListArgument;
+	CSXS?: RangedVersion;
+});
+```
+
+Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment)
+
+---
+
+## **RequiredRuntimeList**
+
+Extends [XMLElement (class)](#XMLElement). Contains a list for all required runtimes. The absence for any runtime implies no requirement. (optional).
+
+### Argument
+
+It expects an argument of type [RangedVersion](types.md#RangedVersion)
+
+### Usage
+
+```typescript
+new RequiredRuntimeList(RangedVersion);
+```
+
+Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment)
 
 ---
