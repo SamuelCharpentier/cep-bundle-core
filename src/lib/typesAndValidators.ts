@@ -38,7 +38,7 @@ export type RangedVersion = number | VersionNumber | `${'[' | '('}${VersionNumbe
 const rangedVersionRegex =
 	/(\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?)|([(\[]\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?,?\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?[)\]])/;
 
-export function isRangedVersion(value: any): boolean {
+export function isRangedVersion(value: any): value is RangedVersion {
 	if (typeof value === 'number') value = value.toString();
 	if (typeof value === 'string') return rangedVersionRegex.test(value);
 	return false;
