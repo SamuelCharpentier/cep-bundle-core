@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { AttributeArgument } from './Attribute';
-import { VersionNumber, isNumeric, isVersionNumber } from '../typesAndValidators';
+import { VersionNumber, isVersionNumber } from '../typesAndValidators';
 import { badArgumentError } from '../errorMessages';
 
 export type DependencyListArgument = DependencyArgument | DependencyArgument[];
