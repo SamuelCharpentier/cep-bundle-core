@@ -1,49 +1,30 @@
 import { XMLElement } from './XMLElement';
-import { HostArgument, HostList, isHostArgument } from './Host';
-import { LocaleList, LocaleListArgument, isLocaleListArgument } from './LocaleList';
+import { HostListArgument, HostList } from './Host';
+import { LocaleList, LocaleListArgument } from './LocaleList';
 import { badArgumentError } from '../errorMessages';
+import { RequiredRuntimeList } from './Runtime';
+import { RangedVersion } from '../typesAndValidators';
 
-export type ExecutionEnvironmentArgument = { hostList?: HostArgument; localeList?: LocaleListArgument };
+export type ExecutionEnvironmentArgument = {
+	hostList?: HostListArgument;
+	localeList?: LocaleListArgument;
+	CSXSVersion?: RangedVersion;
+};
 
-export const isExecutionEnvironmentArgument = <(argument: any) => argument is ExecutionEnvironmentArgument>((
-	argument,
-) => {
-	if (typeof argument === 'object' && (argument.hostList || argument.localeList)) {
-		if (argument.hostList && !isHostArgument(argument.hostList))
-			throw new Error(
-				badArgumentError(
-					'executionEnvironment.hostList',
-					'as an object of type HostArgument(type)',
-					argument.hostList,
-				),
-			);
-		if (argument.localeList && !isLocaleListArgument(argument.localeList))
-			throw new Error(
-				badArgumentError(
-					'executionEnvironment.localeList',
-					'as an object of type LocaleListArgument(type)',
-					argument.localeList,
-				),
-			);
-		return true;
-	}
-	throw new Error(
-		badArgumentError(
-			'executionEnvironment',
-			'an object of type ExecutionEnvironmentArgument(type):\n{ \n\thostList?: HostArgument; \n\tlocaleList?: LocaleListArgument \n}',
-			argument,
-		),
-	);
-
-	return false;
-});
+export function isExecutionEnvironmentArgument(arg: any): arg is ExecutionEnvironmentArgument {
+	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array)
+		throw new Error(badArgumentError('executionEnvironment', 'an ExecutionEnvironmentArgument (type)', arg));
+	/* Is a container, no more validation necessary for now */
+	return true;
+}
 export class ExecutionEnvironment extends XMLElement {
-	constructor(executionEnvironmentConfig: ExecutionEnvironmentArgument = {}) {
-		if (isExecutionEnvironmentArgument(executionEnvironmentConfig)) {
-			const { hostList, localeList } = executionEnvironmentConfig;
+	constructor(arg: ExecutionEnvironmentArgument) {
+		if (isExecutionEnvironmentArgument(arg)) {
+			const { hostList, localeList, CSXSVersion } = arg;
 			let content: XMLElement[] = [];
 			if (hostList) content.push(new HostList(hostList));
 			if (localeList) content.push(new LocaleList(localeList));
+			if (CSXSVersion) content.push(new RequiredRuntimeList(CSXSVersion));
 			super({ name: 'ExecutionEnvironment', content });
 		}
 	}
