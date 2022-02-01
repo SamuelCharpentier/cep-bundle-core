@@ -129,6 +129,10 @@ describe('Extension', () => {
 					host: 'InDesign',
 				},
 			],
+			dependencyList: {
+				id: 'com.depending.on.this.extension',
+				version: '2.1',
+			},
 		};
 		const extension2 = new Extension(validArgument);
 		expect(extension2.xml(['DispatchInfoList'])).toBe(
@@ -170,6 +174,9 @@ describe('Extension', () => {
 	<DispatchInfo Host="IDSN">
 		<ExtensionData>This DispatchInfo is for InDesign</ExtensionData>
 	</DispatchInfo>
+	<DependencyList>
+		<Dependency Id="com.depending.on.this.extension" version="2.1"/>
+	</DependencyList>
 </Extension>
 `,
 		);

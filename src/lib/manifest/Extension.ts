@@ -48,8 +48,7 @@ export class Extension extends XMLElement {
 					content.push(new DispatchInfo(dispatchInfoArg));
 				}
 			}
-
-			if (dependencyList) new DependencyList(dependencyList);
+			if (dependencyList) content.push(new DependencyList(dependencyList));
 
 			super({
 				name: 'Extension',
