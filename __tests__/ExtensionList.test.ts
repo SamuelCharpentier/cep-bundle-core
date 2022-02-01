@@ -4,7 +4,7 @@ describe('Extension List', () => {
 	it('Is defined', () => {
 		expect(ExtensionList).toBeDefined();
 	});
-	// This element is a container element with no specific attributes. Therefore the following (functional) tests are not necessary because the items it contains should be validating its content.
+	// This element is a container element with no specific attributes. Therefore the following (functional) tests are not necessary because the items it contains should be validating their arguments.
 	/* let badArgument: any;
 	it('Invalidates undefined argument', () => {
 		expect(() => {
