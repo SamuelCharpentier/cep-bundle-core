@@ -7,7 +7,7 @@ export type LocaleListArgument =
 	| AdobeLocaleCodes[]
 	| (keyof typeof AdobeLocaleCodes)[];
 
-export const isLocaleListArgument: (arg: any) => boolean = (args): args is LocaleListArgument => {
+const isLocaleListArgument: (arg: any) => boolean = (args): args is LocaleListArgument => {
 	if (typeof args === 'string') args = [args];
 	if (args instanceof Array) {
 		for (const arg of args) {
