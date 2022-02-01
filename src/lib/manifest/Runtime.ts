@@ -1,36 +1,42 @@
 import { XMLElement } from './XMLElement';
-import { RangedVersion, isRangedVersion } from '../typesAndValidators';
+import { RangedVersion, isRangedVersion, isVersionNumber } from '../typesAndValidators';
 import { badArgumentError } from '../errorMessages';
+
 export class RequiredRuntimeList extends XMLElement {
-	constructor(content?: RequiredRuntime | RequiredRuntime[]) {
-		if (content !== undefined && content instanceof RequiredRuntime) content = [content];
-		else if (content !== undefined && Array.isArray(content)) {
-			const filteredContent = content.filter((element) => element instanceof RequiredRuntime);
-			if (filteredContent.length !== content.length) {
-				console.warn(`Some of the elements in the array of RequiredRuntime were ignored because they weren't an instance of RequiredRuntime. 
-				Received ${content}
-				Kept ${filteredContent}`);
-				content = filteredContent;
-			}
-		} else if (content !== undefined)
+	constructor(arg: RangedVersion) {
+		if (isVersionNumber(arg))
 			console.warn(
-				`Content of RequiredRuntimeList must be of type RequiredRuntime (class) or RequiredRuntime[], ${
-					typeof content === 'string' ? `'${content}'` : content
-				} (${typeof content}) received`,
+				'CSXSVersion was provided as a VersionNumber (type). Know CSXS could also be given as a RangedVersion (type).',
 			);
-		('');
+		if (!isRangedVersion(arg)) throw new Error(badArgumentError('CSXSVersion', 'a RangedVersion (type)', arg));
+		let content: RequiredRuntime = new RequiredRuntime(arg);
 		super({ name: 'RequiredRuntimeList', content });
 	}
 }
-export class RequiredRuntime extends XMLElement {
+
+function AddMinorZero(number: string): string {
+	if (number.toString().split('.').length === 1) number = number.toString() + '.0';
+	return number;
+}
+
+function formatRangedVersion(version: RangedVersion) {
+	let formattedNumber: string;
+	if (typeof version === 'string' && version.toString().includes('[') && version.toString().includes(']')) {
+		let numberPieces: string[] = version.replace(/[\[\]']+/g, '').split(',');
+		for (let i = 0; i < numberPieces.length; i++) {
+			numberPieces[i] = AddMinorZero(numberPieces[i].trim());
+		}
+		return `[${numberPieces.join(', ')}]`;
+	}
+	return AddMinorZero(version.toString());
+}
+class RequiredRuntime extends XMLElement {
 	constructor(version: RangedVersion) {
-		if (version === undefined || !isRangedVersion(version))
-			throw new Error(badArgumentError(`Each RequiredRuntime Element need a version`, `RangedVersion`, version));
 		super({
 			name: 'RequiredRuntime',
 			attributes: [
 				{ name: 'Name', value: 'CSXS' },
-				{ name: 'Version', value: version.toString() },
+				{ name: 'Version', value: formatRangedVersion(version) },
 			],
 		});
 	}
