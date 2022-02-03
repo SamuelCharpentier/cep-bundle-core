@@ -43,18 +43,24 @@ describe('Legal', () => {
 			"Validation Error: legal must be provided as a valid URL (type), 'Some legal text' (string) received",
 		);
 	});
-	let validArgument: URL | string = new URL('http://myextension.com/legal.html');
+	let validArgument: URL | string;
 	it('validates any URL', () => {
+		validArgument = new URL('http://myextension.com/legal.html');
+		expect(() => {
+			new Legal(validArgument);
+		}).not.toThrow();
+		validArgument = 'http://myextension.com/legal.html';
 		expect(() => {
 			new Legal(validArgument);
 		}).not.toThrow();
 	});
 	it('Outputs XML in any context', () => {
-		const abstract = new Legal(validArgument);
-		expect(abstract.xml(['manifest.xml'])).toBe('<Legal href="http://myextension.com/legal.html"/>\n');
+		validArgument = new URL('http://myextension.com/legal.html');
+		let legal = new Legal(validArgument);
+		expect(legal.xml(['manifest.xml'])).toBe('<Legal href="http://myextension.com/legal.html"/>\n');
 		validArgument = 'http://myextension.com/some/weird/sub/url/as/string/legal.html';
-		const dispatchInfo2 = new Legal(validArgument);
-		expect(dispatchInfo2.xml(['manifest.xml'])).toBe(
+		legal = new Legal(validArgument);
+		expect(legal.xml(['manifest.xml'])).toBe(
 			'<Legal href="http://myextension.com/some/weird/sub/url/as/string/legal.html"/>\n',
 		);
 	});
