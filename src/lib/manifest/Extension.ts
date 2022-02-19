@@ -6,6 +6,7 @@ import { DependencyList, DependencyListArgument } from './Dependency';
 import { VersionNumber, isVersionNumber, isValidId } from '../typesAndValidators';
 import { contextContainsAllOf, contextContainsNoneOf } from './Context';
 import { badArgumentError } from '../errorMessages';
+import type { Context } from './Context';
 
 export type ExtensionArgument = {
 	id: string;
@@ -33,7 +34,7 @@ export class Extension extends XMLElement {
 				attributes.push({
 					name: 'Version',
 					value: version,
-					context: (parents: string[]) =>
+					context: (parents: Context[]) =>
 						contextContainsAllOf('ExtensionList')(parents) && contextContainsNoneOf('.debug')(parents),
 				});
 			let { hostList, dispatchInfo, dependencyList } = arg;

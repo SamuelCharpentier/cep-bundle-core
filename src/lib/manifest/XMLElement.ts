@@ -7,7 +7,7 @@ export class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
 	readonly content?: XMLElement[] | StringContent;
-	private context?: (parents: string[]) => boolean;
+	private context?: (parents: Context[]) => boolean;
 
 	constructor({
 		name,
@@ -18,7 +18,7 @@ export class XMLElement {
 		name: string;
 		attributes?: AttributeArgument | AttributeArgument[];
 		content?: XMLElement | XMLElement[] | { value: string; context?: (parents: string[]) => boolean } | string;
-		context?: (parents: string[]) => boolean;
+		context?: (parents: Context[]) => boolean;
 	}) {
 		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
 

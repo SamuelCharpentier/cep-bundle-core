@@ -3,6 +3,7 @@
 ## All classes
 
 [XMLElement](#XMLElement)
+[Attribute](#Attribute)
 
 -   [ExtensionManifest](#ExtensionManifest)
 
@@ -68,6 +69,24 @@
 
 ---
 
+## **Attribute**
+
+An optional author of this ExtensionBundle.
+
+### Argument
+
+It expects an argument of type string.
+
+### Usage
+
+```typescript
+new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+Used by [XMLElement (class)](#XMLElement)
+
+---
+
 ## **Author**
 
 Extends [XMLElement (class)](#XMLElement). An optional author of this ExtensionBundle.
@@ -82,7 +101,7 @@ It expects an argument of type string.
 new Legal(new URL('https://legal.com' | 'https://legal.com'));
 ```
 
-## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 
@@ -100,7 +119,7 @@ It expects an argument of type [EmailAddress](types.md#EmailAddress).
 new Legal(new URL('https://legal.com' | 'https://legal.com'));
 ```
 
-## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 
@@ -118,7 +137,7 @@ It expects an argument of type string or URL (native type)
 new Legal(new URL('https://legal.com' | 'https://legal.com'));
 ```
 
-## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 

@@ -91,3 +91,17 @@ interface UIArgument {
 	icons?: IconsArgument;
 }
 ```
+
+---
+
+## **UIArgument**
+
+[Context (type)](types.md#Context)
+
+```typescript
+interface AttributeArgument {
+	name: string;
+	value: string;
+	context?: (parents: Context[]) => boolean;
+}
+```

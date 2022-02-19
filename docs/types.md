@@ -306,6 +306,50 @@ type EmailAddress = `${string}@${string}.${string}`;
 
 ---
 
+## **Context**
+
+```typescript
+type Context =
+	| '.debug'
+	| 'manifest.xml'
+	| 'ExtensionManifest'
+	| 'Author'
+	| 'Contact'
+	| 'HrefElement'
+	| 'Legal'
+	| 'Abstract'
+	| 'ExtensionList'
+	| 'Extension'
+	| 'ExecutionEnvironment'
+	| 'HostList'
+	| 'Host'
+	| 'LocaleList'
+	| 'LocaleElement'
+	| 'RequiredRuntimeList'
+	| 'RequiredRuntime'
+	| 'DispatchInfoList'
+	| 'DispatchInfo'
+	| 'DependencyList'
+	| 'Dependency'
+	| 'Resources'
+	| 'MainPath'
+	| 'ScriptPath'
+	| 'CEFCommandLine'
+	| 'Parameter'
+	| 'Lifecycle'
+	| 'AutoVisible'
+	| 'StartOn'
+	| 'Event'
+	| 'UI'
+	| 'Type'
+	| 'Menu'
+	| 'Geometry'
+	| 'Icons'
+	| 'ExtensionData';
+```
+
+---
+
 <!--
 
 ## ****

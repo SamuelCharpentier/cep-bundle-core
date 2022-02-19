@@ -4,18 +4,20 @@ import { badArgumentError } from '../errorMessages';
 export interface AttributeArgument {
 	name: string;
 	value: string;
-	context?: (parents: string[]) => boolean;
+	context?: (parents: Context[]) => boolean;
 }
 
 function isValidAttributeArgument(arg: any): arg is AttributeArgument {
-	if (arg === undefined || typeof arg !== 'object')
-		throw new Error(badArgumentError('Attribute', 'an AttributeArgument (type)', arg));
-	if (arg.name === undefined || typeof arg.name !== 'string')
-		throw new Error(badArgumentError('Attribute.name', 'a string', arg.name));
-	if (arg.value === undefined || typeof arg.value !== 'string')
-		throw new Error(badArgumentError('Attribute.value', 'a string', arg.value));
-	if (arg.context !== undefined && typeof arg.context !== 'function')
-		throw new Error(badArgumentError('Attribute.context', 'a function', arg.context));
+	if (arg === undefined || typeof arg !== 'object' || Array.isArray(arg) || Object.keys(arg).length < 2)
+		throw new Error(badArgumentError('attribute', 'an AttributeArgument (type)', arg));
+	if (arg.name === undefined || typeof arg.name !== 'string' || arg.name.length === 0)
+		throw new Error(badArgumentError('attribute.name', 'a string', arg.name));
+	if (arg.value === undefined || typeof arg.value !== 'string' || arg.value.length === 0)
+		throw new Error(badArgumentError('attribute.value', 'a string', arg.value));
+	if (arg.context !== undefined && (typeof arg.context !== 'function' || typeof arg.context([]) !== 'boolean'))
+		throw new Error(
+			badArgumentError('attribute.context (optional)', 'a function returning a boolean', arg.context),
+		);
 	return true;
 }
 

@@ -36,6 +36,7 @@ export type Context =
 	| 'Geometry'
 	| 'Icons'
 	| 'ExtensionData';
+
 export const isValidContext = <(value: any) => value is Context>((value: any) => {
 	return (
 		value === '.debug' ||
