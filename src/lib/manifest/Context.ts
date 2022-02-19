@@ -77,50 +77,51 @@ export const isValidContext = <(value: any) => value is Context>((value: any) =>
 		value === 'ExtensionData'
 	);
 });
-export function validateTargetContextsArgument(targetContexts: Context | Context[], functionName: string): Context[] {
-	if (typeof targetContexts === 'string' && isValidContext(targetContexts)) targetContexts = [targetContexts];
-	if (!(targetContexts instanceof Array))
-		throw new Error(
-			badArgumentError(`${functionName}'s first argument`, 'valid Context or Array of Context', targetContexts),
-		);
-	for (const context of targetContexts) {
-		if (!isValidContext(context))
-			throw new Error(
-				badArgumentError(
-					`${functionName}'s first argument`,
-					'string of Context type or Array of strings of Context type',
-					context,
-				),
-			);
+
+function validateArrayOfContext(arg: any): arg is Context[] {
+	if (!(arg instanceof Array)) return false;
+	if (arg.length === 0) return false;
+	for (const value of arg) {
+		if (!isValidContext(value)) return false;
 	}
-	return targetContexts;
+	return true;
 }
-export function contextContainsOneOf(targetContexts: Context | Context[]): (parent: string[]) => boolean {
-	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
-	return (parent: string[]) => {
+
+function getValidTargetContextsArgument(arg: any, functionName: string): Context[] {
+	arg = typeof arg === 'string' ? [arg] : arg;
+	if (!validateArrayOfContext(arg)) {
+		throw new Error(badArgumentError(`${functionName}'s first argument`, 'valid Context or Array of Context', arg));
+	}
+	return arg;
+}
+
+export function contextContainsOneOf(targetContexts: any): (parent: Context[]) => boolean {
+	targetContexts = getValidTargetContextsArgument(targetContexts, 'contextContainsOneOf');
+	return (parent: Context[]) => {
+		if (!(parent instanceof Array)) throw new Error(badArgumentError('Context parent', 'array of strings', parent));
 		for (const context of targetContexts) {
 			if (parent.includes(context)) return true;
 		}
 		return false;
 	};
 }
-export function contextContainsAllOf(targetContexts: Context | Context[]): (parent: string[]) => boolean {
-	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
-	return (parent: string[]) => {
+export function contextContainsAllOf(targetContexts: Context | Context[]): (parent: Context[]) => boolean {
+	const targetContextsArray = getValidTargetContextsArgument(targetContexts, 'contextContainsAllOf');
+	return (parent: Context[]) => {
 		if (!(parent instanceof Array)) throw new Error(badArgumentError('Context parent', 'array of strings', parent));
 
-		for (const context of targetContexts) {
+		for (const context of targetContextsArray) {
 			if (!parent.includes(context)) return false;
 		}
 		return true;
 	};
 }
-export function contextContainsNoneOf(targetContexts: Context | Context[]): (parent: string[]) => boolean {
-	targetContexts = validateTargetContextsArgument(targetContexts, 'contextContainsOneOf');
-	return (parent: string[]) => {
+export function contextContainsNoneOf(targetContexts: Context | Context[]): (parent: Context[]) => boolean {
+	const targetContextsArray = getValidTargetContextsArgument(targetContexts, 'contextContainsNoneOf');
+	return (parent: Context[]) => {
 		if (!(parent instanceof Array)) throw new Error(badArgumentError('Context parent', 'array of strings', parent));
 
-		for (const context of targetContexts) {
+		for (const context of targetContextsArray) {
 			if (parent.includes(context)) return false;
 		}
 		return true;
