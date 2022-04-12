@@ -1,91 +1,246 @@
 import { Attribute, AttributeArgument } from './Attribute';
-import { StringContent } from './StringContent';
+import { StringContent, StringContentArgument } from './StringContent';
 import { badArgumentError } from '../errorMessages';
-import { isValidContext, Context } from './Context';
+import { isValidContext, Context, ContextFilter } from './Context';
+
+type XMLStringContentArgument = string | number | StringContentArgument;
+
+export type XMLElementArgument = {
+	name: string;
+	attributes?: AttributeArgument | AttributeArgument[];
+	content?: XMLElement | XMLElement[] | XMLStringContentArgument;
+	context?: ContextFilter;
+};
+
+function isValidNameArgument(name: any): name is { name: string } {
+	if (typeof name !== 'string')
+		throw new Error(
+			badArgumentError("XMLElement's argument.name", 'a string', name),
+		);
+	if (name.length === 0)
+		throw new Error(
+			badArgumentError(
+				"XMLElement's argument.name",
+				'a non-empty string',
+				name,
+			),
+		);
+	if (!/^[\w\.-]+$/.test(name))
+		throw new Error(
+			badArgumentError(
+				"XMLElement's argument.name",
+				'a string containing only alphanumeric characters, underscores, hyphens and periods',
+				name,
+			),
+		);
+	return true;
+}
+
+function IsValidAttributeArgument(
+	attributes: any,
+): attributes is AttributeArgument {
+	const validate = (attribute: any) =>
+		attribute === undefined ||
+		(typeof attribute === 'object' &&
+			!Array.isArray(attribute) &&
+			Object.keys(attribute).length > 0);
+
+	if (Array.isArray(attributes) && attributes.length > 0) {
+		for (const attribute of attributes) {
+			if (!validate(attribute)) {
+				throw new Error(
+					badArgumentError(
+						"When provided as an array, each XMLElement's argument.attribute (optional)",
+						'an AttributeArgument (type)',
+						attribute,
+					),
+				);
+			}
+		}
+	} else {
+		if (!validate(attributes)) {
+			throw new Error(
+				badArgumentError(
+					"XMLElement's argument.attributes (optional)",
+					'an AttributeArgument (type) or an array of AttributeArgument',
+					attributes,
+				),
+			);
+		}
+	}
+	return true;
+}
+
+function isValidStringContentArgument(
+	content: any,
+): content is XMLStringContentArgument {
+	if (typeof content === 'number') return true;
+	if (typeof content === 'string') {
+		if (content.trim().length === 0)
+			throw new Error(
+				badArgumentError(
+					"When provided as a string, XMLElement's argument.content",
+					'a non-empty string',
+					content,
+				),
+			);
+		return true;
+	}
+	if (typeof content === 'object') {
+		if (!(content instanceof StringContent))
+			throw new Error(
+				badArgumentError(
+					"When provided as an object, XMLElement's argument.content (optional)",
+					'a StringContent (class) instance',
+					content,
+				),
+			);
+		return true;
+	}
+	return false;
+}
+
+function isValidContentArgument(
+	content: any,
+): content is XMLElement | XMLElement[] | XMLStringContentArgument | undefined {
+	if (content === undefined) return true;
+	if (content instanceof XMLElement) return true;
+	if (Array.isArray(content)) {
+		if (content.length === 0) return true;
+		for (const element of content) {
+			if (!(element instanceof XMLElement)) {
+				throw new Error(
+					badArgumentError(
+						"When provided as an array, XMLElement's argument.content (optional)",
+						'an XMLElement (class)',
+						element,
+					),
+				);
+			}
+		}
+		return true;
+	}
+	if (!isValidStringContentArgument(content))
+		throw new Error(
+			badArgumentError(
+				"XMLElement's argument.content (optional)",
+				'an XMLElement (class), an array of XMLElement, a StringContent (class), a string or a number',
+				content,
+			),
+		);
+
+	return true;
+}
+
+function isValidContextArgument(context: any): context is ContextFilter {
+	if (context === undefined) return true;
+	if (typeof context !== 'function')
+		throw new Error(
+			badArgumentError(
+				"XMLElement's argument.context (optional)",
+				'a function',
+				context,
+			),
+		);
+	return true;
+}
+
+function isXMLElementArgument(arg: any): arg is XMLElementArgument {
+	if (typeof arg !== 'object' || Array.isArray(arg))
+		throw badArgumentError(
+			'XMLElement argument',
+			'an XMLElementArgument (type)',
+			arg,
+		);
+	return (
+		isValidNameArgument(arg.name) &&
+		IsValidAttributeArgument(arg.attributes) &&
+		isValidContentArgument(arg.content) &&
+		isValidContextArgument(arg.context)
+	);
+}
+
+function getArrayOfAttributes(
+	attributes: AttributeArgument | AttributeArgument[],
+): Attribute[] | undefined {
+	attributes = Array.isArray(attributes) ? attributes : [attributes];
+	let attributeArray: Attribute[] = [];
+	attributes.forEach((attribute) => {
+		attributeArray.push(new Attribute(attribute));
+	});
+	return attributeArray;
+}
+
+function getArrayOfContent(
+	content: XMLElement | XMLElement[] | XMLStringContentArgument,
+): XMLElement[] | StringContent {
+	return Array.isArray(content)
+		? content
+		: content instanceof XMLElement
+		? [content]
+		: new StringContent(content);
+}
 
 export class XMLElement {
 	readonly name: string;
 	readonly attributes?: Attribute[];
 	readonly content?: XMLElement[] | StringContent;
-	private context?: (parents: Context[]) => boolean;
+	private context?: ContextFilter;
 
-	constructor({
-		name,
-		attributes,
-		content,
-		context,
-	}: {
-		name: string;
-		attributes?: AttributeArgument | AttributeArgument[];
-		content?: XMLElement | XMLElement[] | { value: string; context?: (parents: string[]) => boolean } | string;
-		context?: (parents: Context[]) => boolean;
-	}) {
-		if (typeof name !== 'string') throw new Error(badArgumentError("XML Element's name", 'string', name));
+	constructor(arg: any) {
+		this.name = '';
+		if (isXMLElementArgument(arg)) {
+			const { name, attributes, content, context } = arg;
+			this.name = name;
+			this.context = context;
+			if (attributes !== undefined)
+				this.attributes = getArrayOfAttributes(attributes);
 
-		this.name = name;
-		if (context && {}.toString.call(context) === '[object Function]') this.context = context;
-
-		if (attributes !== undefined) {
-			this.attributes = [];
-			if (typeof attributes === 'object' && attributes instanceof Array) {
-				attributes.forEach((attribute) => {
-					if (attribute.value) this.attributes?.push(new Attribute(attribute));
-				});
-			} else if (attributes instanceof Object && attributes.value) this.attributes = [new Attribute(attributes)];
-		}
-
-		if (content !== undefined) {
-			if (content instanceof Array && content[0] instanceof XMLElement) this.content = content;
-			else if (content instanceof XMLElement) this.content = [content];
-			else if (
-				typeof content === 'object' &&
-				!(content instanceof XMLElement) &&
-				!(content instanceof Array) &&
-				typeof content.value === 'string'
-			)
-				this.content = new StringContent(content);
-			else if (typeof content === 'string') this.content = new StringContent({ value: content });
+			if (content !== undefined) {
+				this.content = getArrayOfContent(content);
+			}
 		}
 	}
-
 	xml(parents: Context[] = [], indent: number = 0): string {
-		const containsAttributeOrContent = (str: string): boolean => {
-			const regexp = new RegExp(/<.* .*=".*" ?\/?>|(<.*?>)+([^<\r\n])+(<\/.*?>)+/);
-			return regexp.test(str);
+		const getAttributes = (attributes: Attribute[] | undefined): string => {
+			if (attributes === undefined) return '';
+			let attributesString = '';
+			attributes.forEach((attribute) => {
+				attributesString += attribute.xml(parents);
+			});
+			return attributesString;
 		};
-		const outputXML = (): string => {
-			let result = `${'\t'.repeat(indent)}<${this.name}`;
-			if (this.attributes !== undefined && this.attributes instanceof Array && this.attributes?.length > 0) {
-				this.attributes.forEach((attribute) => {
-					if (attribute.context) {
-						if (attribute.context(parents)) result += ` ${attribute.name}="${attribute.value}"`;
-					} else result += ` ${attribute.name}="${attribute.value}"`;
-				});
-			}
-			if (this.content !== undefined) {
-				if (isValidContext(this.constructor.name)) parents.push(this.constructor.name);
-				let contentXML = '';
-				if (this.content instanceof StringContent) contentXML += this.content.xml(parents);
-				else if (this.content instanceof Array) {
-					this.content.forEach((content) => {
-						contentXML += content.xml(parents, indent + 1);
-					});
-				}
-				if (contentXML === '') result += '/>\n';
-				else {
-					result += '>';
-					result += !(this.content instanceof StringContent) ? '\n' : '';
-					result += contentXML;
-					result += !(this.content instanceof StringContent) ? '\t'.repeat(indent) : '';
-					result += `</${this.name}>\n`;
-				}
+
+		const getContent = (
+			content: XMLElement[] | StringContent | undefined,
+		): string => {
+			if (content === undefined) return '';
+			if (content instanceof StringContent) {
+				return content.xml(parents);
 			} else {
-				result += '/>\n';
+				let xml = '';
+				for (const element of content) {
+					xml += element.xml(parents, indent + 1);
+				}
+				if (xml !== '') xml = `\n${xml}${'\t'.repeat(indent)}`;
+				return xml;
 			}
-			if (containsAttributeOrContent(result)) return result;
-			return '';
 		};
-		if (this.context) {
+
+		const outputXML = (): string => {
+			if (isValidContext(this.constructor.name))
+				parents.push(this.constructor.name);
+			const attributesString = getAttributes(this.attributes);
+			const contentString = getContent(this.content);
+			if (attributesString === '' && contentString === '') return '';
+			let result = `${'\t'.repeat(indent)}<${
+				this.name
+			}${attributesString}`;
+			if (contentString === '') result += '/>\n';
+			else result += `>${contentString}</${this.name}>\n`;
+			return result;
+		};
+		if (!!this.context) {
 			if (this.context(parents)) {
 				return outputXML();
 			}

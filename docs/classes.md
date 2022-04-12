@@ -3,6 +3,7 @@
 ## All classes
 
 [XMLElement](#XMLElement)
+[XMLStringContentArgument](#XMLStringContentArgument)
 [Attribute](#Attribute)
 
 -   [ExtensionManifest](#ExtensionManifest)
@@ -69,18 +70,61 @@
 
 ---
 
-## **Attribute**
+## **XMLElement**
 
-An optional author of this ExtensionBundle.
+A way to generate, hold and output standard XML elements.
 
 ### Argument
 
-It expects an argument of type string.
+It expects an argument of type [XMLElementArgument (type)](type.md#XMLElementArgument).
 
 ### Usage
 
 ```typescript
 new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+Used by [XMLElement (class)](#XMLElement)
+
+---
+
+## **XMLStringContentArgument**
+
+A complex string content for an XML element.
+
+### Argument
+
+It expects an argument of type [StringContentArgument (type)](type.md#StringContentArgument).
+
+### Usage
+
+```typescript
+new XMLStringContentArgument({
+	value: string | number;
+	context?: ContextFilter;
+});
+```
+
+Used by [XMLElement (class)](#XMLElement)
+
+---
+
+## **Attribute**
+
+A way to generate standard XML attributes.
+
+### Argument
+
+It expects an argument of type [AttributeArgument (interface)](interfaces.md#AttributeArgument).
+
+### Usage
+
+```typescript
+new Attribute({
+	name: string;
+	value?: string;
+	context?: ContextFilter;
+});
 ```
 
 Used by [XMLElement (class)](#XMLElement)

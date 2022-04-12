@@ -39,11 +39,13 @@ interface URL {
 
 ## **AttributeArgument**
 
+[ContextFilter (type)](types.md#ContextFilter)
+
 ```typescript
 interface AttributeArgument {
 	name: string;
 	value: string;
-	context?: (parents: string[]) => boolean;
+	context?: ContextFilter;
 }
 ```
 
@@ -97,11 +99,12 @@ interface UIArgument {
 ## **UIArgument**
 
 [Context (type)](types.md#Context)
+[ContextFilter (type)](types.md#ContextFilter)
 
 ```typescript
 interface AttributeArgument {
 	name: string;
 	value: string;
-	context?: (parents: Context[]) => boolean;
+	context?: ContextFilter;
 }
 ```
