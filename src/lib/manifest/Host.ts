@@ -2,7 +2,12 @@ import { XMLElement } from './XMLElement';
 import { AttributeArgument } from './Attribute';
 import { RangedVersion, isRangedVersion } from '../typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
-import { HostEngine, isHostEngine, isHostEngineKey, isHostEngineValue } from './enumsAndValidators';
+import {
+	HostEngine,
+	isHostEngine,
+	isHostEngineKey,
+	isHostEngineValue,
+} from './enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 
 type All = 'All' | 'ALL' | 'all';
@@ -13,7 +18,10 @@ function hostListIsAll(hostList: any): hostList is All {
 }
 
 function isValidHostListArgument(hostList: any): hostList is HostListArgument {
-	if ((hostList !== undefined && typeof hostList === 'object') || hostListIsAll(hostList)) {
+	if (
+		(hostList !== undefined && typeof hostList === 'object') ||
+		hostListIsAll(hostList)
+	) {
 		if (hostListIsAll(hostList)) return true;
 		if (!(hostList instanceof Array)) hostList = [hostList];
 		for (const host of hostList) {
@@ -22,7 +30,13 @@ function isValidHostListArgument(hostList: any): hostList is HostListArgument {
 		return true;
 	}
 
-	throw new Error(badArgumentError('hostList', 'an instance or array of HostListArgument (type)', hostList));
+	throw new Error(
+		badArgumentError(
+			'hostList',
+			'an instance or array of HostListArgument (type)',
+			hostList,
+		),
+	);
 }
 
 export class HostList extends XMLElement {
@@ -91,7 +105,11 @@ export class HostList extends XMLElement {
 	constructor(hostList: HostListArgument) {
 		isValidHostListArgument(hostList);
 		let content: Host[] = [];
-		hostList = hostListIsAll(hostList) ? getAllHosts() : !(hostList instanceof Array) ? [hostList] : hostList;
+		hostList = hostListIsAll(hostList)
+			? getAllHosts()
+			: !(hostList instanceof Array)
+			? [hostList]
+			: hostList;
 
 		for (const host of hostList) {
 			content.push(new Host(host));
@@ -100,7 +118,11 @@ export class HostList extends XMLElement {
 		super({
 			name: 'HostList',
 			content,
-			context: contextContainsOneOf(['ExecutionEnvironment', 'DispatchInfoList', '.debug']),
+			context: contextContainsOneOf([
+				'ExecutionEnvironment',
+				'DispatchInfoList',
+				'.debug',
+			]),
 		});
 	}
 }
@@ -122,25 +144,44 @@ interface HostArgument {
 function isHostArgument(host: any): host is HostArgument {
 	if (!host.host || !isHostEngine(host.host))
 		throw new Error(
-			badArgumentError(`hostList[].host`, "a HostEngine(ENUM) key or value or the string 'ALL'", host.host),
+			badArgumentError(
+				`hostList[].host`,
+				"a HostEngine(ENUM) key or value or the string 'ALL'",
+				host.host,
+			),
 		);
 
 	if (
 		!host.version ||
-		(!isRangedVersion(host.version) && !(typeof host.version === 'string' && host.version.toUpperCase() === 'ALL'))
+		(!isRangedVersion(host.version) &&
+			!(
+				typeof host.version === 'string' &&
+				host.version.toUpperCase() === 'ALL'
+			))
 	)
-		throw new Error(badArgumentError(`hostList[].version`, "a RangedVersion or the string 'ALL'", host.version));
+		throw new Error(
+			badArgumentError(
+				`hostList[].version`,
+				"a RangedVersion or the string 'ALL'",
+				host.version,
+			),
+		);
 
 	if (host.debugPort)
 		if (
 			!(
 				host.debugPort &&
 				(typeof host.debugPort === 'number' ||
-					(typeof host.debugPort === 'string' && Number.isInteger(parseInt(host.debugPort))))
+					(typeof host.debugPort === 'string' &&
+						Number.isInteger(parseInt(host.debugPort))))
 			)
 		) {
 			throw new Error(
-				badArgumentError('hostList[].debugPort', 'a number or a string containing a number', host.debugPort),
+				badArgumentError(
+					'hostList[].debugPort',
+					'a number or a string containing a number',
+					host.debugPort,
+				),
 			);
 		}
 	return true;
@@ -149,8 +190,10 @@ function isHostArgument(host: any): host is HostArgument {
 class Host extends XMLElement {
 	constructor({ host, version, debugPort }: HostArgument) {
 		let attribute = [];
-		if (host && isHostEngineValue(host)) attribute.push({ name: 'Name', value: host });
-		else if (host && isHostEngineKey(host)) attribute.push({ name: 'Name', value: HostEngine[host] });
+		if (host && isHostEngineValue(host))
+			attribute.push({ name: 'Name', value: host });
+		else if (host && isHostEngineKey(host))
+			attribute.push({ name: 'Name', value: HostEngine[host] });
 
 		let versionAttr: AttributeArgument = {
 			name: 'Version',
@@ -159,7 +202,11 @@ class Host extends XMLElement {
 		};
 		if (version && isRangedVersion(version)) {
 			versionAttr.value = version.toString();
-		} else if (version && typeof version === 'string' && version.toUpperCase() === 'ALL') {
+		} else if (
+			version &&
+			typeof version === 'string' &&
+			version.toUpperCase() === 'ALL'
+		) {
 			versionAttr.value = '[0,99]';
 		}
 		attribute.push(versionAttr);
@@ -169,9 +216,13 @@ class Host extends XMLElement {
 			context: contextContainsAllOf(['.debug', 'ExtensionList']),
 			value: '',
 		};
-		if (debugPort && (typeof debugPort === 'number' || /^\d+$/.test(debugPort)))
+		if (
+			debugPort &&
+			(typeof debugPort === 'number' || /^\d+$/.test(debugPort))
+		) {
 			debugPortAttribute.value = debugPort.toString();
-		attribute.push(debugPortAttribute);
+			attribute.push(debugPortAttribute);
+		}
 
 		super({ name: 'Host', attributes: attribute });
 	}

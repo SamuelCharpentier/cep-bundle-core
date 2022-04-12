@@ -31,7 +31,9 @@ describe('Attribute', () => {
 		badArgument = 42;
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute must be provided as an AttributeArgument (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: attribute must be provided as an AttributeArgument (type), 42 (number) received',
+		);
 		badArgument = true;
 		expect(() => {
 			new Attribute(badArgument);
@@ -58,35 +60,45 @@ describe('Attribute', () => {
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow("Validation Error: attribute.name must be provided as a string, '' (string) received");
+		}).toThrow(
+			"Validation Error: attribute.name must be provided as a string, '' (string) received",
+		);
 		badArgument = {
 			name: 42,
 			value: '',
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.name must be provided as a string, 42 (number) received');
+		}).toThrow(
+			'Validation Error: attribute.name must be provided as a string, 42 (number) received',
+		);
 		badArgument = {
 			name: true,
 			value: '',
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.name must be provided as a string, true (boolean) received');
+		}).toThrow(
+			'Validation Error: attribute.name must be provided as a string, true (boolean) received',
+		);
 		badArgument = {
 			name: [],
 			value: '',
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.name must be provided as a string, \n[]\n (array) received');
+		}).toThrow(
+			'Validation Error: attribute.name must be provided as a string, \n[]\n (array) received',
+		);
 		badArgument = {
 			name: () => {},
 			value: '',
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.name must be provided as a string, [Function] (function) received');
+		}).toThrow(
+			'Validation Error: attribute.name must be provided as a string, [Function] (function) received',
+		);
 	});
 	it('invalidates bad value value', () => {
 		badArgument = {
@@ -95,23 +107,33 @@ describe('Attribute', () => {
 		};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow("Validation Error: attribute.value must be provided as a string, '' (string) received");
+		}).toThrow(
+			"Validation Error: attribute.value (optional) must be provided as a string, '' (string) received",
+		);
 		badArgument.value = 42;
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.value must be provided as a string, 42 (number) received');
+		}).toThrow(
+			'Validation Error: attribute.value (optional) must be provided as a string, 42 (number) received',
+		);
 		badArgument.value = true;
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.value must be provided as a string, true (boolean) received');
+		}).toThrow(
+			'Validation Error: attribute.value (optional) must be provided as a string, true (boolean) received',
+		);
 		badArgument.value = [];
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.value must be provided as a string, \n[]\n (array) received');
+		}).toThrow(
+			'Validation Error: attribute.value (optional) must be provided as a string, \n[]\n (array) received',
+		);
 		badArgument.value = () => {};
 		expect(() => {
 			new Attribute(badArgument);
-		}).toThrow('Validation Error: attribute.value must be provided as a string, [Function] (function) received');
+		}).toThrow(
+			'Validation Error: attribute.value (optional) must be provided as a string, [Function] (function) received',
+		);
 	});
 	it('invalidates a bad context (optional)', () => {
 		badArgument = {

@@ -23,7 +23,10 @@ type All = 'All' | 'ALL' | 'all';
 [VersionNumber (type)](#VersionNumber)
 
 ```typescript
-type RangedVersion = number | VersionNumber | `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
+type RangedVersion =
+	| number
+	| VersionNumber
+	| `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
 ```
 
 ---
@@ -165,7 +168,10 @@ type RelativePath = `./${string}`;
 ## **LifecycleArgument**
 
 ```typescript
-type LifecycleArgument = { autoVisible?: boolean; startOn?: EventType | EventType[] };
+type LifecycleArgument = {
+	autoVisible?: boolean;
+	startOn?: EventType | EventType[];
+};
 ```
 
 ---
@@ -346,6 +352,62 @@ type Context =
 	| 'Geometry'
 	| 'Icons'
 	| 'ExtensionData';
+```
+
+---
+
+## **ContextFilter**
+
+[Context (type)](types.md#Context)
+
+```typescript
+type ContextFilter = (parents: Context[]) => boolean;
+```
+
+---
+
+## **XMLElementArgument**
+
+[AttributeArgument (interface)](interfaces.md#AttributeArgument)
+
+[XMLElement (class)](classes.md#XMLElement)
+
+[XMLStringContentArgument (class)](classes.md#XMLStringContentArgument)
+
+[ContextFilter (type)](#ContextFilter)
+
+```typescript
+type XMLElementArgument = {
+	name: string;
+	attributes?: AttributeArgument | AttributeArgument[];
+	content?: XMLElement | XMLElement[] | XMLStringContentArgument;
+	context?: ContextFilter;
+};
+```
+
+---
+
+---
+
+## **StringContentArgument**
+
+[ContextFilter (type)](#ContextFilter)
+
+```typescript
+type StringContentArgument = {
+	value: string | number;
+	context?: ContextFilter;
+};
+```
+
+---
+
+## **XMLStringContentArgument**
+
+[StringContentArgument (type)](#StringContentArgument)
+
+```typescript
+type XMLStringContentArgument = string | number | StringContentArgument;
 ```
 
 ---

@@ -2,16 +2,31 @@ import { XMLElement } from './XMLElement';
 import { Command, isValidCommand } from '../typesAndValidators';
 import { badArgumentError } from '../errorMessages';
 import { contextContainsOneOf } from './Context';
+import { StringContent } from './StringContent';
 
 export type CEFCommandLineArgument = Command | Command[];
 
-const isCEFCommandLineArgument: (commands: any) => boolean = (commands): commands is CEFCommandLineArgument => {
+const isCEFCommandLineArgument: (commands: any) => boolean = (
+	commands,
+): commands is CEFCommandLineArgument => {
 	if (commands === undefined || !(commands instanceof Array))
-		throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Commands (type)', commands));
+		throw new Error(
+			badArgumentError(
+				'cefParams',
+				'a Command (type) or an array of Commands (type)',
+				commands,
+			),
+		);
 
 	for (const command of commands) {
 		if (!isValidCommand(command))
-			throw new Error(badArgumentError('cefParams', 'a Command (type) or an array of Commands (type)', command));
+			throw new Error(
+				badArgumentError(
+					'cefParams',
+					'a Command (type) or an array of Commands (type)',
+					command,
+				),
+			);
 	}
 	return true;
 };
@@ -31,7 +46,10 @@ class Parameter extends XMLElement {
 	constructor(commandParameter: Command) {
 		super({
 			name: 'Parameter',
-			content: { value: commandParameter, context: contextContainsOneOf('CEFCommandLine') },
+			content: {
+				value: commandParameter,
+				context: contextContainsOneOf('CEFCommandLine'),
+			},
 		});
 	}
 }
