@@ -4,7 +4,7 @@ import {
 	contextContainsAllOf,
 	contextContainsNoneOf,
 	Context,
-} from '@src/lib/manifest/Context';
+} from '@manifest/Context';
 const validContextArray: any = [
 	'.debug',
 	'manifest.xml',
