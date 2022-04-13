@@ -252,4 +252,8 @@ describe('XMLElement', () => {
 			new XMLElement(validArgument);
 		}).not.toThrow();
 	});
+	it('outputs an empty string if it has no attribute or content', () => {
+		const xmlElement = new XMLElement({ name: 'Valid_Name' });
+		expect(xmlElement.xml()).toBe('');
+	});
 });
