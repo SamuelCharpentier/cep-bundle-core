@@ -30,7 +30,10 @@ module.exports = {
 					cefParams: ['--parameter1=value1', '--enable-nodejs'],
 				},
 				lifecycle: {
-					startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+					startOn: [
+						'applicationActivate',
+						'com.adobe.csxs.events.ApplicationActivate',
+					],
 				},
 				ui: {
 					type: 'Panel',
