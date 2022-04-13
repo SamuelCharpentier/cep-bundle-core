@@ -46,10 +46,10 @@ class Parameter extends XMLElement {
 	constructor(commandParameter: Command) {
 		super({
 			name: 'Parameter',
-			content: {
+			content: new StringContent({
 				value: commandParameter,
 				context: contextContainsOneOf('CEFCommandLine'),
-			},
+			}),
 		});
 	}
 }
