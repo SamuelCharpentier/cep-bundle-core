@@ -3,13 +3,13 @@ const isEnumToken = <T>(testedEnum: T) => {
 		(Object as any).values(testedEnum).includes(token as T[keyof T]);
 	return generatedFunction;
 };
-const isEnumKey = <T>(testedEnum: T) => {
+const isEnumKey = <T>(testedEnum: T & {}) => {
 	let generatedFunction = (key: any): key is keyof T =>
 		Object.keys(testedEnum).includes(key);
 	return generatedFunction;
 };
 
-const isEnumTokenOrKey = <T>(testedEnum: T) => {
+const isEnumTokenOrKey = <T>(testedEnum: T & {}) => {
 	return <(val: any) => val is T[keyof T] | keyof T>(
 		((val) => isEnumKey(testedEnum)(val) || isEnumToken(testedEnum)(val))
 	);
