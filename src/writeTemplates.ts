@@ -7,11 +7,19 @@ import panelTemplate from './templates/html';
 import { compile, CompileOptions } from './compile';
 import { Extension, ExtensionArgument } from './lib/manifest/Extension';
 
-export function writeExtensionTemplates(compileOptions: CompileOptions, config: Config) {
-	const extensionManifest = new ExtensionManifest(getManifestArgFromConfig(config));
+export function writeExtensionTemplates(
+	compileOptions: CompileOptions,
+	config: Config,
+) {
+	const extensionManifest = new ExtensionManifest(
+		getManifestArgFromConfig(config),
+	);
 	const manifestContents = extensionManifest.xml(['manifest.xml']);
 	const { outputFolder, debugInProduction, isDev } = compileOptions;
-	const extensions = config.extensions instanceof Array ? config.extensions : [config.extensions];
+	const extensions =
+		config.extensions instanceof Array
+			? config.extensions
+			: [config.extensions];
 	const manifestDir = path.join(outputFolder, 'CSXS');
 	const manifestFile = path.join(manifestDir, 'manifest.xml');
 	return Promise.resolve()
@@ -21,7 +29,12 @@ export function writeExtensionTemplates(compileOptions: CompileOptions, config: 
 			let chain = Promise.resolve();
 			if (debugInProduction || isDev) {
 				const debugContents = extensionManifest.xml(['.debug']);
-				chain = chain.then(() => fs.writeFile(path.join(outputFolder, '.debug'), debugContents));
+				chain = chain.then(() =>
+					fs.writeFile(
+						path.join(outputFolder, '.debug'),
+						debugContents,
+					),
+				);
 			}
 			if (isDev)
 				if (extensions instanceof Array)
@@ -34,7 +47,13 @@ export function writeExtensionTemplates(compileOptions: CompileOptions, config: 
 							href,
 						});
 						chain = chain.then(() =>
-							fs.writeFile(path.join(outputFolder, `dev.${extension.id}.html`), panelContents),
+							fs.writeFile(
+								path.join(
+									outputFolder,
+									`dev.${extension.id}.html`,
+								),
+								panelContents,
+							),
 						);
 					});
 			return chain;

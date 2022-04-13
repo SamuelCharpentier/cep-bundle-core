@@ -1,8 +1,20 @@
 import fs from 'fs-extra';
 
 import path from 'path';
-export function copyIcons({ root, out, iconNormal, iconRollover, iconDarkNormal, iconDarkRollover }: any) {
-	const iconPaths = [iconNormal, iconRollover, iconDarkNormal, iconDarkRollover]
+export function copyIcons({
+	root,
+	out,
+	iconNormal,
+	iconRollover,
+	iconDarkNormal,
+	iconDarkRollover,
+}: any) {
+	const iconPaths = [
+		iconNormal,
+		iconRollover,
+		iconDarkNormal,
+		iconDarkRollover,
+	]
 		.filter((icon) => icon !== undefined)
 		.map((icon) => ({
 			source: path.resolve(root, icon),
@@ -11,7 +23,9 @@ export function copyIcons({ root, out, iconNormal, iconRollover, iconDarkNormal,
 	return Promise.all(
 		iconPaths.map((icon) => {
 			return fs.copy(icon.source, icon.output).catch(() => {
-				console.error(`Could not copy ${icon.source}. Ensure the path is correct.`);
+				console.error(
+					`Could not copy ${icon.source}. Ensure the path is correct.`,
+				);
 			});
 		}),
 	);

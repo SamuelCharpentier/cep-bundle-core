@@ -23,7 +23,9 @@ function isDependencyListArgument(arg: any): arg is DependencyListArgument {
 export class DependencyList extends XMLElement {
 	constructor(dependencies: DependencyListArgument) {
 		isDependencyListArgument(dependencies);
-		dependencies = !(dependencies instanceof Array) ? [dependencies] : dependencies;
+		dependencies = !(dependencies instanceof Array)
+			? [dependencies]
+			: dependencies;
 		let content: Dependency[] = [];
 		for (const dependency of dependencies) {
 			content.push(new Dependency(dependency));
@@ -39,13 +41,27 @@ type DependencyArgument = {
 
 function isDependencyArgument(arg: any): arg is DependencyArgument {
 	if (typeof arg !== 'object') {
-		throw new Error(badArgumentError('every dependencyList elements', 'a DependencyArgument (type)', arg));
+		throw new Error(
+			badArgumentError(
+				'every dependencyList elements',
+				'a DependencyArgument (type)',
+				arg,
+			),
+		);
 	}
 	if (arg.id === undefined || typeof arg.id !== 'string') {
-		throw new Error(badArgumentError('dependencyList[].id', 'a string', arg.id));
+		throw new Error(
+			badArgumentError('dependencyList[].id', 'a string', arg.id),
+		);
 	}
 	if (arg.version !== undefined && !isVersionNumber(arg.version)) {
-		throw new Error(badArgumentError('dependencyList[].version (optional)', 'a VersionNumber (type)', arg.version));
+		throw new Error(
+			badArgumentError(
+				'dependencyList[].version (optional)',
+				'a VersionNumber (type)',
+				arg.version,
+			),
+		);
 	}
 	return true;
 }

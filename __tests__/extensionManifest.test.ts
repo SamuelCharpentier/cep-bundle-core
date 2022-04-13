@@ -1,7 +1,10 @@
 import { ExtensionManifest } from '@manifest/ExtensionManifest';
 import cepConfig from './.cep.config.js';
 
-const manifestConfig = { ...cepConfig.manifest, extensions: cepConfig.extensions };
+const manifestConfig = {
+	...cepConfig.manifest,
+	extensions: cepConfig.extensions,
+};
 describe('Extension Manifest', () => {
 	it('Is defined', () => {
 		expect(ExtensionManifest).toBeDefined();

@@ -29,18 +29,24 @@ describe('Menu', () => {
 		badArgument = 155;
 		expect(() => {
 			new Menu(badArgument);
-		}).toThrow('Validation Error: menu must be provided as as a MenuArgument (interface), 155 (number) received');
+		}).toThrow(
+			'Validation Error: menu must be provided as as a MenuArgument (interface), 155 (number) received',
+		);
 	});
 
 	it("Invalidates a menu name that isn't a string", () => {
 		badArgument = { menuName: 123 };
 		expect(() => {
 			new Menu(badArgument);
-		}).toThrow('Validation Error: menu.menuName must be provided as a string, 123 (number) received');
+		}).toThrow(
+			'Validation Error: menu.menuName must be provided as a string, 123 (number) received',
+		);
 		badArgument = { menuName: ['Hello'] };
 		expect(() => {
 			new Menu(badArgument);
-		}).toThrow('Validation Error: menu.menuName must be provided as a string, \n["Hello"]\n (array) received');
+		}).toThrow(
+			'Validation Error: menu.menuName must be provided as a string, \n["Hello"]\n (array) received',
+		);
 		badArgument = { menuName: { string: 'Hello' } };
 		expect(() => {
 			new Menu(badArgument);
@@ -75,7 +81,10 @@ describe('Menu', () => {
 		expect(() => {
 			new Menu(goodArgument);
 		}).not.toThrow();
-		goodArgument = { menuName: 'My menu name', placement: 'Some placement' };
+		goodArgument = {
+			menuName: 'My menu name',
+			placement: 'Some placement',
+		};
 		expect(() => {
 			new Menu(goodArgument);
 		}).not.toThrow();

@@ -23,7 +23,11 @@ const printVariableInError: (v: any) => string = (val) => {
 	} (${val instanceof Array ? 'array' : typeof val})`;
 };
 
-export const badArgumentError = (argumentName: string, argumentType: string, valueReceived: any) =>
+export const badArgumentError = (
+	argumentName: string,
+	argumentType: string,
+	valueReceived: any,
+) =>
 	`Validation Error: ${argumentName} must be provided as ${argumentType}, ${printVariableInError(
 		valueReceived,
 	)} received`;

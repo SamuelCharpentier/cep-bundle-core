@@ -20,7 +20,8 @@ export class DispatchInfoList extends XMLElement {
 		super({
 			name: 'DispatchInfoList',
 			content,
-			context: (parents: string[]) => contextContainsNoneOf('.debug')(parents),
+			context: (parents: string[]) =>
+				contextContainsNoneOf('.debug')(parents),
 		});
 	}
 }

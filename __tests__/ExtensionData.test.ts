@@ -8,29 +8,41 @@ describe('ExtensionData', () => {
 	it('Invalidates undefined argument', () => {
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, undefined (undefined) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, undefined (undefined) received',
+		);
 	});
 	it('Invalidates non-string argument', () => {
 		badArgument = 42;
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, 42 (number) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, 42 (number) received',
+		);
 		badArgument = {};
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, \n{}\n (object) received',
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, \n["hello"]\n (array) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, \n["hello"]\n (array) received',
+		);
 		badArgument = true;
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, true (boolean) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, true (boolean) received',
+		);
 		badArgument = () => {};
 		expect(() => {
 			new ExtensionData(badArgument);
-		}).toThrow('Validation Error: extensionData must be provided as a string, [Function] (function) received');
+		}).toThrow(
+			'Validation Error: extensionData must be provided as a string, [Function] (function) received',
+		);
 	});
 	it('invalidates string of length 0', () => {
 		badArgument = '';
@@ -50,6 +62,8 @@ describe('ExtensionData', () => {
 	it('Outputs XML in any context', () => {
 		const validArgument = 'hello';
 		const extensionData = new ExtensionData(validArgument);
-		expect(extensionData.xml()).toBe(`<ExtensionData>${validArgument}</ExtensionData>\n`);
+		expect(extensionData.xml()).toBe(
+			`<ExtensionData>${validArgument}</ExtensionData>\n`,
+		);
 	});
 });

@@ -16,21 +16,29 @@ describe('UI', () => {
 		badArgument = 'hello';
 		expect(() => {
 			new UI(badArgument);
-		}).toThrow("Validation Error: ui must be provided as UIArgument (interface), 'hello' (string) received");
+		}).toThrow(
+			"Validation Error: ui must be provided as UIArgument (interface), 'hello' (string) received",
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new UI(badArgument);
-		}).toThrow('Validation Error: ui must be provided as UIArgument (interface), \n["hello"]\n (array) received');
+		}).toThrow(
+			'Validation Error: ui must be provided as UIArgument (interface), \n["hello"]\n (array) received',
+		);
 		badArgument = 155;
 		expect(() => {
 			new UI(badArgument);
-		}).toThrow('Validation Error: ui must be provided as UIArgument (interface), 155 (number) received');
+		}).toThrow(
+			'Validation Error: ui must be provided as UIArgument (interface), 155 (number) received',
+		);
 	});
 	it('Invalidates an empty object', () => {
 		badArgument = {};
 		expect(() => {
 			new UI(badArgument);
-		}).toThrow('Validation Error: ui must be provided as UIArgument (interface), \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: ui must be provided as UIArgument (interface), \n{}\n (object) received',
+		);
 	});
 	let validArgument: UIArgument = {
 		geometry: {

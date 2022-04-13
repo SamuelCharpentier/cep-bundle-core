@@ -16,7 +16,10 @@ export interface CompileOptions {
 	debugInProduction: boolean;
 }
 
-export function compile(usersCompileOption: Partial<CompileOptions>, configOverrides?: Partial<Config>) {
+export function compile(
+	usersCompileOption: Partial<CompileOptions>,
+	configOverrides?: Partial<Config>,
+) {
 	const compileOptions = getCompileOptions(usersCompileOption);
 	const config = getConfig(compileOptions, configOverrides);
 	console.log(usersCompileOption.htmlFilename);
@@ -34,7 +37,12 @@ export function compile(usersCompileOption: Partial<CompileOptions>, configOverr
 		}
 	}
 	chain = chain
-		.then(() => copyDependencies({ root: compileOptions.root, out: compileOptions.outputFolder }))
+		.then(() =>
+			copyDependencies({
+				root: compileOptions.root,
+				out: compileOptions.outputFolder,
+			}),
+		)
 		.then(() => writeExtensionTemplates(compileOptions, config))
 		.then(() => copyIcons(config))
 		.then(() => {
@@ -43,7 +51,9 @@ export function compile(usersCompileOption: Partial<CompileOptions>, configOverr
 	return chain;
 }
 
-const getCompileOptions = (usersCompileOptions: Partial<CompileOptions>): CompileOptions => {
+const getCompileOptions = (
+	usersCompileOptions: Partial<CompileOptions>,
+): CompileOptions => {
 	const defaultCompileOptions: CompileOptions = {
 		root: process.cwd(),
 		outputFolder: '',
@@ -60,4 +70,7 @@ const getCompileOptions = (usersCompileOptions: Partial<CompileOptions>): Compil
 	return compileOptions;
 };
 
-compile({ isDev: true, outputFolder: './myOutputFolder' }, { extensions: { id: 'some.extension.id' } });
+compile(
+	{ isDev: true, outputFolder: './myOutputFolder' },
+	{ extensions: { id: 'some.extension.id' } },
+);

@@ -29,11 +29,18 @@ export type VersionNumber =
 	| `${number}.${number}.${number}.${string}`;
 
 export function isVersionNumber(value: any): value is VersionNumber {
-	if (typeof value === 'string' && /^(\d{1,9}\.){0,2}\d{1,9}(\.[\w_-]+)?$/.test(value)) return true;
+	if (
+		typeof value === 'string' &&
+		/^(\d{1,9}\.){0,2}\d{1,9}(\.[\w_-]+)?$/.test(value)
+	)
+		return true;
 	return false;
 }
 
-export type RangedVersion = number | VersionNumber | `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
+export type RangedVersion =
+	| number
+	| VersionNumber
+	| `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
 
 const rangedVersionRegex =
 	/(\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?)|([(\[]\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?,?\d{1,9}(\.\d{1,9}(\.\d{1,9}(\.(\w|_|-)+)?)?)?[)\]])/;
@@ -70,7 +77,10 @@ export type Command =
 	| `--${string}=${string}`;
 
 export function isValidCommand(command: any): command is Command {
-	if (typeof command !== 'string' || !/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command))
+	if (
+		typeof command !== 'string' ||
+		!/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command)
+	)
 		return false;
 	return true;
 }

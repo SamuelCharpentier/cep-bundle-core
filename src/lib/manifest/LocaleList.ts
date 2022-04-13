@@ -7,12 +7,16 @@ export type LocaleListArgument =
 	| AdobeLocaleCodes[]
 	| (keyof typeof AdobeLocaleCodes)[];
 
-const isLocaleListArgument: (arg: any) => boolean = (args): args is LocaleListArgument => {
+const isLocaleListArgument: (arg: any) => boolean = (
+	args,
+): args is LocaleListArgument => {
 	if (typeof args === 'string') args = [args];
 	if (args instanceof Array) {
 		for (const arg of args) {
 			if (!isAdobeLocaleCode(arg)) {
-				throw new Error(`Bad Locale provided, ${arg} is not a valid AdobeLocaleCodes(enum)`);
+				throw new Error(
+					`Bad Locale provided, ${arg} is not a valid AdobeLocaleCodes(enum)`,
+				);
 			}
 		}
 		return true;
@@ -36,7 +40,8 @@ export class LocaleList extends XMLElement {
 
 class LocaleElement extends XMLElement {
 	constructor(code: keyof typeof AdobeLocaleCodes) {
-		if (typeof code === 'string' && isAdobeLocaleCode(code)) code = AdobeLocaleCodes[code];
+		if (typeof code === 'string' && isAdobeLocaleCode(code))
+			code = AdobeLocaleCodes[code];
 		super({ name: 'Locale', attributes: { name: 'Code', value: code } });
 	}
 }

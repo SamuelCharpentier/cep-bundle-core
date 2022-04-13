@@ -4,11 +4,19 @@ import { badArgumentError } from '../errorMessages';
 
 export type TypeArgument = UIType | `${UIType}` | keyof typeof UIType;
 
-export const isTypeArgument: (value: any) => boolean = (value): value is TypeArgument => {
+export const isTypeArgument: (value: any) => boolean = (
+	value,
+): value is TypeArgument => {
 	if (value !== undefined && isUIType(value)) {
 		return true;
 	}
-	throw new Error(badArgumentError('Type', 'a UIType (enum), `${UIType}` or keyof typeof UIType', value));
+	throw new Error(
+		badArgumentError(
+			'Type',
+			'a UIType (enum), `${UIType}` or keyof typeof UIType',
+			value,
+		),
+	);
 };
 export class Type extends XMLElement {
 	constructor(type: TypeArgument) {

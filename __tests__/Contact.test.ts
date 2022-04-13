@@ -20,7 +20,9 @@ describe('Contact', () => {
 		badArgument = 42;
 		expect(() => {
 			new Contact(badArgument);
-		}).toThrow('Validation Error: contact must be provided as a valid EmailAdress (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: contact must be provided as a valid EmailAdress (type), 42 (number) received',
+		);
 		badArgument = {};
 		expect(() => {
 			new Contact(badArgument);
@@ -36,7 +38,9 @@ describe('Contact', () => {
 		badArgument = true;
 		expect(() => {
 			new Contact(badArgument);
-		}).toThrow('Validation Error: contact must be provided as a valid EmailAdress (type), true (boolean) received');
+		}).toThrow(
+			'Validation Error: contact must be provided as a valid EmailAdress (type), true (boolean) received',
+		);
 		badArgument = () => {};
 		expect(() => {
 			new Contact(badArgument);
@@ -60,6 +64,8 @@ describe('Contact', () => {
 	});
 	it('Outputs XML in any context', () => {
 		const abstract = new Contact(validArgument);
-		expect(abstract.xml(['manifest.xml'])).toBe('<Contact mailto="contact@extension.com"/>\n');
+		expect(abstract.xml(['manifest.xml'])).toBe(
+			'<Contact mailto="contact@extension.com"/>\n',
+		);
 	});
 });

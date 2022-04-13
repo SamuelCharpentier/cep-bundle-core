@@ -1,4 +1,7 @@
-import { ExecutionEnvironment, ExecutionEnvironmentArgument } from '@manifest/ExecutionEnvironment';
+import {
+	ExecutionEnvironment,
+	ExecutionEnvironmentArgument,
+} from '@manifest/ExecutionEnvironment';
 
 describe('ExecutionEnvironment', () => {
 	it('is defined', () => {

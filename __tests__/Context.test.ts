@@ -91,7 +91,9 @@ describe('contextContainsOneOf function', () => {
 		expect(contextContainsOneOf(context)([])).toEqual(false);
 		expect(() => {
 			contextContainsOneOf(context)(badParentArgument);
-		}).toThrow('Validation Error: Context parent must be provided as array of strings, 42 (number) received');
+		}).toThrow(
+			'Validation Error: Context parent must be provided as array of strings, 42 (number) received',
+		);
 	});
 });
 
@@ -110,12 +112,23 @@ describe('contextContainsAllOf function', () => {
 	});
 	it('returns a function working as expected', () => {
 		const badParentArgument: any = 42;
-		expect(contextContainsAllOf(validContextArray)([...validContextArray, 'SomeMoreExtraContext'])).toEqual(true);
-		expect(contextContainsAllOf(['Icons', 'Abstract'])(['AutoVisible'])).toEqual(false);
-		expect(contextContainsAllOf(['Icons', 'Abstract'])(['Icons'])).toEqual(false);
+		expect(
+			contextContainsAllOf(validContextArray)([
+				...validContextArray,
+				'SomeMoreExtraContext',
+			]),
+		).toEqual(true);
+		expect(
+			contextContainsAllOf(['Icons', 'Abstract'])(['AutoVisible']),
+		).toEqual(false);
+		expect(contextContainsAllOf(['Icons', 'Abstract'])(['Icons'])).toEqual(
+			false,
+		);
 		expect(() => {
 			contextContainsAllOf(['Icons', 'Abstract'])(badParentArgument);
-		}).toThrow('Validation Error: Context parent must be provided as array of strings, 42 (number) received');
+		}).toThrow(
+			'Validation Error: Context parent must be provided as array of strings, 42 (number) received',
+		);
 	});
 });
 
@@ -135,11 +148,22 @@ describe('contextContainsNoneOf function', () => {
 	it('returns a function working as expected', () => {
 		const contextArray: Context[] = ['Icons', 'Abstract'];
 		const badParentArgument: any = 42;
-		expect(contextContainsNoneOf(contextArray)([...validContextArray, 'SomeMoreExtraContext'])).toEqual(false);
-		expect(contextContainsNoneOf(['Icons', 'Abstract'])(['AutoVisible'])).toEqual(true);
-		expect(contextContainsNoneOf(['Icons', 'Abstract'])(['Icons'])).toEqual(false);
+		expect(
+			contextContainsNoneOf(contextArray)([
+				...validContextArray,
+				'SomeMoreExtraContext',
+			]),
+		).toEqual(false);
+		expect(
+			contextContainsNoneOf(['Icons', 'Abstract'])(['AutoVisible']),
+		).toEqual(true);
+		expect(contextContainsNoneOf(['Icons', 'Abstract'])(['Icons'])).toEqual(
+			false,
+		);
 		expect(() => {
 			contextContainsNoneOf(['Icons', 'Abstract'])(badParentArgument);
-		}).toThrow('Validation Error: Context parent must be provided as array of strings, 42 (number) received');
+		}).toThrow(
+			'Validation Error: Context parent must be provided as array of strings, 42 (number) received',
+		);
 	});
 });

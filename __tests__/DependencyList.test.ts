@@ -50,11 +50,15 @@ describe('DependencyList', () => {
 		badArgument = { id: 45 };
 		expect(() => {
 			new DependencyList(badArgument);
-		}).toThrow('Validation Error: dependencyList[].id must be provided as a string, 45 (number) received');
+		}).toThrow(
+			'Validation Error: dependencyList[].id must be provided as a string, 45 (number) received',
+		);
 		badArgument = { id: true };
 		expect(() => {
 			new DependencyList(badArgument);
-		}).toThrow('Validation Error: dependencyList[].id must be provided as a string, true (boolean) received');
+		}).toThrow(
+			'Validation Error: dependencyList[].id must be provided as a string, true (boolean) received',
+		);
 		badArgument = { id: () => {} };
 		expect(() => {
 			new DependencyList(badArgument);

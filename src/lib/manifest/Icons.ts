@@ -3,18 +3,32 @@ import { RelativePath, isRelativePath } from '../typesAndValidators';
 import { IconType, isIconType } from './enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 
-export type IconsArgument = { [key in keyof typeof IconType | IconType]?: RelativePath };
+export type IconsArgument = {
+	[key in keyof typeof IconType | IconType]?: RelativePath;
+};
 
-const isIconsArgument = <(arg: any) => arg is IconsArgument>((arg): arg is IconsArgument => {
-	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length === 0)
+const isIconsArgument = <(arg: any) => arg is IconsArgument>((
+	arg,
+): arg is IconsArgument => {
+	if (
+		arg === undefined ||
+		typeof arg !== 'object' ||
+		arg instanceof Array ||
+		Object.keys(arg).length === 0
+	)
 		throw new Error(badArgumentError('Icon', 'IconsArgument (type)', arg));
 
 	for (const iconType in arg) {
-		if (!isIconType(iconType)) throw new Error(badArgumentError('Each icon keys', 'IconType (enum)', iconType));
+		if (!isIconType(iconType))
+			throw new Error(
+				badArgumentError('Each icon keys', 'IconType (enum)', iconType),
+			);
 		if (!isRelativePath(arg[iconType]))
 			throw new Error(
 				badArgumentError(
-					`${iconType[0].toUpperCase()}${iconType.slice(1)} icon path`,
+					`${iconType[0].toUpperCase()}${iconType.slice(
+						1,
+					)} icon path`,
 					'a RelativePath (type)',
 					arg[iconType],
 				),
@@ -41,8 +55,12 @@ export class Icons extends XMLElement {
 			let content: Icon[] = [];
 			for (const iconType in icons) {
 				if (isIconType(iconType)) {
-					let relativePath: RelativePath | undefined = icons[iconType];
-					if (isRelativePath(relativePath)) content.push(new Icon({ type: iconType, relativePath }));
+					let relativePath: RelativePath | undefined =
+						icons[iconType];
+					if (isRelativePath(relativePath))
+						content.push(
+							new Icon({ type: iconType, relativePath }),
+						);
 				}
 			}
 
@@ -51,10 +69,19 @@ export class Icons extends XMLElement {
 	}
 }
 class Icon extends XMLElement {
-	constructor({ relativePath, type }: { relativePath: RelativePath; type: keyof typeof IconType | `${IconType}` }) {
+	constructor({
+		relativePath,
+		type,
+	}: {
+		relativePath: RelativePath;
+		type: keyof typeof IconType | `${IconType}`;
+	}) {
 		super({
 			name: 'Icon',
-			attributes: { name: 'Type', value: type.charAt(0).toUpperCase() + type.slice(1) },
+			attributes: {
+				name: 'Type',
+				value: type.charAt(0).toUpperCase() + type.slice(1),
+			},
 			content: relativePath,
 		});
 	}

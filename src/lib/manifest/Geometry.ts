@@ -8,17 +8,34 @@ export interface WidthHeight {
 	height: `${number}` | number;
 }
 
-function isWidthHeight(size: any, sizeTypeName: SizesTypes): size is WidthHeight {
+function isWidthHeight(
+	size: any,
+	sizeTypeName: SizesTypes,
+): size is WidthHeight {
 	if (size.width === undefined || size.height === undefined) {
-		throw new Error(badArgumentError(`geometry.${sizeTypeName}`, 'a WidthHeight (interface)', size));
+		throw new Error(
+			badArgumentError(
+				`geometry.${sizeTypeName}`,
+				'a WidthHeight (interface)',
+				size,
+			),
+		);
 	}
 	if (!Number.isInteger(parseFloat(size.width.toString())))
 		throw new Error(
-			badArgumentError(`geometry.${sizeTypeName}.width`, 'a number or a string of a number', size.width),
+			badArgumentError(
+				`geometry.${sizeTypeName}.width`,
+				'a number or a string of a number',
+				size.width,
+			),
 		);
 	if (!Number.isInteger(parseFloat(size.height.toString())))
 		throw new Error(
-			badArgumentError(`geometry.${sizeTypeName}.height`, 'a number or a string of a number', size.height),
+			badArgumentError(
+				`geometry.${sizeTypeName}.height`,
+				'a number or a string of a number',
+				size.height,
+			),
 		);
 
 	return true;
@@ -27,12 +44,25 @@ function isWidthHeight(size: any, sizeTypeName: SizesTypes): size is WidthHeight
 export type GeometryArgument = { [key in SizesTypes]?: WidthHeight };
 
 function isGeometryArgument(arg: any): arg is GeometryArgument {
-	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array || Object.keys(arg).length === 0)
-		throw new Error(badArgumentError('geometry', 'GeometryArgument (type)', arg));
+	if (
+		arg === undefined ||
+		typeof arg !== 'object' ||
+		arg instanceof Array ||
+		Object.keys(arg).length === 0
+	)
+		throw new Error(
+			badArgumentError('geometry', 'GeometryArgument (type)', arg),
+		);
 
 	for (const sizeTypeName in arg) {
 		if (!isSizesTypes(sizeTypeName))
-			throw new Error(badArgumentError('Each geometry keys', 'a SizesTypes (enum)', sizeTypeName));
+			throw new Error(
+				badArgumentError(
+					'Each geometry keys',
+					'a SizesTypes (enum)',
+					sizeTypeName,
+				),
+			);
 
 		isWidthHeight(arg[sizeTypeName], sizeTypeName);
 	}
@@ -49,7 +79,9 @@ export class Geometry extends XMLElement {
 					if (size) {
 						let width: `${number}` = `${size.width}`;
 						let height: `${number}` = `${size.height}`;
-						content.push(new SizeConstructor({ name, width, height }));
+						content.push(
+							new SizeConstructor({ name, width, height }),
+						);
 					}
 				}
 			}
@@ -60,7 +92,15 @@ export class Geometry extends XMLElement {
 }
 
 class SizeConstructor extends XMLElement {
-	constructor({ name, width, height }: { name: string; width: `${number}`; height: `${number}` }) {
+	constructor({
+		name,
+		width,
+		height,
+	}: {
+		name: string;
+		width: `${number}`;
+		height: `${number}`;
+	}) {
 		let content: XMLElement[] = [];
 
 		name = name.charAt(0).toUpperCase() + name.slice(1);
@@ -73,7 +113,10 @@ class SizeConstructor extends XMLElement {
 
 class Height extends XMLElement {
 	constructor(height: `${number}`) {
-		super({ name: 'Height', content: new StringContent({ value: height }) });
+		super({
+			name: 'Height',
+			content: new StringContent({ value: height }),
+		});
 	}
 }
 class Width extends XMLElement {

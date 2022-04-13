@@ -16,21 +16,29 @@ describe('Icons', () => {
 		badArgument = 'hello';
 		expect(() => {
 			new Icons(badArgument);
-		}).toThrow("Validation Error: Icon must be provided as IconsArgument (type), 'hello' (string) received");
+		}).toThrow(
+			"Validation Error: Icon must be provided as IconsArgument (type), 'hello' (string) received",
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Icons(badArgument);
-		}).toThrow('Validation Error: Icon must be provided as IconsArgument (type), \n["hello"]\n (array) received');
+		}).toThrow(
+			'Validation Error: Icon must be provided as IconsArgument (type), \n["hello"]\n (array) received',
+		);
 		badArgument = 155;
 		expect(() => {
 			new Icons(badArgument);
-		}).toThrow('Validation Error: Icon must be provided as IconsArgument (type), 155 (number) received');
+		}).toThrow(
+			'Validation Error: Icon must be provided as IconsArgument (type), 155 (number) received',
+		);
 	});
 	it('Invalidates an empty object', () => {
 		badArgument = {};
 		expect(() => {
 			new Icons(badArgument);
-		}).toThrow('Validation Error: Icon must be provided as IconsArgument (type), \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: Icon must be provided as IconsArgument (type), \n{}\n (object) received',
+		);
 	});
 	it('Invalidates keys other than IconType (enum)', () => {
 		badArgument = { someWrongKeyName: 255 };

@@ -16,7 +16,9 @@ describe('Resources', () => {
 		badArgument = 42;
 		expect(() => {
 			new Resources(badArgument);
-		}).toThrow('Validation Error: resources must be provided as ResourcesArgument (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: resources must be provided as ResourcesArgument (type), 42 (number) received',
+		);
 		badArgument = {};
 		expect(() => {
 			new Resources(badArgument);
@@ -32,7 +34,9 @@ describe('Resources', () => {
 		badArgument = true;
 		expect(() => {
 			new Resources(badArgument);
-		}).toThrow('Validation Error: resources must be provided as ResourcesArgument (type), true (boolean) received');
+		}).toThrow(
+			'Validation Error: resources must be provided as ResourcesArgument (type), true (boolean) received',
+		);
 		badArgument = () => {};
 		expect(() => {
 			new Resources(badArgument);

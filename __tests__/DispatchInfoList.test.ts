@@ -1,4 +1,7 @@
-import { DispatchInfoList, DispatchInfoListArgument } from '@manifest/DispatchInfoList';
+import {
+	DispatchInfoList,
+	DispatchInfoListArgument,
+} from '@manifest/DispatchInfoList';
 
 describe('DispatchInfoList', () => {
 	it('should be defined', () => {

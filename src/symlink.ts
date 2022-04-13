@@ -5,7 +5,10 @@ import sudo from 'sudo-prompt';
 
 export function getExtensionPath() {
 	if (process.platform == 'darwin') {
-		return path.join(os.homedir(), '/Library/Application Support/Adobe/CEP/extensions');
+		return path.join(
+			os.homedir(),
+			'/Library/Application Support/Adobe/CEP/extensions',
+		);
 	} else {
 		return path.join(process.env.APPDATA || '', 'Adobe/CEP/extensions');
 	}
@@ -16,7 +19,15 @@ function getSymlinkExtensionPath({ bundleId }: { bundleId: string }) {
 	return path.join(extensionPath, bundleId);
 }
 
-export function symlinkExtension({ bundleId, out, root }: { bundleId: string; out: string; root: string }) {
+export function symlinkExtension({
+	bundleId,
+	out,
+	root,
+}: {
+	bundleId: string;
+	out: string;
+	root: string;
+}) {
 	const symlinkPath = getSymlinkExtensionPath({ bundleId });
 	const symlinkTarget = path.join(root, out, '/');
 	return Promise.resolve()
@@ -27,7 +38,8 @@ export function symlinkExtension({ bundleId, out, root }: { bundleId: string; ou
 				let fileStats = fs.lstatSync(symlinkPath);
 				if (fileStats.isSymbolicLink()) {
 					let testedLinkTarget = fs.readlinkSync(symlinkPath);
-					if (path.join(testedLinkTarget, '/') === symlinkTarget) needsNewLink = false;
+					if (path.join(testedLinkTarget, '/') === symlinkTarget)
+						needsNewLink = false;
 				}
 			}
 			if (needsNewLink) {
@@ -42,7 +54,10 @@ export function symlinkExtension({ bundleId, out, root }: { bundleId: string; ou
 						`node -e "require('fs').symlink('${symlinkTarget.replace(
 							/\\+/g,
 							'\\\\',
-						)}', '${symlinkPath.replace(/\\+/g, '\\\\')}', 'dir', (err) => {if (err) throw err;})"`,
+						)}', '${symlinkPath.replace(
+							/\\+/g,
+							'\\\\',
+						)}', 'dir', (err) => {if (err) throw err;})"`,
 						sudoOptions,
 						function (error, stdout, stderr) {
 							if (error) throw error;

@@ -17,7 +17,9 @@ describe('Geometry', () => {
 		badArgument = 'hello';
 		expect(() => {
 			new Geometry(badArgument);
-		}).toThrow("Validation Error: geometry must be provided as GeometryArgument (type), 'hello' (string) received");
+		}).toThrow(
+			"Validation Error: geometry must be provided as GeometryArgument (type), 'hello' (string) received",
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Geometry(badArgument);
@@ -27,13 +29,17 @@ describe('Geometry', () => {
 		badArgument = 155;
 		expect(() => {
 			new Geometry(badArgument);
-		}).toThrow('Validation Error: geometry must be provided as GeometryArgument (type), 155 (number) received');
+		}).toThrow(
+			'Validation Error: geometry must be provided as GeometryArgument (type), 155 (number) received',
+		);
 	});
 	it('Invalidates an empty object', () => {
 		badArgument = {};
 		expect(() => {
 			new Geometry(badArgument);
-		}).toThrow('Validation Error: geometry must be provided as GeometryArgument (type), \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: geometry must be provided as GeometryArgument (type), \n{}\n (object) received',
+		);
 	});
 	it('Invalidates keys other than SizesTypes (enum)', () => {
 		badArgument = { someWrongKeyName: 255 };

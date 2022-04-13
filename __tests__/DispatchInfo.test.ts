@@ -45,7 +45,10 @@ describe('DispatchInfo', () => {
 		);
 	});
 	it('Invalidates bad host value', () => {
-		badArgument = { extensionData: ['This DispatchInfo is for InDesign'], host: 'hello' };
+		badArgument = {
+			extensionData: ['This DispatchInfo is for InDesign'],
+			host: 'hello',
+		};
 		expect(() => {
 			new DispatchInfo(badArgument);
 		}).toThrow(
@@ -69,7 +72,10 @@ describe('DispatchInfo', () => {
 				cefParams: ['--parameter1=value1', '--enable-nodejs'],
 			},
 			lifecycle: {
-				startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+				startOn: [
+					'applicationActivate',
+					'com.adobe.csxs.events.ApplicationActivate',
+				],
 			},
 			ui: {
 				type: 'Panel',
@@ -101,7 +107,10 @@ describe('DispatchInfo', () => {
 				cefParams: ['--parameter1=value1', '--enable-nodejs'],
 			},
 			lifecycle: {
-				startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+				startOn: [
+					'applicationActivate',
+					'com.adobe.csxs.events.ApplicationActivate',
+				],
 			},
 			ui: {
 				type: 'Panel',

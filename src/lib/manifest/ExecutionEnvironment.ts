@@ -11,9 +11,17 @@ export type ExecutionEnvironmentArgument = {
 	CSXSVersion?: RangedVersion;
 };
 
-export function isExecutionEnvironmentArgument(arg: any): arg is ExecutionEnvironmentArgument {
+export function isExecutionEnvironmentArgument(
+	arg: any,
+): arg is ExecutionEnvironmentArgument {
 	if (arg === undefined || typeof arg !== 'object' || arg instanceof Array)
-		throw new Error(badArgumentError('executionEnvironment', 'an ExecutionEnvironmentArgument (type)', arg));
+		throw new Error(
+			badArgumentError(
+				'executionEnvironment',
+				'an ExecutionEnvironmentArgument (type)',
+				arg,
+			),
+		);
 	/* Is a container, no more validation necessary for now */
 	return true;
 }

@@ -48,7 +48,9 @@ describe('Extension', () => {
 		badArgument = { id: 42 };
 		expect(() => {
 			new Extension(badArgument);
-		}).toThrow('Validation Error: extensions[].id must be provided as a string, 42 (number) received');
+		}).toThrow(
+			'Validation Error: extensions[].id must be provided as a string, 42 (number) received',
+		);
 	});
 	it('Invalidates a bad version type', () => {
 		badArgument = { id: 'hello', version: 42 };
@@ -113,7 +115,10 @@ describe('Extension', () => {
 						cefParams: ['--parameter1=value1', '--enable-nodejs'],
 					},
 					lifecycle: {
-						startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+						startOn: [
+							'applicationActivate',
+							'com.adobe.csxs.events.ApplicationActivate',
+						],
 					},
 					ui: {
 						type: 'Panel',

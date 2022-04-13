@@ -90,18 +90,32 @@ describe('HostList', () => {
 		}).not.toThrow();
 	});
 	it('Outputs XML with version in ExecutionEnvironment context', () => {
-		let hostList = new HostList({ host: 'Illustrator', version: '22.2', debugPort: 5005 });
+		let hostList = new HostList({
+			host: 'Illustrator',
+			version: '22.2',
+			debugPort: 5005,
+		});
 		expect(hostList.xml(['ExecutionEnvironment'])).toBe(
 			`<HostList>\n\t<Host Name="ILST" Version="22.2"/>\n</HostList>\n`,
 		);
 	});
 
 	it('Outputs XML with name only in DispatchInfoList context', () => {
-		let hostList = new HostList({ host: 'Illustrator', version: '22.2', debugPort: 5005 });
-		expect(hostList.xml(['DispatchInfoList'])).toBe(`<HostList>\n\t<Host Name="ILST"/>\n</HostList>\n`);
+		let hostList = new HostList({
+			host: 'Illustrator',
+			version: '22.2',
+			debugPort: 5005,
+		});
+		expect(hostList.xml(['DispatchInfoList'])).toBe(
+			`<HostList>\n\t<Host Name="ILST"/>\n</HostList>\n`,
+		);
 	});
 	it('Output XML with debug ports in its .debug context', () => {
-		let hostList = new HostList({ host: 'Illustrator', version: '22.2', debugPort: 5005 });
+		let hostList = new HostList({
+			host: 'Illustrator',
+			version: '22.2',
+			debugPort: 5005,
+		});
 		expect(hostList.xml(['.debug', 'ExtensionList'])).toBe(
 			`<HostList>\n\t<Host Name="ILST" Port="5005"/>\n</HostList>\n`,
 		);

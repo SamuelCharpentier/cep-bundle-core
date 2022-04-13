@@ -30,7 +30,9 @@ describe('RequiredRuntimeList', () => {
 		badArgument = [];
 		expect(() => {
 			new RequiredRuntimeList(badArgument);
-		}).toThrow('Validation Error: CSXSVersion must be provided as a RangedVersion (type), \n[]\n (array) received');
+		}).toThrow(
+			'Validation Error: CSXSVersion must be provided as a RangedVersion (type), \n[]\n (array) received',
+		);
 		badArgument = 'string';
 		expect(() => {
 			new RequiredRuntimeList(badArgument);

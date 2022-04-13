@@ -1,7 +1,10 @@
 import fs from 'fs-extra';
 import path from 'path';
 
-const warningMessage = (fileName: string, location: string) => `${fileName} expected to be at root of project:
+const warningMessage = (
+	fileName: string,
+	location: string,
+) => `${fileName} expected to be at root of project:
 ${location}
 Dependencies wont be copied`;
 
@@ -14,7 +17,9 @@ export function copyDependencies({
 	out: string;
 	packageJSONPath?: string;
 }) {
-	packageJSONPath = packageJSONPath ? packageJSONPath : path.join(root, '/package.json');
+	packageJSONPath = packageJSONPath
+		? packageJSONPath
+		: path.join(root, '/package.json');
 	const nodeModulesPath = path.join(root, 'node_modules');
 	if (fs.existsSync(packageJSONPath)) {
 		if (fs.existsSync(packageJSONPath)) {
@@ -33,11 +38,19 @@ export function copyDependencies({
 					chain = chain
 						.then(() => fs.copy(src, dest))
 						.catch(() => {
-							console.error(`Could not copy ${src} to ${dest}. Ensure the path is correct.`);
+							console.error(
+								`Could not copy ${src} to ${dest}. Ensure the path is correct.`,
+							);
 						})
 						.then(() => {
 							try {
-								const packageJson = fs.readJsonSync(path.join(nodeModulesPath, dep, 'package.json'));
+								const packageJson = fs.readJsonSync(
+									path.join(
+										nodeModulesPath,
+										dep,
+										'package.json',
+									),
+								);
 								return copyDependencies({
 									root,
 									out,

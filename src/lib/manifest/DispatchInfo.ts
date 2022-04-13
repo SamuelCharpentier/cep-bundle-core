@@ -6,7 +6,12 @@ import { UI, UIArgument } from './UI';
 import { ExtensionData } from './ExtensionData';
 import { contextContainsAllOf } from './Context';
 import { badArgumentError } from '../errorMessages';
-import { HostEngine, isHostEngine, isHostEngineValue, isHostEngineKey } from './enumsAndValidators';
+import {
+	HostEngine,
+	isHostEngine,
+	isHostEngineValue,
+	isHostEngineKey,
+} from './enumsAndValidators';
 
 export type DispatchInfoArgument = {
 	resources?: ResourcesArgument;
@@ -16,7 +21,9 @@ export type DispatchInfoArgument = {
 	host?: `${HostEngine}` | keyof typeof HostEngine;
 };
 
-const isDispatchInfoArgument: (arg: any) => boolean = (arg): arg is DispatchInfoArgument => {
+const isDispatchInfoArgument: (arg: any) => boolean = (
+	arg,
+): arg is DispatchInfoArgument => {
 	if (
 		arg === undefined ||
 		typeof arg !== 'object' ||
@@ -25,9 +32,21 @@ const isDispatchInfoArgument: (arg: any) => boolean = (arg): arg is DispatchInfo
 			arg.ui === undefined &&
 			arg.extensionData === undefined)
 	)
-		throw new Error(badArgumentError('dispatchInfo', 'a DispatchInfoArgument (type)', arg));
+		throw new Error(
+			badArgumentError(
+				'dispatchInfo',
+				'a DispatchInfoArgument (type)',
+				arg,
+			),
+		);
 	if (arg.host !== undefined && !isHostEngine(arg.host))
-		throw new Error(badArgumentError('dispatchInfo.host', 'a HostEngine(ENUM) key or value', arg.host));
+		throw new Error(
+			badArgumentError(
+				'dispatchInfo.host',
+				'a HostEngine(ENUM) key or value',
+				arg.host,
+			),
+		);
 	return true;
 };
 export class DispatchInfo extends XMLElement {
@@ -39,15 +58,19 @@ export class DispatchInfo extends XMLElement {
 			if (lifecycle !== undefined) content.push(new Lifecycle(lifecycle));
 			if (ui !== undefined) content.push(new UI(ui));
 			if (extensionData !== undefined) {
-				extensionData = !(extensionData instanceof Array) ? [extensionData] : extensionData;
+				extensionData = !(extensionData instanceof Array)
+					? [extensionData]
+					: extensionData;
 				for (const data of extensionData) {
 					content.push(new ExtensionData(data));
 				}
 			}
 			let attributes: AttributeArgument[] | undefined;
 			if (host !== undefined) {
-				if (isHostEngineValue(host)) attributes = [{ name: 'Host', value: host }];
-				else if (isHostEngineKey(host)) attributes = [{ name: 'Host', value: HostEngine[host] }];
+				if (isHostEngineValue(host))
+					attributes = [{ name: 'Host', value: host }];
+				else if (isHostEngineKey(host))
+					attributes = [{ name: 'Host', value: HostEngine[host] }];
 			}
 			super({
 				name: 'DispatchInfo',

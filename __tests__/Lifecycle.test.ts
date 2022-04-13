@@ -26,7 +26,9 @@ describe('Lifecycle', () => {
 		badArgument = 155;
 		expect(() => {
 			new Lifecycle(badArgument);
-		}).toThrow('Validation Error: lifecycle must be provided as LifecycleArgument (type), 155 (number) received');
+		}).toThrow(
+			'Validation Error: lifecycle must be provided as LifecycleArgument (type), 155 (number) received',
+		);
 	});
 	it('Invalidates an empty object argument', () => {
 		badArgument = {};
@@ -40,11 +42,15 @@ describe('Lifecycle', () => {
 		badArgument = { autoVisible: 'hello' };
 		expect(() => {
 			new Lifecycle(badArgument);
-		}).toThrow("Validation Error: autoVisible must be provided as a Boolean (type), 'hello' (string) received");
+		}).toThrow(
+			"Validation Error: autoVisible must be provided as a Boolean (type), 'hello' (string) received",
+		);
 		badArgument = { autoVisible: 42 };
 		expect(() => {
 			new Lifecycle(badArgument);
-		}).toThrow('Validation Error: autoVisible must be provided as a Boolean (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: autoVisible must be provided as a Boolean (type), 42 (number) received',
+		);
 		badArgument = { autoVisible: ['hello'] };
 		expect(() => {
 			new Lifecycle(badArgument);
@@ -62,7 +68,9 @@ describe('Lifecycle', () => {
 		badArgument = { startOn: 42 };
 		expect(() => {
 			new Lifecycle(badArgument);
-		}).toThrow('Validation Error: startOn Events must be provided as an EventType (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: startOn Events must be provided as an EventType (type), 42 (number) received',
+		);
 		badArgument = { startOn: { value: true } };
 		expect(() => {
 			new Lifecycle(badArgument);
@@ -72,7 +80,9 @@ describe('Lifecycle', () => {
 		badArgument = { startOn: ['event', 42, 55] };
 		expect(() => {
 			new Lifecycle(badArgument);
-		}).toThrow('Validation Error: startOn Events must be provided as an EventType (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: startOn Events must be provided as an EventType (type), 42 (number) received',
+		);
 	});
 
 	let validArgument: LifecycleArgument;
@@ -80,7 +90,10 @@ describe('Lifecycle', () => {
 	it('Validates valid argument', () => {
 		validArgument = {
 			autoVisible: true,
-			startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+			startOn: [
+				'applicationActivate',
+				'com.adobe.csxs.events.ApplicationActivate',
+			],
 		};
 		expect(() => {
 			new Lifecycle(validArgument);
@@ -96,7 +109,10 @@ describe('Lifecycle', () => {
 	it('Outputs XML in any context', () => {
 		validArgument = {
 			autoVisible: true,
-			startOn: ['applicationActivate', 'com.adobe.csxs.events.ApplicationActivate'],
+			startOn: [
+				'applicationActivate',
+				'com.adobe.csxs.events.ApplicationActivate',
+			],
 		};
 		expect(new Lifecycle(validArgument).xml()).toEqual(
 			'<Lifecycle>\n\t<AutoVisible>true</AutoVisible>\n\t<StartOn>\n\t\t<Event>applicationActivate</Event>\n\t\t<Event>com.adobe.csxs.events.ApplicationActivate</Event>\n\t</StartOn>\n</Lifecycle>\n',

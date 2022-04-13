@@ -68,6 +68,8 @@ describe('Type', () => {
 
 	it('Outputs XML in any context', () => {
 		let goodArgument: TypeArgument = 'Panel';
-		expect(new Type(goodArgument).xml(['MainPath'])).toBe(`<Type>${goodArgument}</Type>\n`);
+		expect(new Type(goodArgument).xml(['MainPath'])).toBe(
+			`<Type>${goodArgument}</Type>\n`,
+		);
 	});
 });

@@ -17,7 +17,9 @@ describe('MainPath', () => {
 		badArgument = 42;
 		expect(() => {
 			new ScriptPath(badArgument);
-		}).toThrow('Validation Error: scriptPath must be provided as a RelativePath (type), 42 (number) received');
+		}).toThrow(
+			'Validation Error: scriptPath must be provided as a RelativePath (type), 42 (number) received',
+		);
 		badArgument = ['hello'];
 		expect(() => {
 			new ScriptPath(badArgument);
@@ -33,13 +35,17 @@ describe('MainPath', () => {
 		badArgument = {};
 		expect(() => {
 			new ScriptPath(badArgument);
-		}).toThrow('Validation Error: scriptPath must be provided as a RelativePath (type), \n{}\n (object) received');
+		}).toThrow(
+			'Validation Error: scriptPath must be provided as a RelativePath (type), \n{}\n (object) received',
+		);
 	});
 	it('Invalidates an empty string argument', () => {
 		badArgument = '';
 		expect(() => {
 			new ScriptPath(badArgument);
-		}).toThrow("Validation Error: scriptPath must be provided as a RelativePath (type), '' (string) received");
+		}).toThrow(
+			"Validation Error: scriptPath must be provided as a RelativePath (type), '' (string) received",
+		);
 	});
 	it("Invalidates a string that isn't a relative path", () => {
 		badArgument = 'c:/main/index.html';

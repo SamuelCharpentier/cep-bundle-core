@@ -4,7 +4,8 @@ const isEnumToken = <T>(testedEnum: T) => {
 	return generatedFunction;
 };
 const isEnumKey = <T>(testedEnum: T) => {
-	let generatedFunction = (key: any): key is keyof T => Object.keys(testedEnum).includes(key);
+	let generatedFunction = (key: any): key is keyof T =>
+		Object.keys(testedEnum).includes(key);
 	return generatedFunction;
 };
 
