@@ -1,34 +1,48 @@
 import { XMLElement } from './XMLElement';
 import { AdobeLocaleCodes, isAdobeLocaleCode } from './enumsAndValidators';
+import { badArgumentError } from '../errorMessages';
+import { notAValue } from './validators';
 
-export type LocaleListArgument =
-	| AdobeLocaleCodes
-	| keyof typeof AdobeLocaleCodes
-	| AdobeLocaleCodes[]
-	| (keyof typeof AdobeLocaleCodes)[];
+type localeCodes = AdobeLocaleCodes | keyof typeof AdobeLocaleCodes;
+
+export type LocaleListArgument = localeCodes | localeCodes[];
 
 const isLocaleListArgument: (arg: any) => boolean = (
 	args,
 ): args is LocaleListArgument => {
-	if (typeof args === 'string') args = [args];
-	if (args instanceof Array) {
-		for (const arg of args) {
-			if (!isAdobeLocaleCode(arg)) {
-				throw new Error(
-					`Bad Locale provided, ${arg} is not a valid AdobeLocaleCodes(enum)`,
+	if (
+		!notAValue(args) &&
+		(args instanceof Array || typeof args === 'string')
+	) {
+		console.log(args);
+		if (typeof args === 'string') {
+			if (!isAdobeLocaleCode(args)) {
+				throw badArgumentError(
+					'localeList',
+					'localeCodes (type)',
+					args,
 				);
 			}
+		} else {
+			for (const arg of args) {
+				if (!isAdobeLocaleCode(arg)) {
+					throw badArgumentError(
+						'Each elements of the localeLists array',
+						'localeCodes (type)',
+						arg,
+					);
+				}
+			}
 		}
-		return true;
+	} else {
+		throw badArgumentError('localeList', 'LocaleListArgument (type)', args);
 	}
-	throw new Error(
-		`Bad Locale provided, ${args}(${typeof args}) is not a valid AdobeLocaleCodes(enum) or array of AdobeLocaleCodes(enum)`,
-	);
+	return true;
 };
 export class LocaleList extends XMLElement {
 	constructor(locales: any) {
-		if (typeof locales === 'string') locales = [locales];
 		if (isLocaleListArgument(locales)) {
+			locales = typeof locales === 'string' ? [locales] : locales;
 			let content: LocaleElement[] = [];
 			for (const locale of locales) {
 				content.push(new LocaleElement(locale));
