@@ -5,7 +5,6 @@ export type Context =
 	| 'ExtensionManifest'
 	| 'Author'
 	| 'Contact'
-	| 'HrefElement'
 	| 'Legal'
 	| 'Abstract'
 	| 'ExtensionList'
