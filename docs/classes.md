@@ -131,6 +131,22 @@ Used by [XMLElement (class)](#XMLElement)
 
 ---
 
+## **ExtensionManifest**
+
+Extends [XMLElement (class)](#XMLElement). The main class to create an extension manifest.xml file for an extension or a bundle of extensions for any Adobe software supporting CEP extensions.
+
+### Argument
+
+It expects an argument of type [ExtensionManifestArgument (type)](type.md#ExtensionManifestArgument).
+
+### Usage
+
+```typescript
+new Legal(new URL('https://legal.com' | 'https://legal.com'));
+```
+
+## Nested in [ExtensionManifest (class)](#ExtensionManifest)
+
 ## **Author**
 
 Extends [XMLElement (class)](#XMLElement). An optional author of this ExtensionBundle.

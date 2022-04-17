@@ -412,6 +412,90 @@ type XMLStringContentArgument = string | number | StringContentArgument;
 
 ---
 
+## **ExtensionManifestArgument**
+
+[ManifestArgument (type)](#ManifestArgument)
+
+[ExtensionListArgument (type)](#ExtensionListArgument)
+
+```typescript
+type ExtensionManifestArgument = ManifestArgument & {
+	extensions: ExtensionListArgument;
+};
+```
+
+---
+
+## **ManifestArgument**
+
+[EmailAddress (type)](#EmailAddress)
+
+```typescript
+type ManifestArgument = {
+	extensionBundle: BundleInfos;
+	authorName?: string;
+	contact?: EmailAddress;
+	legal?: URL | string;
+	abstract?: URL | string;
+	executionEnvironment?: ExecutionEnvironmentArgument;
+};
+```
+
+---
+
+## **BundleInfos**
+
+[VersionNumber (type)](#VersionNumber)
+
+[CEPVersion (enum)](enum.md#CEPVersion)
+
+```typescript
+type BundleInfos = {
+	id: string;
+	version: VersionNumber;
+	name?: string;
+	cepVersion: CEPVersion | keyof typeof CEPVersion;
+};
+```
+
+---
+
+## **ExecutionEnvironmentArgument**
+
+[HostListArgument](#HostListArgument)
+
+[RangedVersion](#RangedVersion)
+
+```typescript
+type ExecutionEnvironmentArgument = {
+	hostList?: HostListArgument;
+	localeList?: LocaleListArgument;
+	CSXSVersion?: RangedVersion;
+};
+```
+
+---
+
+## **LocaleListArgument**
+
+[localeCodes](#localeCodes)
+
+```typescript
+type LocaleListArgument = localeCodes | localeCodes[];
+```
+
+---
+
+## **localeCodes**
+
+[AdobeLocaleCodes](enum.md#AdobeLocaleCodes)
+
+```typescript
+type localeCodes = AdobeLocaleCodes | keyof typeof AdobeLocaleCodes;
+```
+
+---
+
 <!--
 
 ## ****
