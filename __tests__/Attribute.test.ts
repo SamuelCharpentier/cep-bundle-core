@@ -189,4 +189,26 @@ describe('Attribute', () => {
 			new Attribute(validArgument);
 		}).not.toThrow();
 	});
+	it('outputs xml with and without an argument value', () => {
+		validArgument = {
+			name: 'name',
+			value: 'value',
+		};
+
+		const space = ' ';
+		var attribute = new Attribute(validArgument);
+		expect(attribute.xml()).toBe(`${space}name="value"`);
+
+		validArgument.context = () => true;
+		attribute = new Attribute(validArgument);
+		expect(attribute.xml()).toBe(`${space}name="value"`);
+
+		validArgument.value = undefined;
+		attribute = new Attribute(validArgument);
+		expect(attribute.xml()).toBe(`${space}name`);
+
+		validArgument.context = undefined;
+		attribute = new Attribute(validArgument);
+		expect(attribute.xml()).toBe(`${space}name`);
+	});
 });
