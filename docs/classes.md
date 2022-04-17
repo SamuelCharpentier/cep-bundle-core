@@ -617,7 +617,7 @@ new ExecutionEnvironment(ExecutionEnvironmentArgument:{
 });
 ```
 
-Nested in [ExecutionEnvironment (class)](#ExecutionEnvironment)
+Nested in [ExtensionManifest (class)](#ExtensionManifest)
 
 ---
 
