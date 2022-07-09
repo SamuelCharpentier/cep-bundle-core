@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { AdobeLocaleCodes, isAdobeLocaleCode } from './enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
-import { notAValue } from './validators';
+import { notAValue } from '../validators';
 
 type localeCodes = AdobeLocaleCodes | keyof typeof AdobeLocaleCodes;
 
@@ -14,7 +14,6 @@ const isLocaleListArgument: (arg: any) => boolean = (
 		!notAValue(args) &&
 		(args instanceof Array || typeof args === 'string')
 	) {
-		console.log(args);
 		if (typeof args === 'string') {
 			if (!isAdobeLocaleCode(args)) {
 				throw badArgumentError(
