@@ -1,4 +1,5 @@
 module.exports = {
+	compileOptions: { outputFolder: './myOutputFolder' },
 	manifest: {
 		extensionBundle: {
 			id: 'my.bundle',

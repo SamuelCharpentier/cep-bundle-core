@@ -12,37 +12,37 @@ describe('Extension Manifest', () => {
 	var badArgument: any;
 	it('Invalidates an empty argument', () => {
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), undefined (undefined) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), undefined (undefined) received',
 		);
 		badArgument = '';
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			"Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), '' (string) received",
+			"Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), '' (string) received",
 		);
 		badArgument = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), \n[]\n (array) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), \n[]\n (array) received',
 		);
 		badArgument = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), \n{}\n (object) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), \n{}\n (object) received',
 		);
 	});
 	it('invalidates a bad argument', () => {
 		badArgument = 'hello';
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			"Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), 'hello' (string) received",
+			"Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), 'hello' (string) received",
 		);
 		badArgument = 42;
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), 42 (number) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), 42 (number) received',
 		);
 		badArgument = true;
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), true (boolean) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), true (boolean) received',
 		);
 		badArgument = ['hello'];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: ExtensionManifestArgument, .cep.config.js or .cep.config.json must be provided as a ExtensionManifestArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: ExtensionManifestArgument, .cep.config.js must be provided as a ExtensionManifestArgument (type), \n["hello"]\n (array) received',
 		);
 	});
 	const validEntensionBundle: BundleInfos | any =

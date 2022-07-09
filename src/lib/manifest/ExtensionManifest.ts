@@ -18,13 +18,12 @@ import { ExtensionList, ExtensionListArgument } from './ExtensionList';
 import {
 	ExecutionEnvironment,
 	ExecutionEnvironmentArgument,
-	isExecutionEnvironmentArgument,
 } from './ExecutionEnvironment';
 import { DispatchInfoList } from './DispatchInfoList';
 
 import { contextContainsNoneOf } from './Context';
 import { badArgumentError } from '../errorMessages';
-import { notAValue } from './validators';
+import { notAValue } from '../validators';
 
 export type BundleInfos = {
 	id: string;
@@ -44,7 +43,7 @@ export type ExtensionManifestArgument = ManifestArgument & {
 	extensions: ExtensionListArgument;
 };
 
-const isExtensionManifestArgument = <
+export const isExtensionManifestArgument = <
 	(arg: any) => arg is ExtensionManifestArgument
 >((arg) => {
 	if (!notAValue(arg) && typeof arg === 'object' && !(arg instanceof Array)) {
@@ -111,7 +110,7 @@ const isExtensionManifestArgument = <
 			);
 	} else {
 		throw badArgumentError(
-			'ExtensionManifestArgument, .cep.config.js or .cep.config.json',
+			'ExtensionManifestArgument, .cep.config.js',
 			'a ExtensionManifestArgument (type)',
 			arg,
 		);
@@ -121,8 +120,6 @@ const isExtensionManifestArgument = <
 });
 export class ExtensionManifest extends XMLElement {
 	constructor(arg: ExtensionManifestArgument | any) {
-		console.log(arg);
-
 		if (isExtensionManifestArgument(arg)) {
 			let {
 				extensionBundle: {
@@ -166,7 +163,6 @@ export class ExtensionManifest extends XMLElement {
 			if (!(extensions instanceof Array)) extensions = [extensions];
 			content.push(new ExtensionList(extensions));
 
-			console.log(executionEnvironment);
 			if (executionEnvironment) {
 				content.push(new ExecutionEnvironment(executionEnvironment));
 			}
