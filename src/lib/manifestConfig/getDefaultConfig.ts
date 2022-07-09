@@ -1,15 +1,12 @@
-export const defaultConfig = {
-	outputFolder: './dist',
-	isDev: false,
-	debugInProduction: false,
+export const defaultManifestConfig = {
 	manifest: {
 		extensionBundle: { cepVersion: '8.0' },
-		extension: {
-			hostList: 'All',
-			dispatchInfo: {
-				lifecycle: {
-					autoVisible: true,
-				},
+	},
+	extensions: {
+		hostList: 'All',
+		dispatchInfo: {
+			lifecycle: {
+				autoVisible: true,
 			},
 		},
 	},
