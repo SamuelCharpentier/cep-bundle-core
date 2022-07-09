@@ -19,7 +19,7 @@ function getSymlinkExtensionPath({ bundleId }: { bundleId: string }) {
 	return path.join(extensionPath, bundleId);
 }
 
-export function symlinkExtension({
+export async function symlinkExtension({
 	bundleId,
 	out,
 	root,
@@ -29,44 +29,46 @@ export function symlinkExtension({
 	root: string;
 }) {
 	const symlinkPath = getSymlinkExtensionPath({ bundleId });
-	const symlinkTarget = path.join(root, out, '/');
-	return Promise.resolve()
-		.then(() => fs.ensureDir(getExtensionPath()))
-		.then(() => {
-			let needsNewLink = true;
-			if (fs.existsSync(symlinkPath)) {
-				let fileStats = fs.lstatSync(symlinkPath);
-				if (fileStats.isSymbolicLink()) {
-					let testedLinkTarget = fs.readlinkSync(symlinkPath);
-					if (path.join(testedLinkTarget, '/') === symlinkTarget)
-						needsNewLink = false;
-				}
-			}
-			if (needsNewLink) {
-				fs.removeSync(symlinkPath);
-				if (process.platform === 'win32') {
-					console.log(symlinkTarget);
-					console.log(symlinkPath);
-					var sudoOptions = {
-						name: 'Make symbolic link',
-					};
-					sudo.exec(
-						`node -e "require('fs').symlink('${symlinkTarget.replace(
-							/\\+/g,
-							'\\\\',
-						)}', '${symlinkPath.replace(
-							/\\+/g,
-							'\\\\',
-						)}', 'dir', (err) => {if (err) throw err;})"`,
-						sudoOptions,
-						function (error, stdout, stderr) {
-							if (error) throw error;
-						},
-					);
-					return;
-				} else {
-					return fs.symlink(path.join(out, '/'), symlinkPath);
-				}
-			}
-		});
+	const symlinkTarget = path.join(path.resolve(root), out, '/');
+
+	fs.ensureDir(getExtensionPath());
+
+	let needsNewLink = true;
+	if (fs.existsSync(symlinkPath)) {
+		let fileStats = fs.lstatSync(symlinkPath);
+		if (fileStats.isSymbolicLink()) {
+			let testedLinkTarget = fs.readlinkSync(symlinkPath);
+			if (path.join(testedLinkTarget, '/') === symlinkTarget)
+				needsNewLink = false;
+		}
+	}
+
+	if (needsNewLink) {
+		try {
+			fs.removeSync(symlinkPath);
+		} catch (e) {
+			console.log(e);
+		}
+		if (process.platform === 'win32') {
+			var sudoOptions = {
+				name: 'Make symbolic link',
+			};
+			sudo.exec(
+				`node -e "require('fs').symlink('${symlinkTarget.replace(
+					/\\+/g,
+					'\\\\',
+				)}', '${symlinkPath.replace(
+					/\\+/g,
+					'\\\\',
+				)}', 'dir', (err) => {if (err) throw err;})"`,
+				sudoOptions,
+				function (error, stdout, stderr) {
+					if (error) throw error;
+				},
+			);
+			return;
+		} else {
+			return fs.symlink(symlinkTarget, symlinkPath);
+		}
+	}
 }
