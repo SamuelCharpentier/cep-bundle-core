@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { DeepPartial } from '../deepPartial';
 import { badArgumentError } from '../errorMessages';
 import { isValidUrl } from '../typesAndValidators';
 import { defaultCompileOptions } from './getDefaultOptions';
@@ -16,7 +17,7 @@ export interface CompileOptions {
 }
 
 export const getCompileOptions = (
-	usersCompileOptions: Partial<CompileOptions>,
+	usersCompileOptions: DeepPartial<CompileOptions>,
 ): CompileOptions => {
 	let compileOptions: any = {
 		...defaultCompileOptions,

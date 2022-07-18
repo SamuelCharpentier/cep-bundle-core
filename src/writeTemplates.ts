@@ -1,61 +1,97 @@
-import fs from 'fs-extra';
+import fsExtra from 'fs-extra';
 import path from 'path';
 
-import { Config, getManifestArgFromConfig } from './lib/config/getConfig';
-import { ExtensionManifest } from './lib/manifest/ExtensionManifest';
-import panelTemplate from './templates/html';
-import { compile, CompileOptions } from './compile';
-import { Extension, ExtensionArgument } from './lib/manifest/Extension';
+import {
+	ExtensionManifest,
+	ExtensionManifestArgument,
+} from '@manifest/ExtensionManifest';
+import { ExtensionList } from './lib/manifest/ExtensionList';
+import devHTMLTemplate from './templates/html';
+import { CompileOptions } from './lib/compileOptions/getCompileOptions';
+import { ExtensionArgument } from './lib/manifest/Extension';
 
-export function writeExtensionTemplates(
+function ensureAndGetManifestDir(compileOptions: CompileOptions) {
+	const { root, outputFolder } = compileOptions;
+	const manifestDir = path.join(root, outputFolder, 'CSXS');
+	fsExtra.ensureDirSync(manifestDir);
+	return manifestDir;
+}
+
+function writeManifestXMLFile(
 	compileOptions: CompileOptions,
-	config: Config,
+	manifestConfig: ExtensionManifestArgument,
 ) {
-	const extensionManifest = new ExtensionManifest(
-		getManifestArgFromConfig(config),
-	);
-	const manifestContents = extensionManifest.xml(['manifest.xml']);
-	const { outputFolder, debugInProduction, isDev } = compileOptions;
-	const extensions =
-		config.extensions instanceof Array
-			? config.extensions
-			: [config.extensions];
-	const manifestDir = path.join(outputFolder, 'CSXS');
+	const manifestDir = ensureAndGetManifestDir(compileOptions);
 	const manifestFile = path.join(manifestDir, 'manifest.xml');
-	return Promise.resolve()
-		.then(() => fs.ensureDir(manifestDir))
-		.then(() => fs.writeFile(manifestFile, manifestContents))
-		.then(() => {
-			let chain = Promise.resolve();
-			if (debugInProduction || isDev) {
-				const debugContents = extensionManifest.xml(['.debug']);
-				chain = chain.then(() =>
-					fs.writeFile(
-						path.join(outputFolder, '.debug'),
-						debugContents,
-					),
-				);
-			}
-			if (isDev)
-				if (extensions instanceof Array)
-					extensions.forEach((extension: ExtensionArgument) => {
-						const href = compileOptions.devHostPort
-							? `http://${compileOptions.devHost}:${compileOptions.devHostPort}`
-							: `http://${compileOptions.devHost}`;
-						const panelContents = panelTemplate({
-							title: extension.dispatchInfo?.ui?.menu?.menuName,
-							href,
-						});
-						chain = chain.then(() =>
-							fs.writeFile(
-								path.join(
-									outputFolder,
-									`dev.${extension.id}.html`,
-								),
-								panelContents,
-							),
-						);
-					});
-			return chain;
-		});
+	fsExtra.writeFileSync(
+		manifestFile,
+		new ExtensionManifest(manifestConfig).xml(['manifest.xml']),
+	);
+	return manifestFile;
+}
+
+function writeDebugFile(
+	compileOptions: CompileOptions,
+	manifestConfig: ExtensionManifestArgument,
+) {
+	const { root, outputFolder, debugInProduction, isDev } = compileOptions;
+
+	if (debugInProduction || isDev) {
+		fsExtra.writeFileSync(
+			path.join(root, outputFolder, '.debug'),
+			new ExtensionList(manifestConfig.extensions).xml(['.debug']),
+		);
+	}
+	return;
+}
+
+function getExtensionDevPannelContent(
+	compileOptions: CompileOptions,
+	extension: ExtensionArgument,
+) {
+	const redirectLocationHref =
+		compileOptions.devHostPort !== undefined
+			? `${compileOptions.devHost}:${compileOptions.devHostPort}`
+			: `${compileOptions.devHost}`;
+	let title =
+		extension.dispatchInfo instanceof Array
+			? extension.dispatchInfo[0]?.ui?.menu?.menuName
+			: extension.dispatchInfo?.ui?.menu?.menuName;
+	return devHTMLTemplate({
+		title,
+		redirectLocationHref,
+	});
+}
+
+function writeDevPannels(
+	compileOptions: CompileOptions,
+	manifestConfig: ExtensionManifestArgument,
+) {
+	const { root, outputFolder, isDev } = compileOptions;
+	if (isDev) {
+		const extensions =
+			manifestConfig.extensions instanceof Array
+				? manifestConfig.extensions
+				: [manifestConfig.extensions];
+		for (const extension of extensions) {
+			const devPannelContent = getExtensionDevPannelContent(
+				compileOptions,
+				extension,
+			);
+			fsExtra.writeFileSync(
+				path.join(root, outputFolder, `${extension.id}.html`),
+				devPannelContent,
+			);
+		}
+	}
+}
+
+export async function writeExtensionTemplates(
+	compileOptions: CompileOptions,
+	manifestConfig: ExtensionManifestArgument,
+) {
+	writeManifestXMLFile(compileOptions, manifestConfig);
+	writeDebugFile(compileOptions, manifestConfig);
+	writeDevPannels(compileOptions, manifestConfig);
+	return;
 }

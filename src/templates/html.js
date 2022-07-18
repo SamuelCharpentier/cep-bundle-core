@@ -1,13 +1,13 @@
-export default ({ title = 'CEP Panel', href }) => {
-  return `<!DOCTYPE html>
+export default ({ title = 'CEP Panel', redirectLocationHref }) => {
+	return `<!DOCTYPE html>
 <html>
   <head>
     <title>${title}</title>
   </head>
   <body>
     <script>
-      window.location.href = "${href}";
+      window.location.href = "${redirectLocationHref}";
     </script>
   </body>
-</html>`
-}
+</html>`;
+};

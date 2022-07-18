@@ -9,10 +9,12 @@ import { isExtensionManifestArgument } from '@manifest/ExtensionManifest';
 import { badArgumentError } from '../errorMessages';
 import { isRelativePath } from '../typesAndValidators';
 import { CompileOptions } from '../compileOptions/getCompileOptions';
+import { DeepPartial } from '../deepPartial';
+import type { RuntimeConfig } from '@src/lib/runtimeConfigType';
 
 export function getManifestConfig(
 	compileOptions: CompileOptions,
-	configOverrides?: Partial<ExtensionManifestArgument>,
+	configOverrides?: DeepPartial<RuntimeConfig>,
 ): ExtensionManifestArgument {
 	configOverrides =
 		configOverrides && isObject(configOverrides) ? configOverrides : {};
@@ -33,18 +35,21 @@ export function getManifestConfig(
 }
 
 function deepObjectMerge(...sources: { [key: string]: any }[]) {
+	console.log(sources.length);
 	let result: { [key: string]: any } = {};
 	if (!sources.length) return result;
 
 	for (const source of sources) {
+		console.log(source, result);
 		for (const key in source) {
-			if (isObject(source[key])) {
-				if (!result[key]) result[key] = source[key];
+			const value = source[key];
+			if (isObject(value)) {
+				if (!result[key]) result[key] = value;
 				else {
-					result[key] = deepObjectMerge(result[key], source[key]);
+					result[key] = deepObjectMerge(result[key], value);
 				}
 			} else {
-				result[key] = source[key];
+				result[key] = value;
 			}
 		}
 	}

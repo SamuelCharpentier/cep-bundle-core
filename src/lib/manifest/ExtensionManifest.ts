@@ -5,8 +5,6 @@ import {
 	VersionNumber,
 	isVersionNumber,
 	EmailAddress,
-	isEmail,
-	isValidUrl,
 } from '../typesAndValidators';
 import { CEPVersion, isCEPVersion } from './enumsAndValidators';
 
@@ -31,7 +29,7 @@ export type BundleInfos = {
 	name?: string;
 	cepVersion: CEPVersion | keyof typeof CEPVersion;
 };
-type ManifestArgument = {
+export type ManifestArgument = {
 	extensionBundle: BundleInfos;
 	authorName?: string;
 	contact?: EmailAddress;
@@ -119,6 +117,7 @@ export const isExtensionManifestArgument = <
 	return true;
 });
 export class ExtensionManifest extends XMLElement {
+	extensionList!: ExtensionList;
 	constructor(arg: ExtensionManifestArgument | any) {
 		if (isExtensionManifestArgument(arg)) {
 			let {
@@ -161,7 +160,8 @@ export class ExtensionManifest extends XMLElement {
 			if (abstract) content.push(new Abstract(abstract));
 
 			if (!(extensions instanceof Array)) extensions = [extensions];
-			content.push(new ExtensionList(extensions));
+			const extensionList = new ExtensionList(extensions);
+			content.push(extensionList);
 
 			if (executionEnvironment) {
 				content.push(new ExecutionEnvironment(executionEnvironment));
@@ -174,6 +174,7 @@ export class ExtensionManifest extends XMLElement {
 				content,
 				context: contextContainsNoneOf('.debug'),
 			});
+			this.extensionList = extensionList;
 		}
 	}
 }
