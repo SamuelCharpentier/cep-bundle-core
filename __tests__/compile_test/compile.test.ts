@@ -5,7 +5,7 @@ import path from 'path';
 
 const outputFolderName = 'dist';
 let testIndex = 0;
-const root = './__tests__/example';
+const root = './__tests__/compile_test';
 const outputGroup = 'outputs';
 
 function cleanup(folder: string) {

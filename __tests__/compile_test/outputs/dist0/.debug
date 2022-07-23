@@ -1,0 +1,11 @@
+<ExtensionList>
+	<Extension Id="my.extension">
+		<HostList>
+			<Host Name="ILST" Port="999"/>
+			<Host Name="IDSN" Port="998"/>
+		</HostList>
+		<DependencyList>
+			<Dependency Id="my.dependency" version="0.0.1"/>
+		</DependencyList>
+	</Extension>
+</ExtensionList>
