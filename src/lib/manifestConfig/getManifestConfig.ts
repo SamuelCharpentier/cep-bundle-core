@@ -1,14 +1,13 @@
 import { defaultManifestConfig } from './getDefaultConfig';
 import { getPkgManifestConfig } from './getPkgManifestConfig';
 
-import { getRuntimeConfig } from './getRuntimeConfig';
+import { getRuntimeManifestConfig } from './getRuntimeManifestConfig';
 
 import { isObject } from '../validators';
 import type { ExtensionManifestArgument } from '@manifest/ExtensionManifest';
 import { isExtensionManifestArgument } from '@manifest/ExtensionManifest';
 import { badArgumentError } from '../errorMessages';
-import { isRelativePath } from '../typesAndValidators';
-import { CompileOptions } from '../compileOptions/getCompileOptions';
+import { CompileOptions } from '../typesAndValidators';
 import { DeepPartial } from '../deepPartial';
 import type { RuntimeConfig } from '@src/lib/runtimeConfigType';
 
@@ -22,7 +21,7 @@ export function getManifestConfig(
 		deepObjectMerge(
 			defaultManifestConfig,
 			getPkgManifestConfig(compileOptions.root),
-			getRuntimeConfig(compileOptions.root),
+			getRuntimeManifestConfig(compileOptions.root),
 			configOverrides,
 		),
 	);

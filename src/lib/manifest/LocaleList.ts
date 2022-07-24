@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { AdobeLocaleCodes, isAdobeLocaleCode } from './enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
-import { notAValue } from '../validators';
+import { containsAValue } from '../validators';
 
 type localeCodes = AdobeLocaleCodes | keyof typeof AdobeLocaleCodes;
 
@@ -11,7 +11,7 @@ const isLocaleListArgument: (arg: any) => boolean = (
 	args,
 ): args is LocaleListArgument => {
 	if (
-		!notAValue(args) &&
+		containsAValue(args) &&
 		(args instanceof Array || typeof args === 'string')
 	) {
 		if (typeof args === 'string') {

@@ -6,7 +6,7 @@ jest.spyOn(console, 'warn').mockImplementation();
 describe('getPkgManifestConfig', () => {
 	let root: string;
 	it('returns the correct config', () => {
-		root = path.join(__dirname, '..', 'packageJSONNoCompileConfig');
+		root = path.join(__dirname, 'packageJSONNoCompileConfig');
 		const manifestConfig = getPkgManifestConfig(root);
 		expect(manifestConfig).toEqual({
 			executionEnvironment: {

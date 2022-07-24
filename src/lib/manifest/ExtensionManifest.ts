@@ -21,7 +21,7 @@ import { DispatchInfoList } from './DispatchInfoList';
 
 import { contextContainsNoneOf } from './Context';
 import { badArgumentError } from '../errorMessages';
-import { notAValue } from '../validators';
+import { containsAValue } from '../validators';
 
 export type BundleInfos = {
 	id: string;
@@ -44,10 +44,14 @@ export type ExtensionManifestArgument = ManifestArgument & {
 export const isExtensionManifestArgument = <
 	(arg: any) => arg is ExtensionManifestArgument
 >((arg) => {
-	if (!notAValue(arg) && typeof arg === 'object' && !(arg instanceof Array)) {
+	if (
+		containsAValue(arg) &&
+		typeof arg === 'object' &&
+		!(arg instanceof Array)
+	) {
 		let { extensionBundle } = arg;
 		if (
-			!notAValue(extensionBundle) &&
+			containsAValue(extensionBundle) &&
 			typeof extensionBundle === 'object' &&
 			!(arg instanceof Array)
 		) {

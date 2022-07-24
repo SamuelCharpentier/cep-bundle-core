@@ -119,11 +119,14 @@ export interface CompileOptions {
 
 import { DeepPartial } from './deepPartial';
 import { ExtensionManifestArgument } from './manifest/ExtensionManifest';
-export type configStructure = {
-	compileOptions: DeepPartial<CompileOptions>;
+export type manifestConfig = {
 	manifest: DeepPartial<ExtensionManifestArgument>;
 	executionEnvironment: DeepPartial<
 		ExtensionManifestArgument['executionEnvironment']
 	>;
 	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
+};
+
+export type configStructure = manifestConfig & {
+	compileOptions: DeepPartial<CompileOptions>;
 };
