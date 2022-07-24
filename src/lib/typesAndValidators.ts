@@ -105,3 +105,25 @@ export type ID = string;
 export const isValidId: (val: any) => boolean = (value): value is ID => {
 	return typeof value === 'string';
 };
+
+export interface CompileOptions {
+	root: string;
+	outputFolder: string;
+	htmlFilename: string;
+	devHost: URL | string;
+	devHostPort?: `${number}` | number;
+	isDev: boolean;
+	symlink: boolean;
+	debugInProduction: boolean;
+}
+
+import { DeepPartial } from './deepPartial';
+import { ExtensionManifestArgument } from './manifest/ExtensionManifest';
+export type configStructure = {
+	compileOptions: DeepPartial<CompileOptions>;
+	manifest: DeepPartial<ExtensionManifestArgument>;
+	executionEnvironment: DeepPartial<
+		ExtensionManifestArgument['executionEnvironment']
+	>;
+	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
+};

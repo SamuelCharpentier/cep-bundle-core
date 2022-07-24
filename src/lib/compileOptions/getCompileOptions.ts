@@ -4,17 +4,7 @@ import { DeepPartial } from '../deepPartial';
 import { badArgumentError } from '../errorMessages';
 import { isValidUrl } from '../typesAndValidators';
 import { defaultCompileOptions } from './getDefaultOptions';
-
-export interface CompileOptions {
-	root: string;
-	outputFolder: string;
-	htmlFilename: string;
-	devHost: URL | string;
-	devHostPort?: `${number}` | number;
-	isDev: boolean;
-	symlink: boolean;
-	debugInProduction: boolean;
-}
+import { CompileOptions } from '../typesAndValidators';
 
 export const getCompileOptions = (
 	usersCompileOptions: DeepPartial<CompileOptions>,

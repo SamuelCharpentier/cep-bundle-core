@@ -7,7 +7,7 @@ export function getRuntimeConfig(root: string): { [key: string]: any } {
 		const config = require(runtimeConfigFile);
 		return config;
 	} else {
-		console.warn(`Could not find .ceprc.js at ${runtimeConfigFile}`);
+		console.warn(`Could not find .cep.config.js at ${runtimeConfigFile}`);
 		return {};
 	}
 }

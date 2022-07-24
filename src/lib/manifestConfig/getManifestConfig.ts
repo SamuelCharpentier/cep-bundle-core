@@ -1,5 +1,5 @@
 import { defaultManifestConfig } from './getDefaultConfig';
-import { getPkgManifestConfig } from './getPkgConfig';
+import { getPkgManifestConfig } from './getPkgManifestConfig';
 
 import { getRuntimeConfig } from './getRuntimeConfig';
 
@@ -40,7 +40,6 @@ function deepObjectMerge(...sources: { [key: string]: any }[]) {
 	if (!sources.length) return result;
 
 	for (const source of sources) {
-		console.log(source, result);
 		for (const key in source) {
 			const value = source[key];
 			if (isObject(value)) {
@@ -64,6 +63,5 @@ export function getManifestArgFromConfig(
 		extensions: config.extensions,
 		executionEnvironment: config.executionEnvironment,
 	};
-	console.log(manifestArgument);
 	return manifestArgument;
 }
