@@ -28,7 +28,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	//cleanup(path.join(root, outputGroup));
+	cleanup(path.join(root, outputGroup));
 });
 
 function getCurrentTestOutputFolder() {
