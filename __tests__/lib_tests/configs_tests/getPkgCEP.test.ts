@@ -1,4 +1,5 @@
 import { getPkgCEP } from '@src/lib/getPkgCEP';
+import fs from 'fs';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -6,11 +7,26 @@ jest.spyOn(console, 'warn').mockImplementation();
 beforeEach(() => {
 	jest.resetAllMocks();
 });
+const emptyPackageJSONPath = path.join(
+	__dirname,
+	'Common',
+	'EmptyFile',
+	'package.json',
+);
+// BeforeAll and AfterAll are because if a JSON file is empty, initialisation of the test will fail
+beforeAll(() => {
+	// Erase file PackageJSON/EmptyFile/package.json content
+	fs.writeFileSync(emptyPackageJSONPath, '');
+});
+afterAll(() => {
+	//Write to file PackageJSON/EmptyFile/package.json
+	fs.writeFileSync(emptyPackageJSONPath, '{}');
+});
 
 describe('getPkgCEP', () => {
 	it('warns when rood is undefined and returns an empty object', () => {
-		root = undefined;
-		const cepConfigs = getPkgCEP(root);
+		let undefinedRoot = undefined;
+		const cepConfigs = getPkgCEP(undefinedRoot);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
 			expect.stringMatching(
@@ -18,8 +34,8 @@ describe('getPkgCEP', () => {
 			),
 		);
 	});
-	let root: string | undefined;
 
+	let root: string | undefined;
 	it('warns when package.json file is missing and returns an empty object', () => {
 		root = path.join(__dirname, 'PackageJSON', 'MissingFile');
 		const cepConfigs = getPkgCEP(root);
@@ -31,7 +47,7 @@ describe('getPkgCEP', () => {
 		);
 	});
 	it('warns when package.json file is empty and returns an empty object', () => {
-		root = path.join(__dirname, 'PackageJSON', 'emptyFile');
+		root = path.join(__dirname, 'Common', 'emptyFile');
 		const cepConfigs = getPkgCEP(root);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
@@ -57,7 +73,7 @@ describe('getPkgCEP', () => {
 		expect(console.warn).not.toHaveBeenCalled();
 	});
 	it('warns if the cep key contains anything other than an object and return an empty object', () => {
-		root = path.join(__dirname, 'PackageJSON', 'CEPNonObject');
+		root = path.join(__dirname, 'Common', 'CEPNonObject');
 		const cepConfigs = getPkgCEP(root);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
@@ -67,7 +83,7 @@ describe('getPkgCEP', () => {
 		);
 	});
 	it('warns if the cep key is an empty object and return empty object', () => {
-		root = path.join(__dirname, 'PackageJSON', 'CEPEmptyObject');
+		root = path.join(__dirname, 'Common', 'CEPEmptyObject');
 		const cepConfigs = getPkgCEP(root);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
@@ -77,7 +93,7 @@ describe('getPkgCEP', () => {
 		);
 	});
 	it('returns the cep value when package.json contains a cep value', () => {
-		root = path.join(__dirname, 'PackageJSON', 'CEP');
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const cepConfigs = getPkgCEP(root);
 		expect(cepConfigs).toEqual({
 			compileOptions: {
