@@ -8,71 +8,25 @@ beforeEach(() => {
 });
 
 describe('getRuntimeManifestConfig', () => {
+	it('returns an empty object when root is undefined', () => {
+		let undefinedRoot = undefined;
+		const cepConfigs = getRuntimeManifestConfig(undefinedRoot);
+		expect(cepConfigs).toEqual({});
+	});
 	let root: string | undefined;
-	it('should return an empty object and warn if root is undefined', () => {
-		root = undefined;
-		expect(getRuntimeManifestConfig(root)).toEqual({});
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`No root provided, no cep config files loaded.`,
-			),
-		);
-	});
-	it('warns when package.json file is missing', () => {
-		root = path.join(__dirname, 'noPackageJSON');
-		const cepConfigs = getRuntimeManifestConfig(root);
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`Could not find .cep.config.js at ${root}/.cep.config.js`,
-			),
-		);
-	});
 	it('should return empty object if no config file is at root', () => {
-		root = root = path.join(__dirname, 'noCEPConfigJS');
+		root = root = path.join(__dirname, 'Common', 'missingFile');
 		expect(getRuntimeManifestConfig(root)).toEqual({});
-	});
-	it('should warn if nothing is exported from .cep.config.js', () => {
-		root = path.join(__dirname, 'noCEPConfigJSExports');
-		let cepConfigs = getRuntimeManifestConfig(root);
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`No cep config present in .cep.config.js. Make sure to use a module.exports object.`,
-			),
-		);
-	});
-	it('should warn if .cep.config.js is empty', () => {
-		root = path.join(__dirname, 'emptyCEPConfigJS');
-		const cepConfigs = getRuntimeManifestConfig(root);
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`No cep config present in .cep.config.js. Make sure to use a module.exports object.`,
-			),
-		);
-	});
-	it('should warn if .cep.config.js exports an empty object', () => {
-		root = path.join(__dirname, 'emptyCEPConfigJSObject');
-		const cepConfigs = getRuntimeManifestConfig(root);
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`No cep config present in .cep.config.js. Make sure to use a module.exports object.`,
-			),
-		);
 	});
 	it('should not warn if config is found', () => {
-		root = path.join(__dirname, 'CEPConfigJS');
+		root = path.join(__dirname, 'Common', 'completeCEP');
 		const cepConfigs = getRuntimeManifestConfig(root);
 		expect(console.warn).not.toHaveBeenCalled();
-		root = path.join(__dirname, 'CEPConfigJSExports');
 	});
 	it('returns the correct config', () => {
-		root = path.join(__dirname, 'CEPConfigJS');
+		root = path.join(__dirname, 'Common', 'completeCEP');
 		const manifestConfig = getRuntimeManifestConfig(root);
 		expect(manifestConfig).toEqual({
-			executionEnvironment: {
-				CSXSVersion: '[2.0, 8.0]',
-				hostList: 'ALL',
-				localeList: ['fr_CA', 'en_US'],
-			},
 			extensions: {
 				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
 				dispatchInfo: [
@@ -115,6 +69,11 @@ describe('getRuntimeManifestConfig', () => {
 				abstract: 'https://AwsomeExtensions.com/legal',
 				authorName: 'Samuel Charpentier',
 				contact: 'samuel@jaunemoutarde.ca',
+				executionEnvironment: {
+					CSXSVersion: '[2.0, 8.0]',
+					hostList: 'ALL',
+					localeList: ['fr_CA', 'en_US'],
+				},
 				extensionBundle: {
 					cepVersion: '8.0',
 					id: 'my.bundle',
