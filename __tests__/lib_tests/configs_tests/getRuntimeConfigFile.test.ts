@@ -19,7 +19,7 @@ describe('getRuntimeConfigFile', () => {
 		);
 	});
 	it('warns when .cep.config.js file is missing and returns an empty object', () => {
-		root = path.join(__dirname, 'noCEPConfigJS');
+		root = path.join(__dirname, 'Common', 'MissingFile');
 		const cepConfigs = getRuntimeConfigFile(root);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
@@ -28,28 +28,8 @@ describe('getRuntimeConfigFile', () => {
 			),
 		);
 	});
-	it('warns when .cep.config.js file is not a module.exports object and returns an empty object', () => {
-		root = path.join(__dirname, 'noCEPConfigJSExports');
-		const cepConfigs = getRuntimeConfigFile(root);
-		expect(cepConfigs).toEqual({});
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`.cep.config.js at ${root}/.cep.config.js is not a module.exports object. Make sure to use a module.exports object.`,
-			),
-		);
-	});
-	it('warns if the exported config is an empty object and return empty object', () => {
-		root = path.join(__dirname, 'emptyCEPConfigJSObject');
-		const cepConfigs = getRuntimeConfigFile(root);
-		expect(cepConfigs).toEqual({});
-		expect(console.warn).toHaveBeenCalledWith(
-			expect.stringContaining(
-				`.cep.config.js at ${root}/.cep.config.js is an empty object.`,
-			),
-		);
-	});
-	it('warns if the config file is empty and return empty object', () => {
-		root = path.join(__dirname, 'emptyCEPConfigJS');
+	it('warns when .cep.config.js file is empty and returns an empty object', () => {
+		root = path.join(__dirname, 'ConfigJS', 'EmptyFile');
 		const cepConfigs = getRuntimeConfigFile(root);
 		expect(cepConfigs).toEqual({});
 		expect(console.warn).toHaveBeenCalledWith(
@@ -58,8 +38,38 @@ describe('getRuntimeConfigFile', () => {
 			),
 		);
 	});
+	it('warns when .cep.config.js file is not a module.exports object and returns an empty object', () => {
+		root = path.join(__dirname, 'ConfigJS', 'NoExports');
+		const cepConfigs = getRuntimeConfigFile(root);
+		expect(cepConfigs).toEqual({});
+		expect(console.warn).toHaveBeenCalledWith(
+			expect.stringContaining(
+				`.cep.config.js at ${root}/.cep.config.js is not a module.exports object. Make sure to use a module.exports object.`,
+			),
+		);
+	});
+	it('warns when .cep.config.js file module.exports is not an object and returns an empty object', () => {
+		root = path.join(__dirname, 'ConfigJS', 'CEPNonObject');
+		const cepConfigs = getRuntimeConfigFile(root);
+		expect(cepConfigs).toEqual({});
+		expect(console.warn).toHaveBeenCalledWith(
+			expect.stringContaining(
+				`.cep.config.js at ${root}/.cep.config.js module.exports is not an object`,
+			),
+		);
+	});
+	it('warns if the exported config is an empty object and return empty object', () => {
+		root = path.join(__dirname, 'ConfigJS', 'CEPEmptyObject');
+		const cepConfigs = getRuntimeConfigFile(root);
+		expect(cepConfigs).toEqual({});
+		expect(console.warn).toHaveBeenCalledWith(
+			expect.stringContaining(
+				`.cep.config.js at ${root}/.cep.config.js is an empty object.`,
+			),
+		);
+	});
 	it('returns the config object if it is not empty', () => {
-		root = path.join(__dirname, 'CEPConfigJS');
+		root = path.join(__dirname, 'ConfigJS', 'CEP');
 		const cepConfigs = getRuntimeConfigFile(root);
 		expect(cepConfigs).toEqual({
 			compileOptions: { outputFolder: './myOutputFolder' },

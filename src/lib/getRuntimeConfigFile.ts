@@ -3,6 +3,8 @@ import fs from 'fs';
 import { ConfigStructure } from './typesAndValidators';
 import { existsSync } from 'fs-extra';
 
+const runtimeConfigFileName = '.cep.config.js';
+
 /**
  * Gets the runtime config file from the root directory.
  *
@@ -10,15 +12,13 @@ import { existsSync } from 'fs-extra';
  * @param {string} [root]
  * @return {*}  {Partial<ConfigStructure>}
  */
-
-const runtimeConfigFileName = '.cep.config.js';
-
 export function getRuntimeConfigFile(root?: string): Partial<ConfigStructure> {
 	if (!root) {
 		console.warn('No root provided, no cep config files loaded.');
 		return {};
 	}
 	let runtimeConfigFile = path.join(root, runtimeConfigFileName);
+	console.log(runtimeConfigFile);
 	if (!existsSync(runtimeConfigFile)) {
 		console.warn(
 			`Could not find ${runtimeConfigFileName} at ${runtimeConfigFile}`,
@@ -39,7 +39,12 @@ export function getRuntimeConfigFile(root?: string): Partial<ConfigStructure> {
 		return {};
 	}
 	let config = require(runtimeConfigFile);
-	// if config is an empty object then warn and return empty object
+	if (typeof config !== 'object') {
+		console.warn(
+			`${runtimeConfigFileName} at ${runtimeConfigFile} module.exports is not an object. Make sure to use a module.exports object.`,
+		);
+		return {};
+	}
 	if (Object.keys(config).length === 0) {
 		console.warn(
 			`${runtimeConfigFileName} at ${runtimeConfigFile} is an empty object.`,
