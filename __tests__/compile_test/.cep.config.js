@@ -11,11 +11,11 @@ module.exports = {
 		contact: 'samuel@jaunemoutarde.ca',
 		legal: 'https://AwsomeExtensions.com/legal',
 		abstract: 'https://AwsomeExtensions.com/legal',
-	},
-	executionEnvironment: {
-		localeList: ['fr_CA', 'en_US'],
-		hostList: 'ALL',
-		CSXSVersion: '[2.0, 8.0]',
+		executionEnvironment: {
+			localeList: ['fr_CA', 'en_US'],
+			hostList: 'ALL',
+			CSXSVersion: '[2.0, 8.0]',
+		},
 	},
 	extensions: {
 		id: 'my.extension',

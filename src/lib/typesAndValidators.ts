@@ -102,9 +102,9 @@ export function isPlacement(placement: Placement): placement is Placement {
 }
 export type ID = string;
 
-export const isValidId: (val: any) => boolean = (value): value is ID => {
+export function isValidId(value: any): value is ID {
 	return typeof value === 'string';
-};
+}
 
 export interface CompileOptions {
 	root: string;
@@ -118,15 +118,27 @@ export interface CompileOptions {
 }
 
 import { DeepPartial } from './deepPartial';
-import { ExtensionManifestArgument } from './manifest/ExtensionManifest';
-export type manifestConfig = {
-	manifest: DeepPartial<ExtensionManifestArgument>;
+import {
+	ExtensionManifestArgument,
+	ManifestArgument,
+} from './manifest/ExtensionManifest';
+export type ManifestConfig = {
+	manifest: DeepPartial<ManifestArgument>;
 	executionEnvironment: DeepPartial<
 		ExtensionManifestArgument['executionEnvironment']
 	>;
 	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
 };
 
-export type configStructure = manifestConfig & {
+export function isValidManifestConfig(value: any): value is ManifestConfig {
+	// confirm that value contains a ManifestConfig
+	if (typeof value !== 'object') return false;
+	if (value.manifest === undefined) return false;
+	if (value.executionEnvironment === undefined) return false;
+	if (value.extensions === undefined) return false;
+	return true;
+}
+
+export type ConfigStructure = ManifestConfig & {
 	compileOptions: DeepPartial<CompileOptions>;
 };
