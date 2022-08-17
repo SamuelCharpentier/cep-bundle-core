@@ -4,8 +4,16 @@ import { badArgumentError } from '../errorMessages';
 
 export type ExtensionListArgument = ExtensionArgument | ExtensionArgument[];
 
-function isExtensionListArgument(arg: any): arg is ExtensionListArgument {
+export function isExtensionListArgument(
+	arg: any,
+): arg is ExtensionListArgument {
 	/* Is a container, no validation necessary for now */
+	if (typeof arg !== 'object')
+		throw badArgumentError(
+			'extensions',
+			'an ExtensionArgument (type) or array of ExtensionArgument (type)',
+			arg,
+		);
 	return true;
 }
 

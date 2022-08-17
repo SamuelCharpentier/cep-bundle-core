@@ -5,38 +5,33 @@ import { getRuntimeManifestConfig } from './getRuntimeManifestConfig';
 
 import { isObject } from '../validators';
 import type { ExtensionManifestArgument } from '@manifest/ExtensionManifest';
-import { isExtensionManifestArgument } from '@manifest/ExtensionManifest';
+import { isManifestArgument } from '@manifest/ExtensionManifest';
 import { badArgumentError } from '../errorMessages';
-import { CompileOptions } from '../typesAndValidators';
+import { ManifestConfig } from '../typesAndValidators';
 import { DeepPartial } from '../deepPartial';
-import type { RuntimeConfig } from '@src/lib/runtimeConfigType';
+import { isExtensionListArgument } from '../manifest/ExtensionList';
 
 export function getManifestConfig(
-	compileOptions: CompileOptions,
-	configOverrides?: DeepPartial<RuntimeConfig>,
+	root?: string,
+	configOverrides: DeepPartial<ManifestConfig> = {},
 ): ExtensionManifestArgument {
-	configOverrides =
-		configOverrides && isObject(configOverrides) ? configOverrides : {};
-	const config = getManifestArgFromConfig(
-		deepObjectMerge(
-			defaultManifestConfig,
-			getPkgManifestConfig(compileOptions.root),
-			getRuntimeManifestConfig(compileOptions.root),
-			configOverrides,
-		),
+	const pkgManifestConfig = getPkgManifestConfig(root);
+	const runtimeManifestConfig = getRuntimeManifestConfig(root);
+	const mergedConfigs = deepObjectMerge(
+		defaultManifestConfig,
+		pkgManifestConfig,
+		runtimeManifestConfig,
+		configOverrides,
 	);
 
-	if (!isExtensionManifestArgument(config)) {
-		throw badArgumentError('', 'getManifestConfig', config);
-	}
-
+	const config = getManifestArgFromConfig(mergedConfigs);
 	return config;
 }
 
+deepObjectMerge({ something: 'string' }, {}, {});
+
 function deepObjectMerge(...sources: { [key: string]: any }[]) {
-	console.log(sources.length);
 	let result: { [key: string]: any } = {};
-	if (!sources.length) return result;
 
 	for (const source of sources) {
 		for (const key in source) {
@@ -57,10 +52,29 @@ function deepObjectMerge(...sources: { [key: string]: any }[]) {
 export function getManifestArgFromConfig(
 	config: any,
 ): ExtensionManifestArgument {
+	try {
+		isManifestArgument(config.manifest);
+	} catch (error) {
+		console.error(error);
+		throw badArgumentError(
+			'manifest configs',
+			'a ManifestArgument (type)',
+			config.manifest,
+		);
+	}
+	try {
+		isExtensionListArgument(config.extensions);
+	} catch (error) {
+		console.error(error);
+		throw badArgumentError(
+			'extension configs',
+			'a ExtensionListArgument (type)',
+			config.extensions,
+		);
+	}
 	let manifestArgument = {
 		...config.manifest,
 		extensions: config.extensions,
-		executionEnvironment: config.executionEnvironment,
 	};
 	return manifestArgument;
 }

@@ -25,7 +25,6 @@ export function getPkgCEP(root?: string): Partial<ConfigStructure> {
 		return {};
 	}
 	const packageJSONContents = fs.readFileSync(packageJSONPath, 'utf8');
-	console.log(packageJSONContents);
 	if (packageJSONContents === '') {
 		console.warn(`${pkgFileName} at ${packageJSONPath} is empty.`);
 		return {};

@@ -124,9 +124,6 @@ import {
 } from './manifest/ExtensionManifest';
 export type ManifestConfig = {
 	manifest: DeepPartial<ManifestArgument>;
-	executionEnvironment: DeepPartial<
-		ExtensionManifestArgument['executionEnvironment']
-	>;
 	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
 };
 
@@ -134,7 +131,6 @@ export function isValidManifestConfig(value: any): value is ManifestConfig {
 	// confirm that value contains a ManifestConfig
 	if (typeof value !== 'object') return false;
 	if (value.manifest === undefined) return false;
-	if (value.executionEnvironment === undefined) return false;
 	if (value.extensions === undefined) return false;
 	return true;
 }
