@@ -11,30 +11,25 @@ const isLocaleListArgument: (arg: any) => boolean = (
 	args,
 ): args is LocaleListArgument => {
 	if (
-		containsAValue(args) &&
-		(args instanceof Array || typeof args === 'string')
+		!containsAValue(args) ||
+		!(args instanceof Array || typeof args === 'string')
 	) {
-		if (typeof args === 'string') {
-			if (!isAdobeLocaleCode(args)) {
-				throw badArgumentError(
-					'localeList',
-					'localeCodes (type)',
-					args,
-				);
-			}
-		} else {
-			for (const arg of args) {
-				if (!isAdobeLocaleCode(arg)) {
-					throw badArgumentError(
-						'Each elements of the localeLists array',
-						'localeCodes (type)',
-						arg,
-					);
-				}
-			}
+		throw badArgumentError('localeList', 'LocaleListArgument (type)', args);
+	}
+	if (typeof args === 'string') {
+		if (!isAdobeLocaleCode(args)) {
+			throw badArgumentError('localeList', 'localeCodes (type)', args);
 		}
 	} else {
-		throw badArgumentError('localeList', 'LocaleListArgument (type)', args);
+		for (const arg of args) {
+			if (!isAdobeLocaleCode(arg)) {
+				throw badArgumentError(
+					'Each elements of the localeLists array',
+					'localeCodes (type)',
+					arg,
+				);
+			}
+		}
 	}
 	return true;
 };
