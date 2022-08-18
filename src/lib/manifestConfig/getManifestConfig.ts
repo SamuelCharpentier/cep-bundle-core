@@ -10,6 +10,7 @@ import { badArgumentError } from '../errorMessages';
 import { ManifestConfig } from '../typesAndValidators';
 import { DeepPartial } from '../deepPartial';
 import { isExtensionListArgument } from '../manifest/ExtensionList';
+import { deepObjectMerge } from '../deepObjectMerge';
 
 export function getManifestConfig(
 	root?: string,
@@ -26,27 +27,6 @@ export function getManifestConfig(
 
 	const config = getManifestArgFromConfig(mergedConfigs);
 	return config;
-}
-
-deepObjectMerge({ something: 'string' }, {}, {});
-
-function deepObjectMerge(...sources: { [key: string]: any }[]) {
-	let result: { [key: string]: any } = {};
-
-	for (const source of sources) {
-		for (const key in source) {
-			const value = source[key];
-			if (isObject(value)) {
-				if (!result[key]) result[key] = value;
-				else {
-					result[key] = deepObjectMerge(result[key], value);
-				}
-			} else {
-				result[key] = value;
-			}
-		}
-	}
-	return result;
 }
 
 export function getManifestArgFromConfig(
