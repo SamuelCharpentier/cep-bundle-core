@@ -126,15 +126,3 @@ export type ManifestConfig = {
 	manifest: DeepPartial<ManifestArgument>;
 	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
 };
-
-export function isValidManifestConfig(value: any): value is ManifestConfig {
-	// confirm that value contains a ManifestConfig
-	if (typeof value !== 'object') return false;
-	if (value.manifest === undefined) return false;
-	if (value.extensions === undefined) return false;
-	return true;
-}
-
-export type ConfigStructure = ManifestConfig & {
-	compileOptions: DeepPartial<CompileOptions>;
-};
