@@ -44,180 +44,124 @@ export type ExtensionManifestArgument = ManifestArgument & {
 const isBundleInfos = (
 	extensionBundle: any,
 ): extensionBundle is BundleInfos => {
-	if (isObject(extensionBundle) && containsAValue(extensionBundle)) {
-		const { id, version, name, cepVersion } = extensionBundle;
-		if (!isVersionNumber(version)) {
-			throw badArgumentError(
-				'extensionBundle.version',
-				'VersionNumber (type)',
-				version,
-			);
-		}
-		if (!isCEPVersion(cepVersion))
-			throw badArgumentError(
-				'extensionBundle.cepVersion',
-				'CEPVersion (type)',
-				cepVersion,
-			);
-		if (typeof id !== 'string')
-			throw badArgumentError('extensionBundle.id', 'string', id);
-		if (name !== undefined && typeof name !== 'string')
-			throw badArgumentError(
-				'extensionBundle.name (optional)',
-				'string',
-				name,
-			);
-		return true;
+	if (!isObject(extensionBundle) || !containsAValue(extensionBundle)) {
+		throw badArgumentError(
+			'extensionBundle',
+			'a BundleInfos (type)',
+			extensionBundle,
+		);
 	}
-	return false;
+	const { id, version, name, cepVersion } = extensionBundle;
+	if (!isVersionNumber(version)) {
+		throw badArgumentError(
+			'extensionBundle.version',
+			'a VersionNumber (type)',
+			version,
+		);
+	}
+	if (!isCEPVersion(cepVersion))
+		throw badArgumentError(
+			'extensionBundle.cepVersion',
+			'a CEPVersion (enum)',
+			cepVersion,
+		);
+	if (typeof id !== 'string')
+		throw badArgumentError('extensionBundle.id', 'a string', id);
+	if (name !== undefined && typeof name !== 'string')
+		throw badArgumentError(
+			'extensionBundle.name (optional)',
+			'a string',
+			name,
+		);
+	return true;
 };
 
 export const isManifestArgument = <
-	(arg: any) => arg is ExtensionManifestArgument
+	(arg: { [key: string]: any }) => arg is ExtensionManifestArgument
 >((arg) => {
-	if (isObject(arg) && containsAValue(arg)) {
-		const {
-			extensionBundle,
-			executionEnvironment,
-			authorName,
-			contact,
-			legal,
-			abstract,
-		} = arg;
-		if (isBundleInfos(extensionBundle)) {
-			if (
-				(executionEnvironment !== undefined &&
-					!isObject(executionEnvironment)) ||
-				!containsAValue(executionEnvironment)
-			) {
-				throw new Error(
-					badArgumentError(
-						'executionEnvironment (optional)',
-						'ExecutionEnvironmentArgument',
-						executionEnvironment,
-					),
-				);
-			}
-			if (
-				authorName !== undefined ||
-				typeof authorName !== 'string' ||
-				!containsAValue(authorName)
-			) {
-				throw new Error(
-					badArgumentError(
-						'authorName (optional)',
-						'non empty string',
-						authorName,
-					),
-				);
-			}
-			if (
-				contact !== undefined ||
-				typeof contact !== 'string' ||
-				!containsAValue(contact)
-			) {
-				throw new Error(
-					badArgumentError(
-						'contact (optional)',
-						'non empty string',
-						contact,
-					),
-				);
-			}
-			if (
-				legal !== undefined ||
-				typeof legal !== 'string' ||
-				!containsAValue(legal)
-			) {
-				throw new Error(
-					badArgumentError(
-						'legal (optional)',
-						'non empty string',
-						legal,
-					),
-				);
-			}
-			return true;
-		}
-	} else {
-		throw new Error(badArgumentError('manifest', 'ManifestArgument', arg));
+	const {
+		extensionBundle,
+		executionEnvironment,
+		authorName,
+		contact,
+		legal,
+		abstract,
+	} = arg;
+	try {
+		isBundleInfos(extensionBundle);
+	} catch (error) {
+		throw error;
 	}
-	return false;
+	if (
+		executionEnvironment !== undefined &&
+		(!isObject(executionEnvironment) ||
+			!containsAValue(executionEnvironment))
+	) {
+		throw new Error(
+			badArgumentError(
+				'executionEnvironment (optional)',
+				'an ExecutionEnvironmentArgument (type)',
+				executionEnvironment,
+			),
+		);
+	}
+	if (
+		authorName !== undefined &&
+		(typeof authorName !== 'string' || !containsAValue(authorName))
+	) {
+		throw new Error(
+			badArgumentError(
+				'authorName (optional)',
+				'a non empty string',
+				authorName,
+			),
+		);
+	}
+	if (
+		contact !== undefined &&
+		(typeof contact !== 'string' || !containsAValue(contact))
+	) {
+		throw new Error(
+			badArgumentError(
+				'contact (optional)',
+				'a non empty string',
+				contact,
+			),
+		);
+	}
+	if (
+		legal !== undefined &&
+		(typeof legal !== 'string' || !containsAValue(legal))
+	) {
+		throw new Error(
+			badArgumentError('legal (optional)', 'a non empty string', legal),
+		);
+	}
+	return true;
 });
 
 export const isExtensionManifestArgument = <
 	(arg: any) => arg is ExtensionManifestArgument
 >((arg) => {
-	if (containsAValue(arg) && isObject(arg)) {
-		let { extensionBundle } = arg;
-		if (
-			containsAValue(extensionBundle) &&
-			typeof extensionBundle === 'object' &&
-			!(arg instanceof Array)
-		) {
-			let {
-				cepVersion,
-				id: bundleId,
-				version: bundleVersion,
-				name: bundleName,
-			} = extensionBundle;
-			if (!isCEPVersion(cepVersion))
-				throw new Error(
-					badArgumentError(
-						"The bundle's CEP version",
-						'a CEPVersion(enum)',
-						cepVersion,
-					),
-				);
-			if (typeof bundleId !== 'string')
-				throw new Error(
-					badArgumentError("The bundle's ID", 'a string', bundleId),
-				);
-			if (
-				typeof bundleVersion !== 'number' &&
-				!isVersionNumber(bundleVersion)
-			)
-				throw new Error(
-					badArgumentError(
-						"The bundle's version",
-						'a number or string containing a VersionNumber (type)',
-						bundleVersion,
-					),
-				);
-
-			if (bundleName && typeof bundleName !== 'string')
-				throw new Error(
-					badArgumentError(
-						"The bundle's name (optional)",
-						'a string',
-						bundleName,
-					),
-				);
-		} else {
-			throw new Error(
-				badArgumentError(
-					'extensionBundle',
-					'BundleInfos (type)',
-					extensionBundle,
-				),
-			);
-		}
-
-		let { extensions } = arg;
-		if (extensions === undefined)
-			throw badArgumentError(
-				'extensions',
-				'ExtensionListArgument (type)',
-				extensions,
-			);
-	} else {
+	if (!isObject(arg) || !containsAValue(arg)) {
 		throw badArgumentError(
-			'ExtensionManifestArgument, .cep.config.js',
+			'the manifest configs',
 			'a ExtensionManifestArgument (type)',
 			arg,
 		);
 	}
-
+	try {
+		isManifestArgument(arg);
+	} catch (error) {
+		throw error;
+	}
+	let { extensions } = arg;
+	if (extensions === undefined)
+		throw badArgumentError(
+			'extensions',
+			'ExtensionListArgument (type)',
+			extensions,
+		);
 	return true;
 });
 export class ExtensionManifest extends XMLElement {
