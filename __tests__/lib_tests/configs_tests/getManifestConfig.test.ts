@@ -3,10 +3,6 @@ import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
 
-beforeEach(() => {
-	jest.resetAllMocks();
-});
-
 // this should be matching the conten of the files in Common/CompleteCEP
 const expectedManifestConfig = {
 	abstract: 'https://AwsomeExtensions.com/legal',
@@ -62,14 +58,15 @@ const expectedManifestConfig = {
 };
 
 describe('getManifestConfig', () => {
+	let root: string;
 	it('returns a manifest config', () => {
-		let root: string = path.join(__dirname, 'Common', 'CompleteCEP');
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const manifestConfig = getManifestConfig(root);
 		expect(manifestConfig).toStrictEqual(expectedManifestConfig);
 	});
 	it('accept valid overrides', () => {
 		let manifestConfig: any;
-		let root: string = path.join(__dirname, 'Common', 'CompleteCEP');
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		expect(() => {
 			manifestConfig = getManifestConfig(root, {
 				manifest: {
@@ -90,7 +87,7 @@ describe('getManifestConfig', () => {
 		});
 	});
 	it('throws when overrides invalidates the rest of the configs', () => {
-		let root: string = path.join(__dirname, 'Common', 'CompleteCEP');
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		let invalidOverrides: any = {
 			manifest: 'My Super Cool Extension - Alpha',
 		};

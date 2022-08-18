@@ -86,7 +86,7 @@
 		},
 		"compileOptions": {
 			"outputFolder": "./dist",
-			"debugInProduction": "false"
+			"debugInProduction": false
 		}
 	}
 }

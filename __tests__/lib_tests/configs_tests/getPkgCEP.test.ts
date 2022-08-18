@@ -97,7 +97,7 @@ describe('getPkgCEP', () => {
 		const cepConfigs = getPkgCEP(root);
 		expect(cepConfigs).toStrictEqual({
 			compileOptions: {
-				debugInProduction: 'false',
+				debugInProduction: false,
 				outputFolder: './dist',
 			},
 			extensions: {

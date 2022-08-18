@@ -72,7 +72,6 @@ describe('getRuntimeConfigFile', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const cepConfigs = getRuntimeConfigFile(root);
 		expect(cepConfigs).toStrictEqual({
-			compileOptions: { outputFolder: './myOutputFolder' },
 			extensions: {
 				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
 				dispatchInfo: [

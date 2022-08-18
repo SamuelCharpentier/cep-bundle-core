@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { ConfigStructure } from './typesAndValidators';
 import { existsSync } from 'fs-extra';
+import { DeepPartial } from './deepPartial';
 
 const pkgFileName = 'package.json';
 
@@ -12,7 +13,7 @@ const pkgFileName = 'package.json';
  * @param {string} [root]
  * @return {*}  {Partial<ConfigStructure>}
  */
-export function getPkgCEP(root?: string): Partial<ConfigStructure> {
+export function getPkgCEP(root?: string): DeepPartial<ConfigStructure> {
 	if (!root) {
 		console.warn(
 			'No root provided, no cep config loaded from package.json.',

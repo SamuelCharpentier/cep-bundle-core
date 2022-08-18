@@ -44,10 +44,8 @@ describe('getPkgCompileOptions', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const compileOptions = getPkgCompileOptions(root);
 		expect(compileOptions).toStrictEqual({
-			compileOptions: {
-				outputFolder: './dist',
-				debugInProduction: 'false',
-			},
+			outputFolder: './dist',
+			debugInProduction: false,
 		});
 	});
 });
