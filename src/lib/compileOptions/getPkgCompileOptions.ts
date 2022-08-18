@@ -1,6 +1,10 @@
 import { getPkgCEP } from '../getPkgCEP';
-import type { CompileOptions } from '../typesAndValidators';
+import type { CompileOptions, ConfigStructure } from '../typesAndValidators';
 
-export function getPkgCompileConfig(root?: string): Partial<CompileOptions> {
-	return getPkgCEP(root).compileOptions || {};
+export function getPkgCompileOptions(root?: string): Partial<ConfigStructure> {
+	const cep = getPkgCEP(root);
+	if (cep.compileOptions === undefined) {
+		return {};
+	}
+	return { compileOptions: getPkgCEP(root).compileOptions };
 }

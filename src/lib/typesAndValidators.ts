@@ -126,3 +126,7 @@ export type ManifestConfig = {
 	manifest: DeepPartial<ManifestArgument>;
 	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
 };
+
+export type ConfigStructure = ManifestConfig & {
+	compileOptions: DeepPartial<CompileOptions>;
+};

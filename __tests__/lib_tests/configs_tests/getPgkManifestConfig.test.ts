@@ -8,16 +8,19 @@ beforeEach(() => {
 });
 
 describe('getPkgManifestConfig', () => {
+	it('is defined', () => {
+		expect(getPkgManifestConfig).toBeDefined();
+	});
 	let root: string;
 	it('returns an empty object if no configs are found', () => {
 		root = path.join(__dirname, 'Common', 'NoManifestConfig');
 		const manifestConfig = getPkgManifestConfig(root);
-		expect(manifestConfig).toEqual({});
+		expect(manifestConfig).toStrictEqual({});
 	});
 	it('returns the correct config', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const manifestConfig = getPkgManifestConfig(root);
-		expect(manifestConfig).toEqual({
+		expect(manifestConfig).toStrictEqual({
 			extensions: {
 				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
 				dispatchInfo: [

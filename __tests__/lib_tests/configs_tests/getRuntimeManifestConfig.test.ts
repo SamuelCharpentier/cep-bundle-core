@@ -11,12 +11,12 @@ describe('getRuntimeManifestConfig', () => {
 	it('returns an empty object when root is undefined', () => {
 		let undefinedRoot = undefined;
 		const cepConfigs = getRuntimeManifestConfig(undefinedRoot);
-		expect(cepConfigs).toEqual({});
+		expect(cepConfigs).toStrictEqual({});
 	});
 	let root: string | undefined;
 	it('should return empty object if no config file is at root', () => {
 		root = root = path.join(__dirname, 'Common', 'missingFile');
-		expect(getRuntimeManifestConfig(root)).toEqual({});
+		expect(getRuntimeManifestConfig(root)).toStrictEqual({});
 	});
 	it('should not warn if config is found', () => {
 		root = path.join(__dirname, 'Common', 'completeCEP');
@@ -26,7 +26,7 @@ describe('getRuntimeManifestConfig', () => {
 	it('returns the correct config', () => {
 		root = path.join(__dirname, 'Common', 'completeCEP');
 		const manifestConfig = getRuntimeManifestConfig(root);
-		expect(manifestConfig).toEqual({
+		expect(manifestConfig).toStrictEqual({
 			extensions: {
 				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
 				dispatchInfo: [
