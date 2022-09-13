@@ -17,7 +17,7 @@
 	"scripts": {
 		"dev": "rollup --config --watch",
 		"build": "rollup --config",
-		"test": "jest"
+		"test": "jest -w"
 	},
 	"keywords": [
 		"Adobe",
@@ -61,7 +61,7 @@
 		"transform": {
 			"^.+\\.(t|j)sx?$": "ts-jest"
 		},
-		"testRegex": "/__tests__/.*\\.test\\.ts?$",
+		"testRegex": "/__tests__/((?<!(_ignore/)).)*\\.test\\.ts$",
 		"moduleFileExtensions": [
 			"ts",
 			"tsx",
