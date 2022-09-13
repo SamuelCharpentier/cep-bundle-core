@@ -1,0 +1,8 @@
+{
+	"CEP": {
+		"compileOptions": {
+			"outputFolder": "./dist",
+			"debugInProduction": "false"
+		}
+	}
+}
