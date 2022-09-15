@@ -31,7 +31,7 @@ export const isAllExtensions = (
 				`extensions${receivedArray ? `[${index}]` : ''}`,
 			]);
 		} catch (error) {
-			cumulatedErrors.push(...(error as string).split('\n\n'));
+			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
 	}
 	if (cumulatedErrors.length > 0) throw cumulatedErrors.join('\n\n');

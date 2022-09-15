@@ -26,12 +26,12 @@ export const isVisibleDispatchInfo = (
 	try {
 		isVisibleUI(received.ui, [...parents]);
 	} catch (error) {
-		cumulatedErrors.push(...(error as string).split('\n\n'));
+		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	try {
 		isVisibleResources(received.resources, [...parents]);
 	} catch (error) {
-		cumulatedErrors.push(...(error as string).split('\n\n'));
+		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	if (cumulatedErrors.length > 0) throw cumulatedErrors.join('\n\n');
 	return true;

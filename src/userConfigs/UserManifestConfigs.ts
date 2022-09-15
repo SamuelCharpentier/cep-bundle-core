@@ -74,9 +74,9 @@ export const isUserManifestConfigs = (
 		cumulatedErrors.push(
 			badValueError({
 				propertyName: [...parents, 'contact'].join('.'),
-				expectedPropertyType: `${linkToDocs(
+				expectedPropertyType: `an ${linkToDocs(
 					'general type',
-					'an EmailAddress',
+					'EmailAddress',
 				)}`,
 				received: contact,
 			}),

@@ -33,7 +33,7 @@ export const isVisibleUI = (
 		try {
 			isMenu(menu);
 		} catch (error) {
-			cumulatedErrors.push(...(error as string).split('\n\n'));
+			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
 	}
 
@@ -41,14 +41,14 @@ export const isVisibleUI = (
 		try {
 			isIcons(icons);
 		} catch (error) {
-			cumulatedErrors.push(...(error as string).split('\n\n'));
+			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
 	}
 
 	try {
 		isGeometry(geometry);
 	} catch (error) {
-		cumulatedErrors.push(...(error as string).split('\n\n'));
+		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	if (cumulatedErrors.length > 0) throw cumulatedErrors.join('\n\n');
 	return true;

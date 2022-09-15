@@ -23,7 +23,7 @@ describe('isWidthHeight', () => {
 		'throws when called with %s',
 		(description, argument, errorMessage) => {
 			expect(() => isWidthHeight(argument)).toThrowError(
-				`Validation Error:  (optional) must be provided as a WidthHeight (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#WidthHeight), ${errorMessage} received`,
+				`Validation Error: geometry (optional) must be provided as a WidthHeight (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#WidthHeight), ${errorMessage} received`,
 			);
 		},
 	);
@@ -36,7 +36,7 @@ describe('isWidthHeight', () => {
 			expect(() =>
 				isWidthHeight({ width: argument, height: 500 }),
 			).toThrowError(
-				`Validation Error: width (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
+				`Validation Error: geometry.width (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
 			);
 		},
 	);
@@ -54,7 +54,7 @@ describe('isWidthHeight', () => {
 			expect(() =>
 				isWidthHeight({ width: 500, height: argument }),
 			).toThrowError(
-				`Validation Error: height (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
+				`Validation Error: geometry.height (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
 			);
 		},
 	);

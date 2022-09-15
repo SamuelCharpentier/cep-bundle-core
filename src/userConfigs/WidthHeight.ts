@@ -8,7 +8,7 @@ export type WidthHeight = {
 };
 export const isWidthHeight = (
 	received: any,
-	parents: string[] = [],
+	parents: string[] = ['geometry'],
 ): received is WidthHeight => {
 	let cumulatedErrors: string[] = [];
 	if (

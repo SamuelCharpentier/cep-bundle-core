@@ -1,4 +1,3 @@
-import { DeepCollapse } from '@src/lib/DeepCollapse';
 import {
 	AdobeLocaleCodes,
 	CEPVersion,

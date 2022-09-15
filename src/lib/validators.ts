@@ -11,5 +11,19 @@ export const containsAValue = (a: any) => {
 };
 
 export function isObject(item: any): item is Object {
-	return item && typeof item === 'object' && !Array.isArray(item);
+	return (
+		item &&
+		typeof item === 'object' &&
+		!Array.isArray(item) &&
+		item !== null
+	);
+}
+
+export function isURL(url: any): boolean {
+	try {
+		new URL(url);
+		return true;
+	} catch (error) {
+		return false;
+	}
 }

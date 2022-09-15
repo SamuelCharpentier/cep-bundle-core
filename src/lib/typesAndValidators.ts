@@ -2,10 +2,9 @@ export type NumberString = `${number}` | `${number}.${number}` | number;
 
 export type EmailAddress = `${string}@${string}.${string}`;
 
-const emailRegex =
-	/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+const emailRegex = /^[\w-\.\+]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-export function isEmail(email: any): boolean {
+export function isEmailAddress(email: any): boolean {
 	return typeof email === 'string' && emailRegex.test(email);
 }
 
@@ -23,6 +22,7 @@ export function isValidUrl(url: any): url is URL {
 }
 
 export type VersionNumber =
+	| number
 	| `${number}`
 	| `${number}.${number}`
 	| `${number}.${number}.${number}`
@@ -30,8 +30,9 @@ export type VersionNumber =
 
 export function isVersionNumber(value: any): value is VersionNumber {
 	if (
-		typeof value === 'string' &&
-		/^(\d{1,9}\.){0,2}\d{1,9}(\.[\w_-]+)?$/.test(value)
+		typeof value === 'number' ||
+		(typeof value === 'string' &&
+			/^(\d{1,9}\.){0,2}\d{1,9}(\.[\w_-]+)?$/.test(value))
 	)
 		return true;
 	return false;
@@ -76,7 +77,7 @@ export type Command =
 	| `--${string}`
 	| `--${string}=${string}`;
 
-export function isValidCommand(command: any): command is Command {
+export function isCommand(command: any): command is Command {
 	if (
 		typeof command !== 'string' ||
 		!/^--[a-z1-9-]+$|^--[a-z1-9-]+?=([a-zA-Z0-9]+|".*")$/g.test(command)
@@ -85,9 +86,11 @@ export function isValidCommand(command: any): command is Command {
 	return true;
 }
 
-export type EventType = string;
+export type StartEvent = string;
 
-export const isEvent: (e: any) => boolean = (event): event is EventType => {
+export const isStartEvent: (e: any) => boolean = (
+	event,
+): event is StartEvent => {
 	if (typeof event !== 'string') return false;
 	console.warn('isEvent validator to do, blind validation —', event);
 	return true;
@@ -130,3 +133,18 @@ export type ManifestConfig = {
 export type ConfigStructure = ManifestConfig & {
 	compileOptions: DeepPartial<CompileOptions>;
 };
+
+export type All = 'All' | 'ALL' | 'all';
+
+export const isAll: (value: any) => value is All = (value): value is All => {
+	if (typeof value !== 'string') return false;
+	return value === 'All' || value === 'ALL' || value === 'all';
+};
+
+export type Int = number | `${number}`;
+
+export function isInt(value: any): value is Int {
+	if (typeof value === 'number') return Number.isInteger(value);
+	if (typeof value === 'string') return /^\d+$/.test(value);
+	return false;
+}

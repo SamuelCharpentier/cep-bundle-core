@@ -39,19 +39,19 @@ export const isBaseDispatchInfo = (
 	try {
 		isBaseUI(ui, [...parents]);
 	} catch (error) {
-		cumulatedErrors.push(...(error as string).split('\n\n'));
+		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	try {
 		const isVisible = isVisibleUIType(ui?.type);
 		isBaseResources(resources, [...parents], isVisible);
 	} catch (error) {
-		cumulatedErrors.push(...(error as string).split('\n\n'));
+		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	if (lifecycle !== undefined) {
 		try {
 			isLifecycle(lifecycle, [...parents]);
 		} catch (error) {
-			cumulatedErrors.push(...(error as string).split('\n\n'));
+			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
 	}
 	if (cumulatedErrors.length > 0) throw cumulatedErrors.join('\n\n');
