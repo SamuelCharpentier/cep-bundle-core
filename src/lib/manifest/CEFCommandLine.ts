@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { Command, isValidCommand } from '../typesAndValidators';
+import { Command, isCommand } from '../typesAndValidators';
 import { badArgumentError } from '../errorMessages';
 import { contextContainsOneOf } from './Context';
 import { StringContent } from './StringContent';
@@ -19,7 +19,7 @@ const isCEFCommandLineArgument: (commands: any) => boolean = (
 		);
 
 	for (const command of commands) {
-		if (!isValidCommand(command))
+		if (!isCommand(command))
 			throw new Error(
 				badArgumentError(
 					'cefParams',
