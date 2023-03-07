@@ -3,3 +3,4 @@ dist
 package-lock.json
 **/sandbox.**
 **/**/.DS_Store
+coverage
