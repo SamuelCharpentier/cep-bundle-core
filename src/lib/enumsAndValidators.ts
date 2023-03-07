@@ -100,14 +100,15 @@ export const isSizesTypes = isEnumToken(SizesTypes);
 
 export enum CEPVersion {
 	'latest' = '11,0',
-	'11.0' = '11.0',
-	'10.0' = '10.0',
-	'9.0' = '9.0',
-	'8.0' = '8.0',
-	'7.0' = '7.0',
-	'6.0' = '6.0',
-	'5.0' = '5.0',
-	'4.0' = '4.0',
+	'v11.0' = '11.0',
+	'v10.0' = '10.0',
+	'v9.0' = '9.0',
+	'v8.0' = '8.0',
+	'v7.0' = '7.0',
+	'v6.1' = '6.1',
+	'v6.0' = '6.0',
+	'v5.0' = '5.0',
+	'v4.0' = '4.0',
 }
 
 export const isCEPVersion = isEnumTokenOrKey(CEPVersion);
