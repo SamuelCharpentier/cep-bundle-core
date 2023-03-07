@@ -17,8 +17,10 @@ const printVariableInError: (v: any) => string = (val) => {
 			? `'${val}' `
 			: val === null
 			? 'null '
-			: typeof val === 'function'
+			: typeof val === 'function' && val.name !== ''
 			? `${val.name}() `
+			: typeof val === 'function' && val.name === ''
+			? '[annonymous function] '
 			: typeof val === 'object'
 			? '\n' + prettierJSON(JSON.stringify(val))
 			: val + ' '
