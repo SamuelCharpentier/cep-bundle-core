@@ -31,7 +31,7 @@ export let userManifestConfigs: _UserManifestConfigs = {
 		},
 		dispatchInfo: {
 			resources: {
-				htmlFileName: './index.html',
+				htmlPath: './index.html',
 			},
 			ui: {
 				type: UIType.Panel,

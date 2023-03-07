@@ -1,4 +1,5 @@
 import { DeepCollapse } from '@src/lib/DeepCollapse';
+import { HostEngine, isHostEngine } from '@src/lib/enumsAndValidators';
 import { badValueError } from '@src/lib/errorMessages';
 import { linkToDocs } from '@src/linkToDocs';
 import { BaseResources, isBaseResources } from './BaseResources';
@@ -10,6 +11,8 @@ export type _BaseDispatchInfo = {
 	resources: BaseResources;
 	ui: BaseUI;
 	lifecycle?: Lifecycle;
+	extensionData?: string | string[];
+	host?: HostEngine;
 };
 
 export type BaseDispatchInfo = DeepCollapse<_BaseDispatchInfo>;
@@ -52,6 +55,47 @@ export const isBaseDispatchInfo = (
 			isLifecycle(lifecycle, [...parents]);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
+		}
+	}
+	if (received.extensionData !== undefined) {
+		const extensionDataIsArray = received.extensionData instanceof Array;
+		const extensionData = extensionDataIsArray
+			? received.extensionData
+			: [received.extensionData];
+		for (const index in extensionData) {
+			const data = extensionData[index];
+			if (typeof data !== 'string') {
+				cumulatedErrors.push(
+					badValueError({
+						propertyName: [
+							...parents,
+							`extensionData${
+								extensionDataIsArray ? `[${index}]` : ''
+							}`,
+						].join('.'),
+						required: false,
+						expectedPropertyType: extensionDataIsArray
+							? 'a string'
+							: 'a string or an array of strings',
+						received: data,
+					}),
+				);
+			}
+		}
+	}
+	if (received.host !== undefined) {
+		if (!isHostEngine(received.host)) {
+			cumulatedErrors.push(
+				badValueError({
+					propertyName: [...parents, 'host'].join('.'),
+					required: false,
+					expectedPropertyType: `a ${linkToDocs(
+						'user manifest configs type',
+						'HostEngine',
+					)}`,
+					received: received.host,
+				}),
+			);
 		}
 	}
 	if (cumulatedErrors.length > 0) throw cumulatedErrors.join('\n\n');

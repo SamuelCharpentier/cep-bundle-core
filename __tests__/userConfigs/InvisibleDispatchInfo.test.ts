@@ -118,5 +118,15 @@ describe('isInvisibleDispatchInfo', () => {
 		expect(warnSpy).toHaveBeenCalledWith(
 			'The following keys will be ignored because they are not usefull for an invisible extension (dispatchInfo.ui.type:UIType.Custom):\ndispatchInfo.uselessskey is ignored',
 		);
+		warnSpy.mockReset();
+		isInvisibleDispatchInfo({
+			...validInvisibleDispatchInfo,
+			// @ts-expect-error
+			uselessskey: 'uselessvalue',
+			uselessskey2: { uselesskey3: 'uselessvalue' },
+		});
+		expect(warnSpy).toHaveBeenCalledWith(
+			'The following keys will be ignored because they are not usefull for an invisible extension (dispatchInfo.ui.type:UIType.Custom):\ndispatchInfo.uselessskey is ignored\ndispatchInfo.uselessskey2.uselesskey3 is ignored',
+		);
 	});
 });

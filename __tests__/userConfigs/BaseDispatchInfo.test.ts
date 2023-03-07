@@ -8,7 +8,7 @@ import { exampleUserManifestConfigs } from './userConfigs.example';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { _Extension } from '@src/userConfigs/Extension';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
-import { UIType } from '@src/lib/enumsAndValidators';
+import { HostEngine, UIType } from '@src/lib/enumsAndValidators';
 import { BaseResources } from '@src/userConfigs/BaseResources';
 import { Lifecycle } from '@src/userConfigs/Lifecycle';
 import { InvisibleDispatchInfo } from '@src/userConfigs/InvisibleDispatchInfo';
@@ -17,6 +17,7 @@ import { VisibleDispatchInfo } from '@src/userConfigs/VisibleDispatchInfo';
 const validInvisibleDispatchInfo: InvisibleDispatchInfo = {
 	ui: { type: 'Custom' },
 	resources: { scriptPath: './scripts/main.jsx' },
+	extensionData: ['anything here', 'anything here too'],
 };
 const validBaseDispatchInfo: BaseDispatchInfo = {
 	resources: {
@@ -25,6 +26,7 @@ const validBaseDispatchInfo: BaseDispatchInfo = {
 	ui: {
 		type: 'Embedded',
 	},
+	extensionData: 'anything here',
 };
 
 const validVisibleDispatchInfo: VisibleDispatchInfo = {
@@ -87,11 +89,50 @@ describe('isBaseDispatchInfo', () => {
 				},
 				"Validation Error: dispatchInfo.lifecycle (optional) must be provided as a Lifecycle (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Lifecycle), 'invalid' (string) received",
 			],
+			[
+				'a BaseDispatchInfo with a boolean extensionData',
+				{
+					extensionData: false as unknown as string[],
+				},
+				'Validation Error: dispatchInfo.extensionData (optional) must be provided as a string or an array of strings, false (boolean) received',
+			],
+			[
+				'a BaseDispatchInfo with an object extensionData',
+				{
+					extensionData: { data: 'my data' } as unknown as string[],
+				},
+				'Validation Error: dispatchInfo.extensionData (optional) must be provided as a string or an array of strings, \n{ "data": "my data" }\n(object) received',
+			],
+			[
+				'a BaseDispatchInfo with an array of objects extensionData',
+				{
+					extensionData: [
+						{ data: 'my data' },
+						{ data: 'my data' },
+					] as unknown as string[],
+				},
+				'Validation Error: dispatchInfo.extensionData[0] (optional) must be provided as a string, \n{ "data": "my data" }\n(object) received\n\nValidation Error: dispatchInfo.extensionData[1] (optional) must be provided as a string, \n{ "data": "my data" }\n(object) received',
+			],
+			[
+				'a BaseDispatchInfo with an invalid host',
+				{
+					host: 'invalid' as unknown as HostEngine,
+				},
+				"Validation Error: dispatchInfo.host (optional) must be provided as a HostEngine (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostEngine), 'invalid' (string) received",
+			],
 		],
 		good: [
 			['a valid BaseDispatchInfo', validBaseDispatchInfo],
 			['a valid VisibleDispatchInfo', validVisibleDispatchInfo],
 			['a valid InvisibleDispatchInfo', validInvisibleDispatchInfo],
+			[
+				'a valid BaseDispatchInfo with optional data',
+				{
+					...validBaseDispatchInfo,
+					extensionData: ['my data'],
+					host: HostEngine.Illustrator,
+				},
+			],
 		],
 	};
 	test.each(allBaseDispatchInfoCases.bad)(
