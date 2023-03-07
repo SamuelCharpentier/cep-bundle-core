@@ -1,5 +1,5 @@
 import { Geometry, GeometryArgument } from '@manifest/Geometry';
-import { SizesTypes } from '@src/lib/manifest/enumsAndValidators';
+import { SizesTypes } from '@src/lib/enumsAndValidators';
 
 describe('Geometry', () => {
 	it('Is defined', () => {

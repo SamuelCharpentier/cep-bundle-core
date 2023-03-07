@@ -1,5 +1,5 @@
 import { HostList, HostListArgument } from '@manifest/Host';
-import type { HostEngine } from '@manifest/enumsAndValidators';
+import type { HostEngine } from '@src/lib/enumsAndValidators';
 
 describe('HostList', () => {
 	it('Is defined', () => {

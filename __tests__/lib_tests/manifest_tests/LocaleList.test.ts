@@ -1,5 +1,5 @@
 import { LocaleList, LocaleListArgument } from '@manifest/LocaleList';
-import { AdobeLocaleCodes } from '@manifest/enumsAndValidators';
+import { AdobeLocaleCodes } from '@src/lib/enumsAndValidators';
 
 describe('LocaleList', () => {
 	it('Is defined', () => {
