@@ -29,13 +29,13 @@ describe('Type', () => {
 		expect(() => {
 			new Type(badArgument);
 		}).toThrow(
-			'Validation Error: Type must be provided as a UIType (enum), `${UIType}` or keyof typeof UIType, \n{ "type": "Panel" }\n (object) received',
+			'Validation Error: Type must be provided as a UIType (enum), `${UIType}` or keyof typeof UIType, \n{ "type": "Panel" }\n(object) received',
 		);
 		badArgument = [];
 		expect(() => {
 			new Type(badArgument);
 		}).toThrow(
-			'Validation Error: Type must be provided as a UIType (enum), `${UIType}` or keyof typeof UIType, \n[]\n (array) received',
+			'Validation Error: Type must be provided as a UIType (enum), `${UIType}` or keyof typeof UIType, \n[]\n(array) received',
 		);
 	});
 

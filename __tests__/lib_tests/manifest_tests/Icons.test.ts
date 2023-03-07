@@ -23,7 +23,7 @@ describe('Icons', () => {
 		expect(() => {
 			new Icons(badArgument);
 		}).toThrow(
-			'Validation Error: Icon must be provided as IconsArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: Icon must be provided as IconsArgument (type), \n["hello"]\n(array) received',
 		);
 		badArgument = 155;
 		expect(() => {
@@ -37,7 +37,7 @@ describe('Icons', () => {
 		expect(() => {
 			new Icons(badArgument);
 		}).toThrow(
-			'Validation Error: Icon must be provided as IconsArgument (type), \n{}\n (object) received',
+			'Validation Error: Icon must be provided as IconsArgument (type), \n{}\n(object) received',
 		);
 	});
 	it('Invalidates keys other than IconType (enum)', () => {
@@ -72,7 +72,7 @@ describe('Icons', () => {
 		expect(() => {
 			new Icons(badArgument);
 		}).toThrow(
-			'Validation Error: Normal icon path must be provided as a RelativePath (type), \n["./my/img/normal-icon.png"]\n (array) received',
+			'Validation Error: Normal icon path must be provided as a RelativePath (type), \n["./my/img/normal-icon.png"]\n(array) received',
 		);
 	});
 	it('Invalidates an empty RelativePath', () => {

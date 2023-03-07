@@ -30,13 +30,13 @@ describe('CEFCommandLine', () => {
 		expect(() => {
 			new CEFCommandLine(badArgument);
 		}).toThrow(
-			'Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), [Function] (function) received',
+			'Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), badArgument() (function) received',
 		);
 		badArgument = {};
 		expect(() => {
 			new CEFCommandLine(badArgument);
 		}).toThrow(
-			'Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), \n{}\n (object) received',
+			'Validation Error: cefParams must be provided as a Command (type) or an array of Commands (type), \n{}\n(object) received',
 		);
 	});
 	it('invalidates a bad command in a string of array', () => {

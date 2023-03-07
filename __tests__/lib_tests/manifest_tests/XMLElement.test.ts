@@ -39,7 +39,7 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			'Validation Error: XMLElement argument must be provided as an XMLElementArgument (type), \n[]\n (array) received',
+			'Validation Error: XMLElement argument must be provided as an XMLElementArgument (type), \n[]\n(array) received',
 		);
 		badArgument = () => {};
 		expect(() => {
@@ -71,19 +71,19 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.name must be provided as a string, \n[]\n (array) received",
+			"Validation Error: XMLElement's argument.name must be provided as a string, \n[]\n(array) received",
 		);
 		badArgument = { name: {} };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.name must be provided as a string, \n{}\n (object) received",
+			"Validation Error: XMLElement's argument.name must be provided as a string, \n{}\n(object) received",
 		);
 		badArgument = { name: () => {} };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.name must be provided as a string, [Function] (function) received",
+			"Validation Error: XMLElement's argument.name must be provided as a string, name() (function) received",
 		);
 		badArgument = { name: '' };
 		expect(() => {
@@ -119,25 +119,25 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, \n[]\n (array) received",
+			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, \n[]\n(array) received",
 		);
 		badArgument = { name: 'Valid_Name', attributes: {} };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, \n{}\n (object) received",
+			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, \n{}\n(object) received",
 		);
 		badArgument = { name: 'Valid_Name', attributes: () => {} };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, [Function] (function) received",
+			"Validation Error: XMLElement's argument.attributes (optional) must be provided as an AttributeArgument (type) or an array of AttributeArgument, attributes() (function) received",
 		);
 		badArgument = { name: 'Valid_Name', attributes: [{}] };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: When provided as an array, each XMLElement's argument.attribute (optional) must be provided as an AttributeArgument (type), \n{}\n (object) received",
+			"Validation Error: When provided as an array, each XMLElement's argument.attribute (optional) must be provided as an AttributeArgument (type), \n{}\n(object) received",
 		);
 		// Other attribute validation is tested in Attribute
 		badArgument = { name: 'Valid_Name', content: true };
@@ -150,7 +150,7 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: When provided as an object, XMLElement's argument.content (optional) must be provided as a StringContent (class) instance, \n{}\n (object) received",
+			"Validation Error: When provided as an object, XMLElement's argument.content (optional) must be provided as a StringContent (class) instance, \n{}\n(object) received",
 		);
 		badArgument = { name: 'Valid_Name', content: [42] };
 		expect(() => {
@@ -162,7 +162,7 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"When provided as an array, XMLElement's argument.content (optional) must be provided as an XMLElement (class), \n{}\n (object) received",
+			"When provided as an array, XMLElement's argument.content (optional) must be provided as an XMLElement (class), \n{}\n(object) received",
 		);
 		badArgument = {
 			name: 'Valid_Name',
@@ -195,13 +195,13 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.context (optional) must be provided as a function, \n[]\n (array) received",
+			"Validation Error: XMLElement's argument.context (optional) must be provided as a function, \n[]\n(array) received",
 		);
 		badArgument = { name: 'Valid_Name', context: {} };
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			"Validation Error: XMLElement's argument.context (optional) must be provided as a function, \n{}\n (object) received",
+			"Validation Error: XMLElement's argument.context (optional) must be provided as a function, \n{}\n(object) received",
 		);
 	});
 

@@ -24,19 +24,19 @@ describe('MainPath', () => {
 		expect(() => {
 			new ScriptPath(badArgument);
 		}).toThrow(
-			'Validation Error: scriptPath must be provided as a RelativePath (type), \n["hello"]\n (array) received',
+			'Validation Error: scriptPath must be provided as a RelativePath (type), \n["hello"]\n(array) received',
 		);
 		badArgument = () => {};
 		expect(() => {
 			new ScriptPath(badArgument);
 		}).toThrow(
-			'Validation Error: scriptPath must be provided as a RelativePath (type), [Function] (function) received',
+			'Validation Error: scriptPath must be provided as a RelativePath (type), badArgument() (function) received',
 		);
 		badArgument = {};
 		expect(() => {
 			new ScriptPath(badArgument);
 		}).toThrow(
-			'Validation Error: scriptPath must be provided as a RelativePath (type), \n{}\n (object) received',
+			'Validation Error: scriptPath must be provided as a RelativePath (type), \n{}\n(object) received',
 		);
 	});
 	it('Invalidates an empty string argument', () => {

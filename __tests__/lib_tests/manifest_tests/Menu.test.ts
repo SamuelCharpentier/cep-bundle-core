@@ -24,7 +24,7 @@ describe('Menu', () => {
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
-			'Validation Error: menu must be provided as as a MenuArgument (interface), \n["hello"]\n (array) received',
+			'Validation Error: menu must be provided as as a MenuArgument (interface), \n["hello"]\n(array) received',
 		);
 		badArgument = 155;
 		expect(() => {
@@ -45,13 +45,13 @@ describe('Menu', () => {
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
-			'Validation Error: menu.menuName must be provided as a string, \n["Hello"]\n (array) received',
+			'Validation Error: menu.menuName must be provided as a string, \n["Hello"]\n(array) received',
 		);
 		badArgument = { menuName: { string: 'Hello' } };
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
-			'Validation Error: menu.menuName must be provided as a string, \n{ "string": "Hello" }\n (object) received',
+			'Validation Error: menu.menuName must be provided as a string, \n{ "string": "Hello" }\n(object) received',
 		);
 	});
 	it("Invalidates a placement that isn't a string", () => {
@@ -65,13 +65,13 @@ describe('Menu', () => {
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
-			'Validation Error: menu.placement (optional) must be provided as as a Placement (type), \n[123]\n (array) received',
+			'Validation Error: menu.placement (optional) must be provided as as a Placement (type), \n[123]\n(array) received',
 		);
 		badArgument = { menuName: 'valid name', placement: { palcement: 123 } };
 		expect(() => {
 			new Menu(badArgument);
 		}).toThrow(
-			'Validation Error: menu.placement (optional) must be provided as as a Placement (type), \n{ "palcement": 123 }\n (object) received',
+			'Validation Error: menu.placement (optional) must be provided as as a Placement (type), \n{ "palcement": 123 }\n(object) received',
 		);
 	});
 	test.todo('Validate placement with more specificity');

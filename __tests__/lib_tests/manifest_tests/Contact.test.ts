@@ -27,13 +27,13 @@ describe('Contact', () => {
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			'Validation Error: contact must be provided as a valid EmailAdress (type), \n{}\n (object) received',
+			'Validation Error: contact must be provided as a valid EmailAdress (type), \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Contact(badArgument);
 		}).toThrow(
-			'Validation Error: contact must be provided as a valid EmailAdress (type), \n["hello"]\n (array) received',
+			'Validation Error: contact must be provided as a valid EmailAdress (type), \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {

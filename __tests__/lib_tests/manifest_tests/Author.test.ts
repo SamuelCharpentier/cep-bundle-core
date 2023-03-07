@@ -26,13 +26,13 @@ describe('Author', () => {
 		expect(() => {
 			new Author(badArgument);
 		}).toThrow(
-			'Validation Error: authorName must be provided as a string, \n{}\n (object) received',
+			'Validation Error: authorName must be provided as a string, \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Author(badArgument);
 		}).toThrow(
-			'Validation Error: authorName must be provided as a string, \n["hello"]\n (array) received',
+			'Validation Error: authorName must be provided as a string, \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {
@@ -44,7 +44,7 @@ describe('Author', () => {
 		expect(() => {
 			new Author(badArgument);
 		}).toThrow(
-			'Validation Error: authorName must be provided as a string, [Function] (function) received',
+			'Validation Error: authorName must be provided as a string, badArgument() (function) received',
 		);
 	});
 	let validArgument: string = 'Extension Creator';

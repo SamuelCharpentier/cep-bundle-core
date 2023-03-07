@@ -23,7 +23,7 @@ describe('UI', () => {
 		expect(() => {
 			new UI(badArgument);
 		}).toThrow(
-			'Validation Error: ui must be provided as UIArgument (interface), \n["hello"]\n (array) received',
+			'Validation Error: ui must be provided as UIArgument (interface), \n["hello"]\n(array) received',
 		);
 		badArgument = 155;
 		expect(() => {
@@ -37,7 +37,7 @@ describe('UI', () => {
 		expect(() => {
 			new UI(badArgument);
 		}).toThrow(
-			'Validation Error: ui must be provided as UIArgument (interface), \n{}\n (object) received',
+			'Validation Error: ui must be provided as UIArgument (interface), \n{}\n(object) received',
 		);
 	});
 	let validArgument: UIArgument = {

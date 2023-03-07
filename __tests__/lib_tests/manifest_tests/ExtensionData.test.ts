@@ -23,13 +23,13 @@ describe('ExtensionData', () => {
 		expect(() => {
 			new ExtensionData(badArgument);
 		}).toThrow(
-			'Validation Error: extensionData must be provided as a string, \n{}\n (object) received',
+			'Validation Error: extensionData must be provided as a string, \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new ExtensionData(badArgument);
 		}).toThrow(
-			'Validation Error: extensionData must be provided as a string, \n["hello"]\n (array) received',
+			'Validation Error: extensionData must be provided as a string, \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {
@@ -41,7 +41,7 @@ describe('ExtensionData', () => {
 		expect(() => {
 			new ExtensionData(badArgument);
 		}).toThrow(
-			'Validation Error: extensionData must be provided as a string, [Function] (function) received',
+			'Validation Error: extensionData must be provided as a string, badArgument() (function) received',
 		);
 	});
 	it('invalidates string of length 0', () => {

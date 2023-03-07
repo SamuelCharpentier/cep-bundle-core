@@ -23,13 +23,13 @@ describe('Extension', () => {
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n{}\n (object) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Extension(badArgument);
 		}).toThrow(
-			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: every extensions must be provided as an ExtensionArgument (type), \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {

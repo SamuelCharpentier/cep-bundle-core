@@ -105,7 +105,7 @@ describe('getCompileOptions', () => {
 		expect(() => {
 			getCompileOptions(invalidOverrides);
 		}).toThrow(
-			'Validation Error: Compile devHost must be provided as a valid URL of the dev server, \n{}\n (object) received',
+			'Validation Error: Compile devHost must be provided as a valid URL of the dev server, \n{}\n(object) received',
 		);
 		invalidOverrides = {
 			htmlFilename: 45,

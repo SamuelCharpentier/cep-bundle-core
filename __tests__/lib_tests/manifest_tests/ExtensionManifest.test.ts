@@ -35,11 +35,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n[]\n (array) received',
+			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n[]\n(array) received',
 		);
 		badArgument = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n{}\n (object) received',
+			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n{}\n(object) received',
 		);
 	});
 	it('invalidates a bad argument', () => {
@@ -57,7 +57,7 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument = ['hello'];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: the manifest configs must be provided as a ExtensionManifestArgument (type), \n["hello"]\n(array) received',
 		);
 	});
 	const validEntensionBundle: BundleInfos | any = cepConfig.extensionBundle;
@@ -74,11 +74,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.extensionBundle = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle must be provided as a BundleInfos (type), \n[]\n (array) received',
+			'Validation Error: extensionBundle must be provided as a BundleInfos (type), \n[]\n(array) received',
 		);
 		badArgument.extensionBundle = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle must be provided as a BundleInfos (type), \n{}\n (object) received',
+			'Validation Error: extensionBundle must be provided as a BundleInfos (type), \n{}\n(object) received',
 		);
 		badArgument.extensionBundle = { ...validEntensionBundle };
 		badArgument.extensionBundle.name = true;
@@ -91,11 +91,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.extensionBundle.name = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.name (optional) must be provided as a string, \n[]\n (array) received',
+			'Validation Error: extensionBundle.name (optional) must be provided as a string, \n[]\n(array) received',
 		);
 		badArgument.extensionBundle.name = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.name (optional) must be provided as a string, \n{}\n (object) received',
+			'Validation Error: extensionBundle.name (optional) must be provided as a string, \n{}\n(object) received',
 		);
 		badArgument.extensionBundle.name = 'hello';
 		badArgument.extensionBundle.id = true;
@@ -108,19 +108,19 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.extensionBundle.id = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.id must be provided as a string, \n[]\n (array) received',
+			'Validation Error: extensionBundle.id must be provided as a string, \n[]\n(array) received',
 		);
 		badArgument.extensionBundle.id = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.id must be provided as a string, \n{}\n (object) received',
+			'Validation Error: extensionBundle.id must be provided as a string, \n{}\n(object) received',
 		);
 		badArgument.extensionBundle.id = ['hello'];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.id must be provided as a string, \n["hello"]\n (array) received',
+			'Validation Error: extensionBundle.id must be provided as a string, \n["hello"]\n(array) received',
 		);
 		badArgument.extensionBundle.id = { hello: 'world' };
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.id must be provided as a string, \n{ "hello": "world" }\n (object) received',
+			'Validation Error: extensionBundle.id must be provided as a string, \n{ "hello": "world" }\n(object) received',
 		);
 		badArgument.extensionBundle.id = 'com.hello';
 		badArgument.extensionBundle.version = 'hello';
@@ -133,11 +133,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.extensionBundle.version = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.version must be provided as a VersionNumber (type), \n[]\n (array) received',
+			'Validation Error: extensionBundle.version must be provided as a VersionNumber (type), \n[]\n(array) received',
 		);
 		badArgument.extensionBundle.version = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.version must be provided as a VersionNumber (type), \n{}\n (object) received',
+			'Validation Error: extensionBundle.version must be provided as a VersionNumber (type), \n{}\n(object) received',
 		);
 		badArgument.extensionBundle.version = '1.0.0';
 		badArgument.extensionBundle.cepVersion = 'hello';
@@ -154,11 +154,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.extensionBundle.cepVersion = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.cepVersion must be provided as a CEPVersion (enum), \n[]\n (array) received',
+			'Validation Error: extensionBundle.cepVersion must be provided as a CEPVersion (enum), \n[]\n(array) received',
 		);
 		badArgument.extensionBundle.cepVersion = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: extensionBundle.cepVersion must be provided as a CEPVersion (enum), \n{}\n (object) received',
+			'Validation Error: extensionBundle.cepVersion must be provided as a CEPVersion (enum), \n{}\n(object) received',
 		);
 	});
 	it('invalidates an object without a valid executionEnvironment', () => {
@@ -173,11 +173,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.executionEnvironment = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: executionEnvironment (optional) must be provided as an ExecutionEnvironmentArgument (type), \n[]\n (array) received',
+			'Validation Error: executionEnvironment (optional) must be provided as an ExecutionEnvironmentArgument (type), \n[]\n(array) received',
 		);
 		badArgument.executionEnvironment = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: executionEnvironment (optional) must be provided as an ExecutionEnvironmentArgument (type), \n{}\n (object) received',
+			'Validation Error: executionEnvironment (optional) must be provided as an ExecutionEnvironmentArgument (type), \n{}\n(object) received',
 		);
 	});
 	it('invalidates an object with a anything other than non empty string authorName', () => {
@@ -192,11 +192,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.authorName = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: authorName (optional) must be provided as a non empty string, \n[]\n (array) received',
+			'Validation Error: authorName (optional) must be provided as a non empty string, \n[]\n(array) received',
 		);
 		badArgument.authorName = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: authorName (optional) must be provided as a non empty string, \n{}\n (object) received',
+			'Validation Error: authorName (optional) must be provided as a non empty string, \n{}\n(object) received',
 		);
 		badArgument.authorName = '';
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
@@ -215,11 +215,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.contact = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: contact (optional) must be provided as a non empty string, \n[]\n (array) received',
+			'Validation Error: contact (optional) must be provided as a non empty string, \n[]\n(array) received',
 		);
 		badArgument.contact = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: contact (optional) must be provided as a non empty string, \n{}\n (object) received',
+			'Validation Error: contact (optional) must be provided as a non empty string, \n{}\n(object) received',
 		);
 		badArgument.contact = '';
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
@@ -238,11 +238,11 @@ describe('ExtensionManifest', () => {
 		);
 		badArgument.legal = [];
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: legal (optional) must be provided as a non empty string, \n[]\n (array) received',
+			'Validation Error: legal (optional) must be provided as a non empty string, \n[]\n(array) received',
 		);
 		badArgument.legal = {};
 		expect(() => new ExtensionManifest(badArgument)).toThrow(
-			'Validation Error: legal (optional) must be provided as a non empty string, \n{}\n (object) received',
+			'Validation Error: legal (optional) must be provided as a non empty string, \n{}\n(object) received',
 		);
 		badArgument.legal = '';
 		expect(() => new ExtensionManifest(badArgument)).toThrow(

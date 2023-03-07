@@ -23,13 +23,13 @@ describe('DispatchInfo', () => {
 		expect(() => {
 			new DispatchInfo(badArgument);
 		}).toThrow(
-			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), \n{}\n (object) received',
+			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new DispatchInfo(badArgument);
 		}).toThrow(
-			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {
@@ -41,7 +41,7 @@ describe('DispatchInfo', () => {
 		expect(() => {
 			new DispatchInfo(badArgument);
 		}).toThrow(
-			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), [Function] (function) received',
+			'Validation Error: dispatchInfo must be provided as a DispatchInfoArgument (type), badArgument() (function) received',
 		);
 	});
 	it('Invalidates bad host value', () => {

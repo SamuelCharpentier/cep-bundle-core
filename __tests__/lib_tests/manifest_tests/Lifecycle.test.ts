@@ -101,7 +101,7 @@ describe('Lifecycle', () => {
 		expect(() => {
 			validArgument = {
 				autoVisible: false,
-				startOn: 'applicationActivate',
+				startOn: ['applicationActivate'],
 			};
 			new Lifecycle(validArgument);
 		}).not.toThrow();

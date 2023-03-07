@@ -20,7 +20,7 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute must be provided as an AttributeArgument (type), \n{}\n (object) received',
+			'Validation Error: attribute must be provided as an AttributeArgument (type), \n{}\n(object) received',
 		);
 		badArgument = "I'm not an AttributeArgument";
 		expect(() => {
@@ -44,13 +44,13 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute must be provided as an AttributeArgument (type), \n["I", "am", "not", "an", "AttributeArgument"]\n (array) received',
+			'Validation Error: attribute must be provided as an AttributeArgument (type), \n["I", "am", "not", "an", "AttributeArgument"]\n(array) received',
 		);
 		badArgument = () => {};
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute must be provided as an AttributeArgument (type), [Function] (function) received',
+			'Validation Error: attribute must be provided as an AttributeArgument (type), badArgument() (function) received',
 		);
 	});
 	it('invalidates bad name value', () => {
@@ -88,7 +88,7 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.name must be provided as a string, \n[]\n (array) received',
+			'Validation Error: attribute.name must be provided as a string, \n[]\n(array) received',
 		);
 		badArgument = {
 			name: () => {},
@@ -97,7 +97,7 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.name must be provided as a string, [Function] (function) received',
+			'Validation Error: attribute.name must be provided as a string, name() (function) received',
 		);
 	});
 	it('invalidates bad value value', () => {
@@ -126,13 +126,13 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.value (optional) must be provided as a string, \n[]\n (array) received',
+			'Validation Error: attribute.value (optional) must be provided as a string, \n[]\n(array) received',
 		);
 		badArgument.value = () => {};
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.value (optional) must be provided as a string, [Function] (function) received',
+			'Validation Error: attribute.value (optional) must be provided as a string, [annonymous function] (function) received',
 		);
 	});
 	it('invalidates a bad context (optional)', () => {
@@ -162,13 +162,13 @@ describe('Attribute', () => {
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.context (optional) must be provided as a function returning a boolean, \n[]\n (array) received',
+			'Validation Error: attribute.context (optional) must be provided as a function returning a boolean, \n[]\n(array) received',
 		);
 		badArgument.context = () => {};
 		expect(() => {
 			new Attribute(badArgument);
 		}).toThrow(
-			'Validation Error: attribute.context (optional) must be provided as a function returning a boolean, [Function] (function) received',
+			'Validation Error: attribute.context (optional) must be provided as a function returning a boolean, [annonymous function] (function) received',
 		);
 	});
 	let validArgument: AttributeArgument;

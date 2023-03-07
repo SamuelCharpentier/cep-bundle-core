@@ -26,13 +26,13 @@ describe('Legal', () => {
 		expect(() => {
 			new Legal(badArgument);
 		}).toThrow(
-			'Validation Error: legal must be provided as a valid URL (type), \n{}\n (object) received',
+			'Validation Error: legal must be provided as a valid URL (type), \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Legal(badArgument);
 		}).toThrow(
-			'Validation Error: legal must be provided as a valid URL (type), \n["hello"]\n (array) received',
+			'Validation Error: legal must be provided as a valid URL (type), \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {
@@ -44,7 +44,7 @@ describe('Legal', () => {
 		expect(() => {
 			new Legal(badArgument);
 		}).toThrow(
-			'Validation Error: legal must be provided as a valid URL (type), [Function] (function) received',
+			'Validation Error: legal must be provided as a valid URL (type), badArgument() (function) received',
 		);
 	});
 	it('Invalidates bad URL value', () => {

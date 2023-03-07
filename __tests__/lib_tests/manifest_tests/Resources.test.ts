@@ -23,13 +23,13 @@ describe('Resources', () => {
 		expect(() => {
 			new Resources(badArgument);
 		}).toThrow(
-			'Validation Error: resources must be provided as ResourcesArgument (type), \n{}\n (object) received',
+			'Validation Error: resources must be provided as ResourcesArgument (type), \n{}\n(object) received',
 		);
 		badArgument = ['hello'];
 		expect(() => {
 			new Resources(badArgument);
 		}).toThrow(
-			'Validation Error: resources must be provided as ResourcesArgument (type), \n["hello"]\n (array) received',
+			'Validation Error: resources must be provided as ResourcesArgument (type), \n["hello"]\n(array) received',
 		);
 		badArgument = true;
 		expect(() => {
@@ -41,7 +41,7 @@ describe('Resources', () => {
 		expect(() => {
 			new Resources(badArgument);
 		}).toThrow(
-			'Validation Error: resources must be provided as ResourcesArgument (type), [Function] (function) received',
+			'Validation Error: resources must be provided as ResourcesArgument (type), badArgument() (function) received',
 		);
 	});
 	let validArgument: ResourcesArgument;

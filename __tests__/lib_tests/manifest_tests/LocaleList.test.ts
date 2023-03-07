@@ -30,13 +30,13 @@ describe('LocaleList', () => {
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: localeList must be provided as LocaleListArgument (type), \n{}\n (object) received',
+			'Validation Error: localeList must be provided as LocaleListArgument (type), \n{}\n(object) received',
 		);
 		badArgument = [];
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: localeList must be provided as LocaleListArgument (type), \n[]\n (array) received',
+			'Validation Error: localeList must be provided as LocaleListArgument (type), \n[]\n(array) received',
 		);
 		badArgument = '';
 		expect(() => {
@@ -76,13 +76,13 @@ describe('LocaleList', () => {
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n{}\n (object) received',
+			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n{}\n(object) received',
 		);
 		badArgument = [[]];
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n[]\n (array) received',
+			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n[]\n(array) received',
 		);
 		badArgument = ['en_US', 42];
 		expect(() => {
@@ -106,13 +106,13 @@ describe('LocaleList', () => {
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n{}\n (object) received',
+			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n{}\n(object) received',
 		);
 		badArgument = ['en_US', []];
 		expect(() => {
 			new LocaleList(badArgument);
 		}).toThrow(
-			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n[]\n (array) received',
+			'Validation Error: Each elements of the localeLists array must be provided as localeCodes (type), \n[]\n(array) received',
 		);
 	});
 	let validArgument: LocaleListArgument;
