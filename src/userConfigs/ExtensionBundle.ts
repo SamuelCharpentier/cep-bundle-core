@@ -7,7 +7,7 @@ export type ExtensionBundle = {
 	id: string;
 	version?: VersionNumber;
 	name?: string;
-	cepVersion?: CEPVersion | `${CEPVersion}` | keyof typeof CEPVersion;
+	cepVersion?: CEPVersion | keyof typeof CEPVersion;
 };
 /**
  *
