@@ -3,7 +3,7 @@ import {
 	VersionNumber,
 	isVersionNumber,
 } from '@src/lib/typesAndValidators';
-import { VersionObject, getVersionObject } from './VersionObject';
+import { VersionObject, getVersionObject } from './getVersionObject';
 
 type RangedVersionObject = {
 	minVersion: VersionObject;

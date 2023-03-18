@@ -1,4 +1,4 @@
-import { VersionObject } from './VersionObject';
+import { VersionObject } from './getVersionObject';
 
 export function getMaxVersionObject(
 	version1: VersionObject,

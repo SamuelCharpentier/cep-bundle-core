@@ -1,6 +1,4 @@
-import { VersionNumber } from '@src/lib/typesAndValidators';
-import { getVersionObject } from '@src/manifestConfigs/VersionObject';
-import { getArgumentCases } from '@tests/argumentCases';
+import { getVersionObject } from '@src/manifestConfigs/getVersionObject';
 
 type Descriptor = string;
 type ArgumentValue = any;
