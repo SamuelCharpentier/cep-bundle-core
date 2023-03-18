@@ -16,15 +16,18 @@ const isEnumTokenOrKey = <T>(testedEnum: T & {}) => {
 };
 
 export enum HostEngine {
-	'InCopy' = 'AICY',
-	'InDesign' = 'IDSN',
-	'Illustrator' = 'ILST',
 	'Photoshop' = 'PHXS',
-	'Prelude' = 'PRLD',
+	'InDesign' = 'IDSN',
+	'InCopy' = 'AICY',
+	'Illustrator' = 'ILST',
 	'Premiere Pro' = 'PPRO',
-	'Dreamweaver' = 'DRWV',
-	'Flash Pro' = 'FLPR',
+	'Prelude' = 'PRLD',
 	'After Effects' = 'AEFT',
+	'Animate (Flash Pro)' = 'FLPR',
+	'Audition' = 'AUDT',
+	'Dreamweaver' = 'DRWV',
+	'Muse' = 'MUSE',
+	'Bridge' = 'KBRG',
 }
 
 export const isHostEngineKey = isEnumKey(HostEngine);
@@ -111,4 +114,6 @@ export enum CEPVersion {
 	'v4.0' = '4.0',
 }
 
+export const isCEPVersionKey = isEnumKey(CEPVersion);
+export const isCEPVersionValue = isEnumToken(CEPVersion);
 export const isCEPVersion = isEnumTokenOrKey(CEPVersion);
