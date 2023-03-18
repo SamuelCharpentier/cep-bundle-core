@@ -39,7 +39,6 @@ export function isVersionNumber(value: any): value is VersionNumber {
 }
 
 export type RangedVersion =
-	| number
 	| VersionNumber
 	| `${'[' | '('}${VersionNumber},${VersionNumber}${')' | ']'}`;
 
@@ -143,7 +142,7 @@ export const isAll: (value: any) => value is All = (value): value is All => {
 
 export type Int = number | `${number}`;
 
-export function isInt(value: any): value is Int {
+export function isInt(value: any): value is Int & number {
 	if (typeof value === 'number') return Number.isInteger(value);
 	if (typeof value === 'string') return /^\d+$/.test(value);
 	return false;
