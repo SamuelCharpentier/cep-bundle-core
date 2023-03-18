@@ -4,10 +4,8 @@ import {
 	isVersionNumber,
 } from '@src/lib/typesAndValidators';
 import { getRangedVersionObject } from './getRangedVersionObject';
-import {
-	getMinVersionObject,
-	getMaxVersionObject,
-} from './getMinVersionObject';
+import { getMinVersionObject } from './getMinVersionObject';
+import { getMaxVersionObject } from './getMaxVersionObject';
 
 export function CombineHostVersion(
 	version1: RangedVersion,
@@ -26,8 +24,30 @@ export function CombineHostVersion(
 		rangedVersion1Object.maxVersion,
 		rangedVersion2Object.maxVersion,
 	);
-	let minVersion: VersionNumber = `${minVersionObject.major}.${minVersionObject.minor}.${minVersionObject.patch}.${minVersionObject.micro}`;
-	let maxVersion: VersionNumber = `${maxVersionObject.major}.${maxVersionObject.minor}.${maxVersionObject.patch}.${maxVersionObject.micro}`;
+	let minVersion: VersionNumber =
+		minVersionObject.micro !== undefined &&
+		minVersionObject.micro !== '' &&
+		minVersionObject.patch !== undefined &&
+		minVersionObject.minor !== undefined
+			? `${minVersionObject.major}.${minVersionObject.minor}.${minVersionObject.patch}.${minVersionObject.micro}`
+			: minVersionObject.patch !== undefined &&
+			  minVersionObject.minor !== undefined
+			? `${minVersionObject.major}.${minVersionObject.minor}.${minVersionObject.patch}`
+			: minVersionObject.minor !== undefined
+			? `${minVersionObject.major}.${minVersionObject.minor}`
+			: `${minVersionObject.major}`;
+	let maxVersion: VersionNumber =
+		maxVersionObject.micro !== undefined &&
+		maxVersionObject.micro !== '' &&
+		maxVersionObject.patch !== undefined &&
+		maxVersionObject.minor !== undefined
+			? `${maxVersionObject.major}.${maxVersionObject.minor}.${maxVersionObject.patch}.${maxVersionObject.micro}`
+			: maxVersionObject.patch !== undefined &&
+			  maxVersionObject.minor !== undefined
+			? `${maxVersionObject.major}.${maxVersionObject.minor}.${maxVersionObject.patch}`
+			: maxVersionObject.minor !== undefined
+			? `${maxVersionObject.major}.${maxVersionObject.minor}`
+			: `${maxVersionObject.major}`;
 	combinedVersion = `[${minVersion},${maxVersion}]`;
 	return combinedVersion;
 }
