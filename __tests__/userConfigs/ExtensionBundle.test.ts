@@ -83,8 +83,11 @@ describe('isExtensionBundle', () => {
 	const cepVersionCases = getArgumentCases(['undefined'], {
 		good: [
 			['CEPVersion', CEPVersion.latest, ''],
-			['keyof typeof CEPVersion.latest', 'latest', ''],
-			["keyof typeof CEPVersion.['10.0']", '10.0', ''],
+
+			['key of CEPVersion.latest', 'latest', ''],
+			["value of CEPVersion.['10.0']", '10.0', ''],
+			["key of CEPVersion.['v11.0']", 'v11.0', ''],
+			["CEPVersion['v11.0']", CEPVersion['v11.0'], ''],
 		],
 		bad: [['invalid CEPVersion', '-10.0', '"-10.0" (string)']],
 	});
