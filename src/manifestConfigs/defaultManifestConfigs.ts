@@ -1,8 +1,11 @@
-import { HostEngine } from '@src/lib/enumsAndValidators';
+import { AdobeLocaleCodes, HostEngine } from '@src/lib/enumsAndValidators';
 
 export type DefaultManifestConfigs = {
 	debugPorts: {
 		[key in HostEngine]: number;
+	};
+	executionEnvironment: {
+		localeList: AdobeLocaleCodes;
 	};
 };
 
@@ -20,5 +23,8 @@ export const defaultManifestConfigs: DefaultManifestConfigs = {
 		DRWV: 3010,
 		MUSE: 3011,
 		KBRG: 3012,
+	},
+	executionEnvironment: {
+		localeList: AdobeLocaleCodes.All,
 	},
 };

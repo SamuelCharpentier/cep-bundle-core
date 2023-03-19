@@ -5,11 +5,13 @@ import {
 } from '@src/lib/enumsAndValidators';
 import { linkToDocs } from '@src/linkToDocs';
 
-export type ExecutionEnvironment = {
-	localeList:
-		| (AdobeLocaleCodes | keyof typeof AdobeLocaleCodes)
-		| (AdobeLocaleCodes | keyof typeof AdobeLocaleCodes)[];
-};
+export type ExecutionEnvironment =
+	| undefined
+	| {
+			localeList?:
+				| (AdobeLocaleCodes | keyof typeof AdobeLocaleCodes)
+				| (AdobeLocaleCodes | keyof typeof AdobeLocaleCodes)[];
+	  };
 /**
  *
  *
@@ -22,8 +24,8 @@ export const isExecutionEnvironment = (
 	parents: string[] = [],
 ): received is ExecutionEnvironment => {
 	parents = [...parents];
+	if (received === undefined) return true;
 	if (
-		received === undefined ||
 		received === null ||
 		typeof received !== 'object' ||
 		received instanceof Array
@@ -43,8 +45,8 @@ export const isExecutionEnvironment = (
 		'manifest enum',
 		'AdobeLocaleCodes',
 	)}`;
+	if (received.localeList === undefined) return true;
 	if (
-		received.localeList === undefined ||
 		received.localeList === null ||
 		(typeof received.localeList !== 'string' &&
 			!(received.localeList instanceof Array)) ||

@@ -14,6 +14,7 @@ describe('isExecutionEnvironment', () => {
 		expect(isExecutionEnvironment).toBeDefined();
 	});
 	const simpleBadExecutionEnvironmentCases = getArgumentCases([
+		'undefined',
 		'empty object',
 	]).bad;
 
@@ -26,7 +27,7 @@ describe('isExecutionEnvironment', () => {
 		},
 	);
 
-	const localeListCases = getArgumentCases([], {
+	const localeListCases = getArgumentCases(['undefined'], {
 		good: [
 			['AdobeLocaleCodes.en_US', AdobeLocaleCodes.en_US, ''],
 			['AdobeLocaleCodes.All', [AdobeLocaleCodes.All], ''],

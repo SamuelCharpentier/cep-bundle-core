@@ -86,7 +86,7 @@ export const convertToManifestConfigs = (
 		getExecutionEnvironmentHostList(extensions);
 
 	let localeList: AdobeLocaleCodes[] = getLocaleList(
-		receivedExecutionEnvironment.localeList,
+		receivedExecutionEnvironment,
 	);
 
 	let executionEnvironment: ManifestConfigs['executionEnvironment'] = {

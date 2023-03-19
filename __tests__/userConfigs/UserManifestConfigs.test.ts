@@ -33,10 +33,10 @@ describe('isUserManifestConfigs', () => {
 	});
 	it('passes executionEnvirenment to isExecutionEnvirenment for validation and throws errors it throws', () => {
 		configs = blendConfigs({
-			executionEnvironment: undefined as unknown as ExecutionEnvironment,
+			executionEnvironment: null as unknown as ExecutionEnvironment,
 		});
 		expect(() => isUserManifestConfigs(configs)).toThrowError(
-			`Validation Error: manifest.executionEnvironment (required) must be provided as an ExecutionEnvironment (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#ExecutionEnvironment), undefined (undefined) received`,
+			`Validation Error: manifest.executionEnvironment (required) must be provided as an ExecutionEnvironment (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#ExecutionEnvironment), null (null) received`,
 		);
 	});
 
