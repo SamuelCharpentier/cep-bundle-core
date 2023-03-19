@@ -37,6 +37,9 @@ const versionCases: [Descriptor, ArgumentValue, ExpectedValue][] = [
 ];
 
 describe('getVersionObject', function () {
+	it('is Defined', function () {
+		expect(getVersionObject).toBeDefined();
+	});
 	test.each(versionCases)(
 		'returns the correct object when given %s',
 		(description, argumentValue, expectedValue) => {

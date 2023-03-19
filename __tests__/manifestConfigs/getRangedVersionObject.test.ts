@@ -28,6 +28,24 @@ const versionCases: [Descriptor, ArgumentValue, ExpectedValue][] = [
 		},
 	],
 	[
+		'a string with a single version value',
+		'1.2.3',
+		{
+			minVersion: {
+				major: 1,
+				minor: 2,
+				patch: 3,
+				micro: undefined,
+			},
+			maxVersion: {
+				major: 1,
+				minor: 2,
+				patch: 3,
+				micro: undefined,
+			},
+		},
+	],
+	[
 		'a range of major versions',
 		'[1,2]',
 		{
@@ -82,6 +100,9 @@ const versionCases: [Descriptor, ArgumentValue, ExpectedValue][] = [
 ];
 
 describe('getRangedVersionObject', function () {
+	it('is Defined', () => {
+		expect(getRangedVersionObject).toBeDefined();
+	});
 	test.each(versionCases)(
 		'returns the correct object when given %s',
 		(description, argumentValue, expectedValue) => {
