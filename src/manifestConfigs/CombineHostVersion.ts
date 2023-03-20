@@ -7,7 +7,7 @@ import { getRangedVersionObject } from './getRangedVersionObject';
 import { getMinVersionObject } from './getMinVersionObject';
 import { getMaxVersionObject } from './getMaxVersionObject';
 
-export function CombineHostVersion(
+export function combineHostVersion(
 	version1: RangedVersion,
 	version2: RangedVersion,
 ): RangedVersion {

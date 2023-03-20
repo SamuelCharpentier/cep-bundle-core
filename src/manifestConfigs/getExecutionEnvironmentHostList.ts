@@ -1,4 +1,4 @@
-import { CombineHostVersion } from './CombineHostVersion';
+import { combineHostVersion } from './combineHostVersion';
 import { ManifestConfigs } from './convertToManifestConfigs';
 
 export function getExecutionEnvironmentHostList(
@@ -13,7 +13,7 @@ export function getExecutionEnvironmentHostList(
 				const hostIndex = hostList.findIndex(
 					(h) => h.host === host.host,
 				);
-				CombineHostVersion(hostList[hostIndex].version, host.version);
+				combineHostVersion(hostList[hostIndex].version, host.version);
 			}
 		});
 	});
