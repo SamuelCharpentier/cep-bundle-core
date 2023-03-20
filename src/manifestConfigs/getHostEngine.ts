@@ -9,8 +9,6 @@ export function getHostEngine(host: HostInfo) {
 	let hostEngine: HostEngine;
 	if (isHostEngineKey(host.host)) {
 		hostEngine = HostEngine[host.host];
-	} else if (isHostEngineValue(host.host)) {
-		hostEngine = host.host;
 	} else {
 		hostEngine = host.host as HostEngine;
 	}

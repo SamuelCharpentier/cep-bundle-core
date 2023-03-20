@@ -35,7 +35,7 @@ describe('getLocaleList', () => {
 	it('is defined', () => {
 		expect(getLocaleList).toBeDefined();
 	});
-	it.each(cases)(
+	test.each(cases)(
 		'get the correct localeList given %s',
 		(descriptor, argumentValue, expectedValue) => {
 			expect(getLocaleList(argumentValue)).toEqual(expectedValue);

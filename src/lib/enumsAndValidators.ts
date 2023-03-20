@@ -15,6 +15,13 @@ const isEnumTokenOrKey = <T>(testedEnum: T & {}) => {
 	);
 };
 
+const getEnumKey = <T>(testedEnum: T & {}) => {
+	return <(val: T[keyof T]) => keyof T>((val) => {
+		const keyIndex = Object.values(testedEnum).indexOf(val);
+		return Object.keys(testedEnum)[keyIndex] as keyof T;
+	});
+};
+
 export enum HostEngine {
 	'Photoshop' = 'PHXS',
 	'InDesign' = 'IDSN',
@@ -33,6 +40,7 @@ export enum HostEngine {
 export const isHostEngineKey = isEnumKey(HostEngine);
 export const isHostEngineValue = isEnumToken(HostEngine);
 export const isHostEngine = isEnumTokenOrKey(HostEngine);
+export const getHostEngineKey = getEnumKey(HostEngine);
 
 export enum AdobeLocaleCodes {
 	'All' = 'All',
