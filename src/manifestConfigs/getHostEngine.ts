@@ -1,11 +1,7 @@
-import {
-	HostEngine,
-	isHostEngineKey,
-	isHostEngineValue,
-} from '@src/lib/enumsAndValidators';
+import { HostEngine, isHostEngineKey } from '@src/lib/enumsAndValidators';
 import { HostInfo } from '@src/userConfigs/HostInfo';
 
-export function getHostEngine(host: HostInfo) {
+export function getHostEngine(host: HostInfo): HostEngine {
 	let hostEngine: HostEngine;
 	if (isHostEngineKey(host.host)) {
 		hostEngine = HostEngine[host.host];
