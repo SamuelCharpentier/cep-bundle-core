@@ -5,7 +5,7 @@ import { getHostEngine } from './getHostEngine';
 import { isNumberObject } from 'util/types';
 import { isInt } from '@src/lib/typesAndValidators';
 
-export function getDebugPort(host: HostInfo) {
+export function getDebugPort(host: HostInfo): number {
 	const hostEngine: HostEngine = getHostEngine(host);
 	let debugPort: number;
 	if (host.debugPort !== undefined && isInt(host.debugPort)) {
