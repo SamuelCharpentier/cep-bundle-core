@@ -97,6 +97,14 @@ const versionCases: [Descriptor, ArgumentValue, ExpectedValue][] = [
 			maxVersion: { major: 2, minor: 3, patch: 4, micro: '5b' },
 		},
 	],
+	[
+		'an inverted range',
+		'[2.3.4.5b,1.2.3.4a]',
+		{
+			minVersion: { major: 1, minor: 2, patch: 3, micro: '4a' },
+			maxVersion: { major: 2, minor: 3, patch: 4, micro: '5b' },
+		},
+	],
 ];
 
 describe('getRangedVersionObject', function () {

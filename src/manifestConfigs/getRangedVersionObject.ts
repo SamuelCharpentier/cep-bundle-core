@@ -12,7 +12,9 @@ type RangedVersionObject = {
 export function getRangedVersionObject(
 	rangedVersion: RangedVersion,
 ): RangedVersionObject {
-	const [minVersion, maxVersion] = getVersionNumbersFromRange(rangedVersion);
+	let [minVersion, maxVersion] = getVersionNumbersFromRange(rangedVersion);
+	if (minVersion > maxVersion)
+		[minVersion, maxVersion] = [maxVersion, minVersion];
 	let minVersionObject = getVersionObject(minVersion);
 	let maxVersionObject = getVersionObject(maxVersion);
 	return {
