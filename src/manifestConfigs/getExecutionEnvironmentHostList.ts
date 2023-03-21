@@ -8,12 +8,15 @@ export function getExecutionEnvironmentHostList(
 	extensions.forEach((extension) => {
 		extension.hostList.forEach((host) => {
 			if (!hostList.some((h) => h.host === host.host)) {
-				hostList.push(host);
+				hostList.push({ host: host.host, version: host.version });
 			} else {
 				const hostIndex = hostList.findIndex(
 					(h) => h.host === host.host,
 				);
-				combineHostVersion(hostList[hostIndex].version, host.version);
+				hostList[hostIndex].version = combineHostVersion(
+					hostList[hostIndex].version,
+					host.version,
+				);
 			}
 		});
 	});
