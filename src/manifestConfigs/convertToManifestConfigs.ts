@@ -33,7 +33,6 @@ export type ManifestConfigs = {
 		hostList: {
 			host: HostEngine;
 			version: RangedVersion; // calculated to include all possible version of all extensions[x].hostList
-			debugPort: number;
 		}[]; // compiled from all extensions[x].hostList
 		localeList: AdobeLocaleCodes[];
 		CSXSVersion: CEPVersion; // from extensionBundle.cepVersion
