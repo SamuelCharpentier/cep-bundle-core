@@ -1,5 +1,5 @@
-import { getMinVersionObject } from '@src/manifestConfigs/getMinVersionObject';
-import { VersionObject } from '@src/manifestConfigs/getVersionObject';
+import { getMinVersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getMinVersionObject';
+import { VersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getVersionObject';
 
 type Descriptor = string;
 type ArgumentValue = [VersionObject, VersionObject];

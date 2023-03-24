@@ -1,4 +1,4 @@
-import { getVersionObject } from '@src/manifestConfigs/getVersionObject';
+import { getVersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getVersionObject';
 
 type Descriptor = string;
 type ArgumentValue = any;

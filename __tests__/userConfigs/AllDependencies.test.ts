@@ -2,8 +2,8 @@ import { DeepPartial } from '@src/lib/deepPartial';
 import {
 	isAllDependencies,
 	AllDependencies,
-} from '@src/userConfigs/AllDependencies';
-import { Dependency } from '@src/userConfigs/Dependency';
+} from '@src/userConfigs/UserManifestConfigs/Parts/AllDependencies';
+import { Dependency } from '@src/userConfigs/UserManifestConfigs/Dependency';
 import { _Extension } from '@src/userConfigs/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';

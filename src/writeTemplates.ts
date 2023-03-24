@@ -7,7 +7,7 @@ import {
 } from '@manifest/ExtensionManifest';
 import { ExtensionList } from './lib/manifest/ExtensionList';
 import devHTMLTemplate from './templates/html';
-import { CompileOptions } from './lib/compileOptions/getCompileOptions';
+import { CompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
 import { ExtensionArgument } from './lib/manifest/Extension';
 
 function ensureAndGetManifestDir(compileOptions: CompileOptions) {

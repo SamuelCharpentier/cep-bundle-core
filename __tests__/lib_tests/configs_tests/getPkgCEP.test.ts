@@ -1,4 +1,4 @@
-import { getPkgCEP } from '@src/lib/getPkgCEP';
+import { getPkgCEP } from '@src/userConfigs/getPkgCEP';
 import fs from 'fs';
 import path from 'path';
 

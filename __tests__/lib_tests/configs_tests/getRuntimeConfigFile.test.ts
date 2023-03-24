@@ -1,4 +1,4 @@
-import { getRuntimeConfigFile } from '@src/lib/getRuntimeConfigFile';
+import { getRuntimeConfigFile } from '@src/userConfigs/UserManifestConfigs/getRuntimeConfigFile';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();

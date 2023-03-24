@@ -1,23 +1,23 @@
 import { CompileOptions, ManifestConfig } from './lib/typesAndValidators';
 import { getManifestConfig } from './lib/manifestConfig/getManifestConfig';
-import { getCompileOptions } from './lib/compileOptions/getCompileOptions';
+import { getCompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
 import { enablePlayerDebugMode } from './debugMode';
 import { symlinkExtension } from './symlink';
 import { copyDependencies } from './copyDependencies';
 import { writeExtensionTemplates } from './writeTemplates';
 import { copyIcons } from './copyIcons';
 import { DeepPartial } from './lib/deepPartial';
+import { UserManifestConfigs } from './userConfigs/UserManifestConfigs/UserManifestConfigs';
 
 export function compile(
 	usersCompileOption: DeepPartial<CompileOptions>,
-	configOverrides?: DeepPartial<ManifestConfig>,
+	configOverrides?: DeepPartial<UserManifestConfigs>,
 ) {
 	const compileOptions = getCompileOptions(usersCompileOption);
 	const manifestConfig = getManifestConfig(
 		compileOptions.root,
 		configOverrides,
 	);
-	console.log(manifestConfig.authorName);
 
 	if (usersCompileOption.isDev) {
 		enablePlayerDebugMode();

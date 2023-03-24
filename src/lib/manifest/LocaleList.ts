@@ -1,5 +1,8 @@
 import { XMLElement } from './XMLElement';
-import { AdobeLocaleCodes, isAdobeLocaleCode } from './enumsAndValidators';
+import {
+	AdobeLocaleCodes,
+	isAdobeLocaleCode,
+} from '@src/lib/enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 import { containsAValue } from '../validators';
 

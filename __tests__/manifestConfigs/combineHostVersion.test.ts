@@ -1,5 +1,5 @@
 import { RangedVersion } from '@src/lib/typesAndValidators';
-import { combineHostVersion } from '@src/manifestConfigs/combineHostVersion';
+import { combineHostVersion } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/combineHostVersion';
 
 type Descriptor = string;
 type ArgumentValue = [RangedVersion, RangedVersion];

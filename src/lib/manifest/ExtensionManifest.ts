@@ -6,7 +6,7 @@ import {
 	isVersionNumber,
 	EmailAddress,
 } from '../typesAndValidators';
-import { CEPVersion, isCEPVersion } from './enumsAndValidators';
+import { CEPVersion, isCEPVersion } from '@src/lib/enumsAndValidators';
 
 import { Author } from './Author';
 import { Contact } from './Contact';

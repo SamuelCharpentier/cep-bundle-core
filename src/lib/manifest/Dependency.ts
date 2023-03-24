@@ -5,24 +5,8 @@ import { badArgumentError } from '../errorMessages';
 
 export type DependencyListArgument = DependencyArgument | DependencyArgument[];
 
-function isDependencyListArgument(arg: any): arg is DependencyListArgument {
-	if (typeof arg !== 'object')
-		throw new Error(
-			badArgumentError(
-				'dependencyList',
-				'a DependencyArgument (type) or an array of DependencyArgument (type)',
-				arg,
-			),
-		);
-	arg = !(arg instanceof Array) ? [arg] : arg;
-	for (let dependencyArg of arg) {
-		isDependencyArgument(dependencyArg);
-	}
-	return true;
-}
 export class DependencyList extends XMLElement {
 	constructor(dependencies: DependencyListArgument) {
-		isDependencyListArgument(dependencies);
 		dependencies = !(dependencies instanceof Array)
 			? [dependencies]
 			: dependencies;
@@ -39,36 +23,11 @@ type DependencyArgument = {
 	version?: VersionNumber;
 };
 
-function isDependencyArgument(arg: any): arg is DependencyArgument {
-	if (typeof arg !== 'object') {
-		throw new Error(
-			badArgumentError(
-				'every dependencyList elements',
-				'a DependencyArgument (type)',
-				arg,
-			),
-		);
-	}
-	if (arg.id === undefined || typeof arg.id !== 'string') {
-		throw new Error(
-			badArgumentError('dependencyList[].id', 'a string', arg.id),
-		);
-	}
-	if (arg.version !== undefined && !isVersionNumber(arg.version)) {
-		throw new Error(
-			badArgumentError(
-				'dependencyList[].version (optional)',
-				'a VersionNumber (type)',
-				arg.version,
-			),
-		);
-	}
-	return true;
-}
 class Dependency extends XMLElement {
 	constructor({ id, version }: DependencyArgument) {
 		let attributes: AttributeArgument[] = [{ name: 'Id', value: id }];
-		if (version) attributes.push({ name: 'version', value: version });
+		if (version)
+			attributes.push({ name: 'version', value: String(version) });
 		super({ name: 'Dependency', attributes });
 	}
 }

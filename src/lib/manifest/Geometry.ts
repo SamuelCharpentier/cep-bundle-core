@@ -1,7 +1,7 @@
 import { XMLElement } from './XMLElement';
 import { badArgumentError } from '../errorMessages';
 import { StringContent } from './StringContent';
-import { SizesTypes, isSizesTypes } from './enumsAndValidators';
+import { SizesTypes, isSizesTypes } from '@src/lib/enumsAndValidators';
 
 export interface WidthHeight {
 	width: `${number}` | number;

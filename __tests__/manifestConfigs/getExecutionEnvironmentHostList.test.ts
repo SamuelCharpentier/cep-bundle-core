@@ -1,5 +1,5 @@
-import { getExecutionEnvironmentHostList } from '@src/manifestConfigs/getExecutionEnvironmentHostList';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { getExecutionEnvironmentHostList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getExecutionEnvironmentHostList';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 import { HostEngine, UIType } from '@src/lib/enumsAndValidators';
 
 type Descriptor = string;

@@ -1,5 +1,5 @@
 import { RangedVersion } from '@src/lib/typesAndValidators';
-import { getRangedVersion } from '@src/manifestConfigs/getRangedVersion';
+import { getRangedVersion } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getRangedVersion';
 import { HostInfo } from '@src/userConfigs/HostInfo';
 
 type Descriptor = string;

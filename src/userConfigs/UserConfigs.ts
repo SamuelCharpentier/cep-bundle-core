@@ -1,21 +1,30 @@
-import { CompileOptions, isCompileOptions } from './CompileOptions';
 import {
-	isUserManifestConfigs,
 	UserManifestConfigs,
-} from './UserManifestConfigs';
+	getUserManifestConfigs,
+} from './UserManifestConfigs/UserManifestConfigs';
+import {
+	UserCompileOptions,
+	getUserCompileOptions,
+} from './UserCompileOptions/UserCompileOptions';
 
 export type UserConfigs = {
 	manifest: UserManifestConfigs;
-	compileOptions: CompileOptions;
+	compileOptions: UserCompileOptions;
 };
 
-export const isUserConfigs = (val: any): val is UserConfigs => {
-	return (
-		typeof val === 'object' &&
-		val !== null &&
-		'compileOptions' in val &&
-		'manifest' in val &&
-		isUserManifestConfigs(val.manifest) &&
-		isCompileOptions(val.compileOptions)
+export const getUserConfigs = ({
+	compileOptions: userCompileOptionsOverrides,
+	manifest: userManifestConfigsOverrides,
+}: any): UserConfigs => {
+	const userCompileOptions = getUserCompileOptions(
+		userCompileOptionsOverrides,
 	);
+	const userManifestConfigs = getUserManifestConfigs(
+		userCompileOptions.root,
+		userManifestConfigsOverrides,
+	);
+	return {
+		compileOptions: userCompileOptions,
+		manifest: userManifestConfigs,
+	};
 };

@@ -1,6 +1,6 @@
-import { getLocaleList } from '@src/manifestConfigs/getLocaleList';
+import { getLocaleList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getLocaleList';
 import { AdobeLocaleCodes } from '@src/lib/enumsAndValidators';
-import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
+import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = _UserManifestConfigs['executionEnvironment'];

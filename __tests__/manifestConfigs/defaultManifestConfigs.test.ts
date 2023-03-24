@@ -1,5 +1,5 @@
 import { HostEngine } from '@src/lib/enumsAndValidators';
-import { defaultManifestConfigs } from '@src/manifestConfigs/defaultManifestConfigs';
+import { defaultManifestConfigs } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/defaultManifestConfigs';
 
 describe('defaultManifestConfigs', () => {
 	it('is defined', () => {

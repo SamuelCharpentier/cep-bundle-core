@@ -1,6 +1,6 @@
-import { getDebugPort } from '@src/manifestConfigs/getDebugPort';
+import { getDebugPort } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getDebugPort';
 import { HostInfo } from '@src/userConfigs/HostInfo';
-import { defaultManifestConfigs } from '@src/manifestConfigs/defaultManifestConfigs';
+import { defaultManifestConfigs } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/defaultManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = HostInfo;

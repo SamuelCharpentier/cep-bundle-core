@@ -1,6 +1,6 @@
 import { RangedVersion } from '@src/lib/typesAndValidators';
-import { getRangedVersionObject } from '@src/manifestConfigs/getRangedVersionObject';
-import { VersionObject } from '@src/manifestConfigs/getVersionObject';
+import { getRangedVersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getRangedVersionObject';
+import { VersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getVersionObject';
 
 type Descriptor = string;
 type ArgumentValue = RangedVersion;

@@ -11,7 +11,7 @@ import {
 	isHostEngine,
 	isHostEngineValue,
 	isHostEngineKey,
-} from './enumsAndValidators';
+} from '@src/lib/enumsAndValidators';
 
 export type DispatchInfoArgument = {
 	resources?: ResourcesArgument;

@@ -1,6 +1,11 @@
 import { XMLElement } from './XMLElement';
 import { AttributeArgument } from './Attribute';
-import { RangedVersion, isRangedVersion } from '../typesAndValidators';
+import {
+	All,
+	RangedVersion,
+	isAll,
+	isRangedVersion,
+} from '../typesAndValidators';
 import { contextContainsOneOf, contextContainsAllOf } from './Context';
 import {
 	HostEngine,
@@ -10,19 +15,14 @@ import {
 } from '@src/lib/enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 
-type All = 'All' | 'ALL' | 'all';
 export type HostListArgument = HostArgument | HostArgument[] | All;
-
-function hostListIsAll(hostList: any): hostList is All {
-	return typeof hostList === 'string' && hostList.toUpperCase() === 'ALL';
-}
 
 function isValidHostListArgument(hostList: any): hostList is HostListArgument {
 	if (
 		(hostList !== undefined && typeof hostList === 'object') ||
-		hostListIsAll(hostList)
+		isAll(hostList)
 	) {
-		if (hostListIsAll(hostList)) return true;
+		if (isAll(hostList)) return true;
 		if (!(hostList instanceof Array)) hostList = [hostList];
 		for (const host of hostList) {
 			isHostArgument(host);
@@ -125,14 +125,6 @@ export class HostList extends XMLElement {
 			]),
 		});
 	}
-}
-
-function getAllHosts() {
-	let allHosts: HostArgument[] = [];
-	for (const host in HostEngine) {
-		if (isHostEngine(host)) allHosts.push({ host, version: 'All' });
-	}
-	return allHosts;
 }
 
 interface HostArgument {

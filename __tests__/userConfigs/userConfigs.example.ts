@@ -6,7 +6,7 @@ import {
 } from '@src/lib/enumsAndValidators';
 import { RelativePath } from '@src/lib/typesAndValidators';
 
-import { UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
+import { UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { isWidthHeight } from '@src/userConfigs/WidthHeight';
 
 export let exampleUserManifestConfigs: UserManifestConfigs = {

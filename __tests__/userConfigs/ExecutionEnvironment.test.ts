@@ -4,7 +4,7 @@ import {
 	ExecutionEnvironment,
 	isExecutionEnvironment,
 } from '@src/userConfigs/ExecutionEnvironment';
-import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
+import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { getArgumentCases } from '@tests/argumentCases';
 import { blendConfigs } from './blendConfigs';
 import { exampleUserManifestConfigs } from './userConfigs.example';

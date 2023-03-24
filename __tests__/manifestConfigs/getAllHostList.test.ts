@@ -1,5 +1,5 @@
 import { HostEngine, getHostEngineKey } from '@src/lib/enumsAndValidators';
-import { getAllHostList } from '@src/manifestConfigs/getAllHostList';
+import { getAllHostList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getAllHostList';
 
 describe('getAllHostList', () => {
 	it('is defined', () => {

@@ -6,7 +6,7 @@ import { DeepPartial } from '@src/lib/deepPartial';
 import { versionCases } from './versionCases';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 import { VersionNumber } from '@src/lib/typesAndValidators';
-import { AllDependencies } from '@src/userConfigs/AllDependencies';
+import { AllDependencies } from '@src/userConfigs/UserManifestConfigs/Parts/AllDependencies';
 import { AllDispatchInfo } from '@src/userConfigs/AllDispatchInfo';
 import { HostList } from '@src/userConfigs/HostList';
 

@@ -1,4 +1,4 @@
-import { getHostEngine } from '@src/manifestConfigs/getHostEngine';
+import { getHostEngine } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHostEngine';
 import { HostInfo } from '@src/userConfigs/HostInfo';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 

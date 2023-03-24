@@ -1,6 +1,6 @@
-import { getExtensions } from '@src/manifestConfigs/getExtensions';
-import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { getExtensions } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getExtensions';
+import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 import { version } from 'yargs';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 import { _Extension } from '@src/userConfigs/Extension';

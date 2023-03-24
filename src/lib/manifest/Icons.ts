@@ -1,6 +1,6 @@
 import { XMLElement } from './XMLElement';
 import { RelativePath, isRelativePath } from '../typesAndValidators';
-import { IconType, isIconType } from './enumsAndValidators';
+import { IconType, isIconType } from '@src/lib/enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 
 export type IconsArgument = {

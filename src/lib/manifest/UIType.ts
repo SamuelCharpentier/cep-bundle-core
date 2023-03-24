@@ -1,5 +1,5 @@
 import { XMLElement } from './XMLElement';
-import { UIType, isUIType } from './enumsAndValidators';
+import { UIType, isUIType } from '@src/lib/enumsAndValidators';
 import { badArgumentError } from '../errorMessages';
 
 export type TypeArgument = UIType | `${UIType}` | keyof typeof UIType;

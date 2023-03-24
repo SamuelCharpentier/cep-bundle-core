@@ -1,4 +1,4 @@
-import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
+import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { DeepPartial } from '@src/lib/deepPartial';
 
 import { exampleUserManifestConfigs } from '@tests/userConfigs/userConfigs.example';

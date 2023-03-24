@@ -6,8 +6,8 @@ import {
 import {
 	ManifestConfigs,
 	convertToManifestConfigs,
-} from '@src/manifestConfigs/convertToManifestConfigs';
-import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs';
+} from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
+import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = _UserManifestConfigs;

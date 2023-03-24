@@ -1,6 +1,6 @@
-import { getDispatchInfo } from '@src/manifestConfigs/getDispatchInfo';
+import { getDispatchInfo } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getDispatchInfo';
 import { AllDispatchInfo as UserAllDispatchInfo } from '@src/userConfigs/AllDispatchInfo';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = UserAllDispatchInfo;

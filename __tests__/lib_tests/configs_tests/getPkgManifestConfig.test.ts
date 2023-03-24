@@ -1,4 +1,4 @@
-import { getPkgManifestConfig } from '@src/lib/manifestConfig/getPkgManifestConfig';
+import { getPkgManifestConfig } from '@src/userConfigs/UserManifestConfigs/getPkgManifestConfigs';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();

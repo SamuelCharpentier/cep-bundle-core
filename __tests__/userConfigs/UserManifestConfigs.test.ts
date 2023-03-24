@@ -1,7 +1,7 @@
 import {
 	isUserManifestConfigs,
 	UserManifestConfigs,
-} from '@src/userConfigs/UserManifestConfigs';
+} from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { ExtensionBundle } from '@src/userConfigs/ExtensionBundle';
 import { ExecutionEnvironment } from '@src/userConfigs/ExecutionEnvironment';
 import { AllExtensions } from '@src/userConfigs/AllExtensions';

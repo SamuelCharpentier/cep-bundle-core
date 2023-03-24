@@ -1,4 +1,4 @@
-import { getCompileOptions } from '@src/lib/compileOptions/getCompileOptions';
+import { getCompileOptions } from '@src/userConfigs/UserCompileOptions/UserCompileOptions';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();

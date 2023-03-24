@@ -1,8 +1,8 @@
 import { HostList } from '@src/lib/manifest/Host';
 import { HostInfo } from '@src/userConfigs/HostInfo';
-import { getHost } from '@src/manifestConfigs/getHost';
+import { getHost } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHost';
 import { HostEngine } from '@src/lib/enumsAndValidators';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = HostInfo;

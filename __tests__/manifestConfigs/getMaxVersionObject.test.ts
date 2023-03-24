@@ -1,5 +1,5 @@
-import { getMaxVersionObject } from '@src/manifestConfigs/getMaxVersionObject';
-import { VersionObject } from '@src/manifestConfigs/getVersionObject';
+import { getMaxVersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getMaxVersionObject';
+import { VersionObject } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getVersionObject';
 
 type Descriptor = string;
 type ArgumentValue = [VersionObject, VersionObject];

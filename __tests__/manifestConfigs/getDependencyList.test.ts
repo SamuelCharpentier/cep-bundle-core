@@ -1,6 +1,6 @@
-import { getDependencyList } from '@src/manifestConfigs/getDependencyList';
-import { AllDependencies as UserAllDependencies } from '@src/userConfigs/AllDependencies';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { getDependencyList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getDependencyList';
+import { AllDependencies as UserAllDependencies } from '@src/userConfigs/UserManifestConfigs/Parts/AllDependencies';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = UserAllDependencies | undefined;

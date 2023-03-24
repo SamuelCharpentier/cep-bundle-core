@@ -1,6 +1,6 @@
-import { getHostList } from '@src/manifestConfigs/getHostList';
+import { getHostList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHostList';
 import type { HostList as UserManifestHostList } from '@src/userConfigs/HostList';
-import { ManifestConfigs } from '@src/manifestConfigs/convertToManifestConfigs';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 
 type Descriptor = string;
