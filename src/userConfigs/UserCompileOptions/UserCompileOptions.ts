@@ -1,6 +1,5 @@
 import path from 'path';
 import { defaultCompileOptions } from './defaultCompileOptions';
-import { CompileOptions } from '@src/lib/typesAndValidators';
 import { deepObjectMerge } from '@src/lib/deepObjectMerge';
 import { getPkgCompileOptions } from './getPkgCompileOptions';
 import { DeepPartial } from '@src/lib/deepPartial';
@@ -31,8 +30,8 @@ export interface UserCompileOptions {
 	debugInProduction: UserDebugInProduction;
 }
 
-export const getUserCompileOptions = (arg: any): CompileOptions => {
-	let compileOptionsOverrides: DeepPartial<CompileOptions> = {};
+export const getUserCompileOptions = (arg: any): UserCompileOptions => {
+	let compileOptionsOverrides: DeepPartial<UserCompileOptions> = {};
 	if (isPartialUserCompileOptions(arg, ['CEPBundle.compile({'])) {
 		compileOptionsOverrides = arg;
 	}
@@ -41,7 +40,7 @@ export const getUserCompileOptions = (arg: any): CompileOptions => {
 			? compileOptionsOverrides.root
 			: defaultCompileOptions.root,
 	);
-	let pkgCompileOptions: DeepPartial<CompileOptions> = {};
+	let pkgCompileOptions: DeepPartial<UserCompileOptions> = {};
 	if (
 		isPartialUserCompileOptions(getPkgCompileOptions(root), [
 			'package.json{cep',
@@ -64,7 +63,7 @@ export const getUserCompileOptions = (arg: any): CompileOptions => {
 function isPartialUserCompileOptions(
 	arg: any,
 	parents: string[],
-): arg is Partial<CompileOptions> {
+): arg is Partial<UserCompileOptions> {
 	return isUserCompileOptions(arg, parents, { partial: true });
 }
 
@@ -72,12 +71,12 @@ function isUserCompileOptions(
 	arg: any,
 	parents: string[],
 	partial: { partial: true },
-): arg is Partial<CompileOptions>;
+): arg is Partial<UserCompileOptions>;
 function isUserCompileOptions(
 	arg: any,
 	parents: string[],
 	partial?: { partial: false },
-): arg is CompileOptions;
+): arg is UserCompileOptions;
 function isUserCompileOptions(
 	arg: any,
 	parents: string[] = [],

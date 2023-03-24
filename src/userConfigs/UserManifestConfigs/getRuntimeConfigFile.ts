@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-import { ConfigStructure } from '../../lib/typesAndValidators';
 import { existsSync } from 'fs-extra';
+import { UserConfigs } from '../UserConfigs';
 
 const runtimeConfigFileName = '.cep.config.js';
 
@@ -12,7 +12,7 @@ const runtimeConfigFileName = '.cep.config.js';
  * @param {string} [root]
  * @return {*}  {Partial<ConfigStructure>}
  */
-export function getRuntimeConfigFile(root?: string): Partial<ConfigStructure> {
+export function getRuntimeConfigFile(root?: string): Partial<UserConfigs> {
 	if (!root) {
 		console.warn('No root provided, no cep config files loaded.');
 		return {};

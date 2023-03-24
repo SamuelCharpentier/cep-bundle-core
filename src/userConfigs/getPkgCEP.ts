@@ -1,19 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import { ConfigStructure } from '../lib/typesAndValidators';
+
 import { existsSync } from 'fs-extra';
 import { DeepPartial } from '../lib/deepPartial';
+import { UserConfigs } from './UserConfigs';
 
 const pkgFileName = 'package.json';
 
-/**
- * Gets the CEP value of the Package.json file from the root directory.
- *
- * @export
- * @param {string} [root]
- * @return {*}  {Partial<ConfigStructure>}
- */
-export function getPkgCEP(root?: string): DeepPartial<ConfigStructure> {
+export function getPkgCEP(root?: string): DeepPartial<UserConfigs> {
 	if (!root) {
 		console.warn(
 			'No root provided, no cep config loaded from package.json.',
