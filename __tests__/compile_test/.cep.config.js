@@ -5,7 +5,7 @@ module.exports = {
 			id: 'my.bundle',
 			version: '7.0',
 			name: 'Awsome Extensions Bundle',
-			cepVersion: '8.0',
+			cepVersion: '11.0',
 		},
 		authorName: 'Samuel Charpentier',
 		contact: 'samuel@jaunemoutarde.ca',

@@ -7,8 +7,13 @@ import {
 } from '@manifest/ExtensionManifest';
 import { ExtensionList } from './lib/manifest/ExtensionList';
 import devHTMLTemplate from './templates/html';
-import { CompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
+import { UserCompileOptions as CompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
 import { ExtensionArgument } from './lib/manifest/Extension';
+import { ManifestConfigs } from './userConfigs/ManifesConfigs/ManifestConfigs';
+import {
+	VisibleDispatchInfo,
+	isVisibleDispatchInfo,
+} from './userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 
 function ensureAndGetManifestDir(compileOptions: CompileOptions) {
 	const { root, outputFolder } = compileOptions;
@@ -19,7 +24,7 @@ function ensureAndGetManifestDir(compileOptions: CompileOptions) {
 
 function writeManifestXMLFile(
 	compileOptions: CompileOptions,
-	manifestConfig: ExtensionManifestArgument,
+	manifestConfig: ManifestConfigs,
 ) {
 	const manifestDir = ensureAndGetManifestDir(compileOptions);
 	const manifestFile = path.join(manifestDir, 'manifest.xml');
@@ -32,7 +37,7 @@ function writeManifestXMLFile(
 
 function writeDebugFile(
 	compileOptions: CompileOptions,
-	manifestConfig: ExtensionManifestArgument,
+	manifestConfig: ManifestConfigs,
 ) {
 	const { root, outputFolder, debugInProduction, isDev } = compileOptions;
 
@@ -47,16 +52,13 @@ function writeDebugFile(
 
 function getExtensionDevPannelContent(
 	compileOptions: CompileOptions,
-	extension: ExtensionArgument,
+	dispatchInfo: VisibleDispatchInfo,
 ) {
 	const redirectLocationHref =
 		compileOptions.devHostPort !== undefined
 			? `${compileOptions.devHost}:${compileOptions.devHostPort}`
 			: `${compileOptions.devHost}`;
-	let title =
-		extension.dispatchInfo instanceof Array
-			? extension.dispatchInfo[0]?.ui?.menu?.menuName
-			: extension.dispatchInfo?.ui?.menu?.menuName;
+	let title = dispatchInfo?.ui?.menu?.menuName ?? 'Extension Dev Pannel';
 	return devHTMLTemplate({
 		title,
 		redirectLocationHref,
@@ -65,30 +67,31 @@ function getExtensionDevPannelContent(
 
 function writeDevPannels(
 	compileOptions: CompileOptions,
-	manifestConfig: ExtensionManifestArgument,
+	manifestConfig: ManifestConfigs,
 ) {
 	const { root, outputFolder, isDev } = compileOptions;
 	if (isDev) {
-		const extensions =
-			manifestConfig.extensions instanceof Array
-				? manifestConfig.extensions
-				: [manifestConfig.extensions];
+		const extensions = manifestConfig.extensions;
 		for (const extension of extensions) {
-			const devPannelContent = getExtensionDevPannelContent(
-				compileOptions,
-				extension,
-			);
-			fsExtra.writeFileSync(
-				path.join(root, outputFolder, `${extension.id}.html`),
-				devPannelContent,
-			);
+			for (const dispatchInfo of extension.dispatchInfo) {
+				if (isVisibleDispatchInfo(dispatchInfo)) {
+					const devPannelContent = getExtensionDevPannelContent(
+						compileOptions,
+						dispatchInfo,
+					);
+					fsExtra.writeFileSync(
+						path.join(root, outputFolder, `${extension.id}.html`),
+						devPannelContent,
+					);
+				}
+			}
 		}
 	}
 }
 
 export async function writeExtensionTemplates(
 	compileOptions: CompileOptions,
-	manifestConfig: ExtensionManifestArgument,
+	manifestConfig: ManifestConfigs,
 ) {
 	writeManifestXMLFile(compileOptions, manifestConfig);
 	writeDebugFile(compileOptions, manifestConfig);

@@ -108,31 +108,6 @@ export function isValidId(value: any): value is ID {
 	return typeof value === 'string';
 }
 
-export interface CompileOptions {
-	root: string;
-	outputFolder: string;
-	htmlFilename: string;
-	devHost: URL | string;
-	devHostPort?: `${number}` | number;
-	isDev: boolean;
-	symlink: boolean;
-	debugInProduction: boolean;
-}
-
-import { DeepPartial } from './deepPartial';
-import {
-	ExtensionManifestArgument,
-	ManifestArgument,
-} from './manifest/ExtensionManifest';
-export type ManifestConfig = {
-	manifest: DeepPartial<ManifestArgument>;
-	extensions: DeepPartial<ExtensionManifestArgument['extensions']>;
-};
-
-export type ConfigStructure = ManifestConfig & {
-	compileOptions: DeepPartial<CompileOptions>;
-};
-
 export type All = 'All' | 'ALL' | 'all';
 
 export const isAll: (value: any) => value is All = (value): value is All => {

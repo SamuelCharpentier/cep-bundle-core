@@ -1,6 +1,3 @@
-import { CompileOptions, ManifestConfig } from './lib/typesAndValidators';
-import { getManifestConfig } from './lib/manifestConfig/getManifestConfig';
-import { getCompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
 import { enablePlayerDebugMode } from './debugMode';
 import { symlinkExtension } from './symlink';
 import { copyDependencies } from './copyDependencies';
@@ -8,18 +5,24 @@ import { writeExtensionTemplates } from './writeTemplates';
 import { copyIcons } from './copyIcons';
 import { DeepPartial } from './lib/deepPartial';
 import { UserManifestConfigs } from './userConfigs/UserManifestConfigs/UserManifestConfigs';
+import { getUserConfigs } from './userConfigs/UserConfigs';
+import { convertToManifestConfigs } from './userConfigs/ManifesConfigs/ManifestConfigs';
+import { UserCompileOptions } from './userConfigs/UserCompileOptions/UserCompileOptions';
 
-export function compile(
-	usersCompileOption: DeepPartial<CompileOptions>,
-	configOverrides?: DeepPartial<UserManifestConfigs>,
-) {
-	const compileOptions = getCompileOptions(usersCompileOption);
-	const manifestConfig = getManifestConfig(
-		compileOptions.root,
-		configOverrides,
-	);
+export function compile({
+	compileOptions: compileOptionsOverride,
+	manifest: manifestConfigsOverride,
+}: {
+	manifest: DeepPartial<UserManifestConfigs>;
+	compileOptions: DeepPartial<UserCompileOptions>;
+}) {
+	const { compileOptions, manifest: userManifestConfigs } = getUserConfigs({
+		compileOptionsOverride,
+		manifestConfigsOverride,
+	});
+	const manifestConfig = convertToManifestConfigs(userManifestConfigs);
 
-	if (usersCompileOption.isDev) {
+	if (compileOptions.isDev) {
 		enablePlayerDebugMode();
 		if (compileOptions.symlink) {
 			symlinkExtension({

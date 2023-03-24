@@ -1,5 +1,5 @@
 import {
-	UserManifestConfigs,
+	_UserManifestConfigs,
 	getUserManifestConfigs,
 } from './UserManifestConfigs/UserManifestConfigs';
 import {
@@ -8,13 +8,13 @@ import {
 } from './UserCompileOptions/UserCompileOptions';
 
 export type UserConfigs = {
-	manifest: UserManifestConfigs;
+	manifest: _UserManifestConfigs;
 	compileOptions: UserCompileOptions;
 };
 
 export const getUserConfigs = ({
-	compileOptions: userCompileOptionsOverrides,
-	manifest: userManifestConfigsOverrides,
+	userCompileOptionsOverrides,
+	userManifestConfigsOverrides,
 }: any): UserConfigs => {
 	const userCompileOptions = getUserCompileOptions(
 		userCompileOptionsOverrides,

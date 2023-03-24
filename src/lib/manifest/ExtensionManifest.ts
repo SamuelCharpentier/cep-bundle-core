@@ -22,6 +22,7 @@ import { DispatchInfoList } from './DispatchInfoList';
 import { contextContainsNoneOf } from './Context';
 import { badArgumentError } from '../errorMessages';
 import { containsAValue, isObject } from '../validators';
+import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 
 export type BundleInfos = {
 	id: string;
@@ -166,7 +167,7 @@ export const isExtensionManifestArgument = <
 });
 export class ExtensionManifest extends XMLElement {
 	extensionList!: ExtensionList;
-	constructor(arg: ExtensionManifestArgument | any) {
+	constructor(arg: ManifestConfigs) {
 		if (isExtensionManifestArgument(arg)) {
 			let {
 				extensionBundle: {

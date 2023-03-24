@@ -45,7 +45,12 @@ describe('XMLElement', () => {
 		expect(() => {
 			new XMLElement(badArgument);
 		}).toThrow(
-			'Validation Error: XMLElement argument must be provided as an XMLElementArgument (type), [Function] (function) received',
+			'Validation Error: XMLElement argument must be provided as an XMLElementArgument (type), badArgument() (function) received',
+		);
+		expect(() => {
+			new XMLElement(() => {});
+		}).toThrow(
+			'Validation Error: XMLElement argument must be provided as an XMLElementArgument (type), [annonymous function] (function) received',
 		);
 	});
 	it('Invalidates invalid argument value', () => {

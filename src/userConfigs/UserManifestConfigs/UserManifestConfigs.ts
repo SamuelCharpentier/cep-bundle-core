@@ -30,15 +30,15 @@ export type UserManifestConfigs = DeepCollapse<_UserManifestConfigs>;
 export const getUserManifestConfigs = (
 	root: string,
 	arg: any,
-): UserManifestConfigs => {
-	let manifestConfigsOverrides: DeepPartial<UserManifestConfigs> = {};
+): _UserManifestConfigs => {
+	let manifestConfigsOverrides: DeepPartial<_UserManifestConfigs> = {};
 	if (
 		arg !== undefined &&
 		isPartialUserManifestConfigs(arg, ['CEPBundle.compile({'])
 	) {
 		manifestConfigsOverrides = arg;
 	}
-	let pkgManifestConfigs: DeepPartial<UserManifestConfigs> = {};
+	let pkgManifestConfigs: DeepPartial<_UserManifestConfigs> = {};
 	if (
 		isPartialUserManifestConfigs(getPkgManifestConfigs(root), [
 			'package.json{cep',
@@ -46,7 +46,7 @@ export const getUserManifestConfigs = (
 	) {
 		pkgManifestConfigs = getPkgManifestConfigs(root);
 	}
-	let runtimeManifestConfigs: DeepPartial<UserManifestConfigs> = {};
+	let runtimeManifestConfigs: DeepPartial<_UserManifestConfigs> = {};
 	if (
 		isPartialUserManifestConfigs(getRuntimeManifestConfigs(root), [
 			'.cep.config.js{manifest',
