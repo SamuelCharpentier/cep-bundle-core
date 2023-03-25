@@ -1,61 +1,47 @@
 module.exports = {
 	manifest: {
 		extensionBundle: {
-			id: 'my.bundle',
-			version: '7.0',
-			name: 'Awsome Extensions Bundle',
-			cepVersion: '8.0',
+			id: 'some.id',
+			version: '0.0.0',
+			name: 'Some Extension',
+			cepVersion: 'latest',
 		},
-		authorName: 'Samuel Charpentier',
-		contact: 'samuel@jaunemoutarde.ca',
-		legal: 'https://AwsomeExtensions.com/legal',
-		abstract: 'https://AwsomeExtensions.com/legal',
+		authorName: 'Some Author',
+		contact: 'contact@some.com',
+		legal: 'https://some.com/legal',
+		abstract: 'https://some.com/abstract',
 		executionEnvironment: {
-			localeList: ['fr_CA', 'en_US'],
-			hostList: 'ALL',
-			CSXSVersion: '[2.0, 8.0]',
+			localeList: 'en_US',
 		},
-	},
-	extensions: {
-		id: 'my.extension',
-		version: '0.0.1',
-		hostList: [
-			{ host: 'Illustrator', version: 'ALL', debugPort: '999' },
-			{ host: 'InDesign', version: 12, debugPort: '998' },
-		],
-		dispatchInfo: [
-			{
-				extensionData: ['This extension is awesome'],
+		extensions: {
+			id: 'some.id',
+			version: '0.0.0',
+			hostList: {
+				host: 'Illustrator',
+				version: '20.0',
+				debugPort: '8080',
+			},
+			dispatchInfo: {
 				resources: {
-					mainPath: './dst/index.html',
-					scriptPath: './scripts/main.jsx',
-					cefParams: ['--parameter1=value1', '--enable-nodejs'],
-				},
-				lifecycle: {
-					startOn: [
-						'applicationActivate',
-						'com.adobe.csxs.events.ApplicationActivate',
-					],
+					htmlPath: './index.html',
 				},
 				ui: {
 					type: 'Panel',
-					menu: { menuName: 'My awesome extension' },
-					geometry: {
-						minSize: { width: 200, height: 400 },
+					menu: {
+						menuName: 'Some Menu',
 					},
-					icons: { normal: './icons/normal.jpg' },
+					geometry: {
+						size: {
+							width: '100',
+							height: '100',
+						},
+					},
 				},
 			},
-			{
-				extensionData: ['This DispatchInfo is for InDesign'],
-				host: 'InDesign',
-			},
-		],
-		dependencyList: [
-			{
+			dependencyList: {
 				id: 'my.dependency',
 				version: '0.0.1',
 			},
-		],
+		},
 	},
 };

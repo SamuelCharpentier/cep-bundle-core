@@ -1,4 +1,4 @@
-import { getRuntimeManifestConfig } from '@src/lib/manifestConfig/getRuntimeManifestConfig';
+import { getRuntimeManifestConfigs } from '@src/userConfigs/UserManifestConfigs/getRuntimeManifestConfigs';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -7,81 +7,55 @@ beforeEach(() => {
 	jest.resetAllMocks();
 });
 
-describe('getRuntimeManifestConfig', () => {
+describe('getRuntimeManifestConfigs', () => {
 	it('returns an empty object when root is undefined', () => {
 		let undefinedRoot = undefined;
-		const cepConfigs = getRuntimeManifestConfig(undefinedRoot);
+		const cepConfigs = getRuntimeManifestConfigs(undefinedRoot);
 		expect(cepConfigs).toStrictEqual({});
 	});
 	let root: string | undefined;
 	it('should return empty object if no config file is at root', () => {
 		root = root = path.join(__dirname, 'Common', 'missingFile');
-		expect(getRuntimeManifestConfig(root)).toStrictEqual({});
+		expect(getRuntimeManifestConfigs(root)).toStrictEqual({});
 	});
 	it('should not warn if config is found', () => {
 		root = path.join(__dirname, 'Common', 'completeCEP');
-		const cepConfigs = getRuntimeManifestConfig(root);
+		const cepConfigs = getRuntimeManifestConfigs(root);
 		expect(console.warn).not.toHaveBeenCalled();
 	});
 	it('returns the correct config', () => {
 		root = path.join(__dirname, 'Common', 'completeCEP');
-		const manifestConfig = getRuntimeManifestConfig(root);
+		const manifestConfig = getRuntimeManifestConfigs(root);
 		expect(manifestConfig).toStrictEqual({
+			abstract: 'https://some.com/abstract',
+			authorName: 'Some Author',
+			contact: 'contact@some.com',
+			executionEnvironment: { localeList: 'en_US' },
+			extensionBundle: {
+				cepVersion: 'latest',
+				id: 'some.id',
+				name: 'Some Extension',
+				version: '0.0.0',
+			},
 			extensions: {
-				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
-				dispatchInfo: [
-					{
-						extensionData: ['This extension is awesome'],
-						lifecycle: {
-							startOn: [
-								'applicationActivate',
-								'com.adobe.csxs.events.ApplicationActivate',
-							],
-						},
-						resources: {
-							cefParams: [
-								'--parameter1=value1',
-								'--enable-nodejs',
-							],
-							mainPath: './dst/index.html',
-							scriptPath: './scripts/main.jsx',
-						},
-						ui: {
-							geometry: { minSize: { height: 400, width: 200 } },
-							icons: { normal: './icons/normal.jpg' },
-							menu: { menuName: 'My awesome extension' },
-							type: 'Panel',
-						},
+				dependencyList: { id: 'my.dependency', version: '0.0.1' },
+				dispatchInfo: {
+					resources: { htmlPath: './index.html' },
+					ui: {
+						geometry: { size: { height: '100', width: '100' } },
+						menu: { menuName: 'Some Menu' },
+						type: 'Panel',
 					},
-					{
-						extensionData: ['This DispatchInfo is for InDesign'],
-						host: 'InDesign',
-					},
-				],
-				hostList: [
-					{ debugPort: '999', host: 'Illustrator', version: 'ALL' },
-					{ debugPort: '998', host: 'InDesign', version: 12 },
-				],
-				id: 'my.extension',
-				version: '0.0.1',
-			},
-			manifest: {
-				abstract: 'https://AwsomeExtensions.com/legal',
-				authorName: 'Samuel Charpentier',
-				contact: 'samuel@jaunemoutarde.ca',
-				executionEnvironment: {
-					CSXSVersion: '[2.0, 8.0]',
-					hostList: 'ALL',
-					localeList: ['fr_CA', 'en_US'],
 				},
-				extensionBundle: {
-					cepVersion: '8.0',
-					id: 'my.bundle',
-					name: 'Awsome Extensions Bundle',
-					version: '7.0',
+				hostList: {
+					debugPort: '8080',
+					host: 'Illustrator',
+					version: '20.0',
 				},
-				legal: 'https://AwsomeExtensions.com/legal',
+				id: 'some.id',
+				version: '0.0.0',
 			},
+			legal: 'https://some.com/legal',
 		});
 	});
 });
