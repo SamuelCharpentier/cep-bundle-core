@@ -1,16 +1,16 @@
-import { isDispatchInfo } from '@src/userConfigs/DispatchInfo';
+import { isDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/DispatchInfo';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { isUIType, UIType } from '@src/lib/enumsAndValidators';
-import { _Extension } from '@src/userConfigs/Extension';
-import { Geometry } from '@src/userConfigs/Geometry';
-import { InvisibleDispatchInfo } from '@src/userConfigs/InvisibleDispatchInfo';
-import { VisibleDispatchInfo } from '@src/userConfigs/VisibleDispatchInfo';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
+import { Geometry } from '@src/userConfigs/UserManifestConfigs/Parts/Geometry';
+import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
+import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 import { getArgumentCases, Cases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
 import { RelativePath } from '@src/lib/typesAndValidators';
-import { BaseDispatchInfo } from '@src/userConfigs/BaseDispatchInfo';
-import { RelativePathToHTML } from '@src/userConfigs/VisibleResources';
+import { BaseDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/BaseDispatchInfo';
+import { RelativePathToHTML } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleResources';
 
 const validVisibleDispatchInfo: VisibleDispatchInfo = {
 	...((exampleUserManifestConfigs.extensions as _Extension)

@@ -1,4 +1,4 @@
-import { isBaseResources } from '@src/userConfigs/BaseResources';
+import { isBaseResources } from '@src/userConfigs/UserManifestConfigs/Parts/BaseResources';
 import { getArgumentCases } from '@tests/argumentCases';
 
 describe('isBaseResources', () => {

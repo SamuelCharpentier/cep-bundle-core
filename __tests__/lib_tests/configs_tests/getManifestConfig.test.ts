@@ -7,7 +7,6 @@ jest.spyOn(console, 'warn').mockImplementation();
 const expectedManifestConfig = {
 	abstract: 'https://AwsomeExtensions.com/legal',
 	authorName: 'Samuel Charpentier',
-	compileOptions: { debugInProduction: false, outputFolder: './dist' },
 	contact: 'samuel@jaunemoutarde.ca',
 	executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
 	extensionBundle: {

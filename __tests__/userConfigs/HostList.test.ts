@@ -1,8 +1,11 @@
-import { isHostList, HostList } from '@src/userConfigs/HostList';
+import {
+	isHostList,
+	HostList,
+} from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
-import { _Extension } from '@src/userConfigs/Extension';
-import { HostInfo } from '@src/userConfigs/HostInfo';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
+import { HostInfo } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 
 describe('isHostList', () => {
 	it('is defined', () => {

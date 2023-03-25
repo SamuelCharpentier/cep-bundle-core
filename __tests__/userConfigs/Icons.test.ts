@@ -1,5 +1,5 @@
 import { IconType } from '@src/lib/enumsAndValidators';
-import { isIcons } from '@src/userConfigs/Icons';
+import { isIcons } from '@src/userConfigs/UserManifestConfigs/Parts/Icons';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isIcons', () => {

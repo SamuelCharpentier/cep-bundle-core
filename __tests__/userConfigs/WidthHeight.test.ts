@@ -1,4 +1,4 @@
-import { isWidthHeight } from '@src/userConfigs/WidthHeight';
+import { isWidthHeight } from '@src/userConfigs/UserManifestConfigs/Parts/WidthHeight';
 import { getArgumentCases } from '@tests/argumentCases';
 
 describe('isWidthHeight', () => {

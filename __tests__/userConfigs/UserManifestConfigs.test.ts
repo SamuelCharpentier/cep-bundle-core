@@ -2,9 +2,9 @@ import {
 	isUserManifestConfigs,
 	UserManifestConfigs,
 } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
-import { ExtensionBundle } from '@src/userConfigs/ExtensionBundle';
-import { ExecutionEnvironment } from '@src/userConfigs/ExecutionEnvironment';
-import { AllExtensions } from '@src/userConfigs/AllExtensions';
+import { ExtensionBundle } from '@src/userConfigs/UserManifestConfigs/Parts/ExtensionBundle';
+import { ExecutionEnvironment } from '@src/userConfigs/UserManifestConfigs/Parts/ExecutionEnvironment';
+import { AllExtensions } from '@src/userConfigs/UserManifestConfigs/Parts/AllExtensions';
 import { blendConfigs } from './blendConfigs';
 
 import { exampleUserManifestConfigs } from '@tests/userConfigs/userConfigs.example';

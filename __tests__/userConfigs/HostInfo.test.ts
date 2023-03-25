@@ -1,8 +1,11 @@
-import { HostInfo, isHostInfo } from '@src/userConfigs/HostInfo';
+import {
+	HostInfo,
+	isHostInfo,
+} from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
-import { _Extension } from '@src/userConfigs/Extension';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 import { rangedVersionCases } from './rangedVersionCases';

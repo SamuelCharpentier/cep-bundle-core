@@ -2,8 +2,8 @@ import { DeepPartial } from '@src/lib/deepPartial';
 import {
 	Dependency,
 	isDependency,
-} from '@src/userConfigs/UserManifestConfigs/Dependency';
-import { _Extension } from '@src/userConfigs/Extension';
+} from '@src/userConfigs/UserManifestConfigs/Parts/Dependency';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
 import { versionCases } from '@tests/userConfigs/versionCases';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';

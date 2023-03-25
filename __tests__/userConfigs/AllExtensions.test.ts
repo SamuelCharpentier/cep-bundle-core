@@ -1,8 +1,11 @@
 import { DeepPartial } from '@src/lib/deepPartial';
-import { AllDispatchInfo } from '@src/userConfigs/AllDispatchInfo';
-import { AllExtensions, isAllExtensions } from '@src/userConfigs/AllExtensions';
-import { _Extension } from '@src/userConfigs/Extension';
-import { HostList } from '@src/userConfigs/HostList';
+import { AllDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/AllDispatchInfo';
+import {
+	AllExtensions,
+	isAllExtensions,
+} from '@src/userConfigs/UserManifestConfigs/Parts/AllExtensions';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
+import { HostList } from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';

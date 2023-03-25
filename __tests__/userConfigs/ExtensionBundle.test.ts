@@ -1,7 +1,7 @@
 import {
 	ExtensionBundle,
 	isExtensionBundle,
-} from '@src/userConfigs/ExtensionBundle';
+} from '@src/userConfigs/UserManifestConfigs/Parts/ExtensionBundle';
 import { getArgumentCases } from '@tests/argumentCases';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
 import { DeepPartial } from '@src/lib/deepPartial';

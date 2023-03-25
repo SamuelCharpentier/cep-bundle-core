@@ -1,4 +1,4 @@
-import { isMenu } from '@src/userConfigs/Menu';
+import { isMenu } from '@src/userConfigs/UserManifestConfigs/Parts/Menu';
 import { getArgumentCases } from '@tests/argumentCases';
 
 describe('isMenu', () => {

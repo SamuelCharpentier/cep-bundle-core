@@ -1,4 +1,4 @@
-import { isGeometry } from '@src/userConfigs/Geometry';
+import { isGeometry } from '@src/userConfigs/UserManifestConfigs/Parts/Geometry';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isGeometry', () => {

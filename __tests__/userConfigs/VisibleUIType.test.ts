@@ -1,5 +1,5 @@
 import { UIType } from '@src/lib/enumsAndValidators';
-import { isVisibleUIType } from '@src/userConfigs/VisibleUIType';
+import { isVisibleUIType } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleUIType';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isVisibleUIType', () => {

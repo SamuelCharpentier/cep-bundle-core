@@ -1,4 +1,8 @@
-import { Extension, isExtension, _Extension } from '@src/userConfigs/Extension';
+import {
+	Extension,
+	isExtension,
+	_Extension,
+} from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
@@ -7,8 +11,8 @@ import { versionCases } from './versionCases';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 import { VersionNumber } from '@src/lib/typesAndValidators';
 import { AllDependencies } from '@src/userConfigs/UserManifestConfigs/Parts/AllDependencies';
-import { AllDispatchInfo } from '@src/userConfigs/AllDispatchInfo';
-import { HostList } from '@src/userConfigs/HostList';
+import { AllDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/AllDispatchInfo';
+import { HostList } from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 
 function blendConfigs(badConfigs: DeepPartial<_Extension>): _Extension {
 	const badObjectKeys = Object.keys(badConfigs);

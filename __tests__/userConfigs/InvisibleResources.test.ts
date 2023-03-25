@@ -1,4 +1,4 @@
-import { isInvisibleResources } from '@src/userConfigs/InvisibleResources';
+import { isInvisibleResources } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleResources';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isInvisibleDispatchInfo', () => {

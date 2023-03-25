@@ -3,7 +3,7 @@ import { AdobeLocaleCodes } from '@src/lib/enumsAndValidators';
 import {
 	ExecutionEnvironment,
 	isExecutionEnvironment,
-} from '@src/userConfigs/ExecutionEnvironment';
+} from '@src/userConfigs/UserManifestConfigs/Parts/ExecutionEnvironment';
 import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { getArgumentCases } from '@tests/argumentCases';
 import { blendConfigs } from './blendConfigs';

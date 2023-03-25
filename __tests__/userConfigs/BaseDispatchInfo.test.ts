@@ -2,17 +2,17 @@ import {
 	BaseDispatchInfo,
 	isBaseDispatchInfo,
 	_BaseDispatchInfo,
-} from '@src/userConfigs/BaseDispatchInfo';
+} from '@src/userConfigs/UserManifestConfigs/Parts/BaseDispatchInfo';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
 import { exampleUserManifestConfigs } from './userConfigs.example';
 import { DeepPartial } from '@src/lib/deepPartial';
-import { _Extension } from '@src/userConfigs/Extension';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 import { HostEngine, UIType } from '@src/lib/enumsAndValidators';
-import { BaseResources } from '@src/userConfigs/BaseResources';
-import { Lifecycle } from '@src/userConfigs/Lifecycle';
-import { InvisibleDispatchInfo } from '@src/userConfigs/InvisibleDispatchInfo';
-import { VisibleDispatchInfo } from '@src/userConfigs/VisibleDispatchInfo';
+import { BaseResources } from '@src/userConfigs/UserManifestConfigs/Parts/BaseResources';
+import { Lifecycle } from '@src/userConfigs/UserManifestConfigs/Parts/Lifecycle';
+import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
+import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 
 const validInvisibleDispatchInfo: InvisibleDispatchInfo = {
 	ui: { type: 'Custom' },

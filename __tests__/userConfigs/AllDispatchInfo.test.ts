@@ -1,12 +1,12 @@
 import {
 	isAllDispatchInfo,
 	AllDispatchInfo,
-} from '@src/userConfigs/AllDispatchInfo';
-import { VisibleDispatchInfo } from '@src/userConfigs/VisibleDispatchInfo';
-import { _Extension } from '@src/userConfigs/Extension';
+} from '@src/userConfigs/UserManifestConfigs/Parts/AllDispatchInfo';
+import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
 import { exampleUserManifestConfigs } from './userConfigs.example';
-import { InvisibleDispatchInfo } from '@src/userConfigs/InvisibleDispatchInfo';
+import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
 
 const validVisibleDispatchInfo: VisibleDispatchInfo = (
 	exampleUserManifestConfigs.extensions as _Extension

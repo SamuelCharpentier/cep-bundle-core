@@ -1,8 +1,11 @@
 import { DeepPartial } from '@src/lib/deepPartial';
 import { UIType } from '@src/lib/enumsAndValidators';
-import { Extension } from '@src/userConfigs/Extension';
-import { VisibleDispatchInfo } from '@src/userConfigs/VisibleDispatchInfo';
-import { isVisibleUI, VisibleUI } from '@src/userConfigs/VisibleUI';
+import { Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
+import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
+import {
+	isVisibleUI,
+	VisibleUI,
+} from '@src/userConfigs/UserManifestConfigs/Parts/VisibleUI';
 import { getArgumentCases } from '@tests/argumentCases';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
 

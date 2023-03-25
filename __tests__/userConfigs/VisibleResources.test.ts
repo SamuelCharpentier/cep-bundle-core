@@ -1,4 +1,4 @@
-import { isVisibleResources } from '@src/userConfigs/VisibleResources';
+import { isVisibleResources } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleResources';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isVisibleResources', () => {

@@ -1,13 +1,13 @@
 import {
 	isVisibleDispatchInfo,
 	VisibleDispatchInfo,
-} from '@src/userConfigs/VisibleDispatchInfo';
+} from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 import { UIType } from '@src/lib/enumsAndValidators';
 import { getArgumentCases } from '@tests/argumentCases';
 import { blendConfigs as blendConfigsImported } from './blendConfigs';
-import { Extension } from '@src/userConfigs/Extension';
+import { Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { DeepPartial } from '@src/lib/deepPartial';
-import { InvisibleDispatchInfo } from '@src/userConfigs/InvisibleDispatchInfo';
+import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
 
 const validVisibleDispatchInfo: VisibleDispatchInfo = {
 	ui: { type: UIType.Panel, geometry: { size: { width: 100, height: 100 } } },

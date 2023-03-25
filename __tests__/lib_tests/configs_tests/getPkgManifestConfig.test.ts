@@ -23,10 +23,6 @@ describe('getPkgManifestConfigs', () => {
 		expect(manifestConfig).toStrictEqual({
 			abstract: 'https://AwsomeExtensions.com/legal',
 			authorName: 'Samuel Charpentier',
-			compileOptions: {
-				debugInProduction: false,
-				outputFolder: './dist',
-			},
 			contact: 'samuel@jaunemoutarde.ca',
 			executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
 			extensionBundle: {
@@ -51,11 +47,15 @@ describe('getPkgManifestConfigs', () => {
 								'--parameter1=value1',
 								'--enable-nodejs',
 							],
-							mainPath: './dst/index.html',
+							htmlPath: './index.html',
 							scriptPath: './scripts/main.jsx',
 						},
 						ui: {
-							geometry: { minSize: { height: 400, width: 200 } },
+							geometry: {
+								maxSize: { height: 800, width: 400 },
+								minSize: { height: 400, width: 200 },
+								size: { height: 600, width: 300 },
+							},
 							icons: { normal: './icons/normal.jpg' },
 							menu: { menuName: 'My awesome extension' },
 							type: 'Panel',
@@ -65,11 +65,15 @@ describe('getPkgManifestConfigs', () => {
 						extensionData: ['This DispatchInfo is for InDesign'],
 						host: 'InDesign',
 						resources: {
-							mainPath: './dst/index.html',
+							htmlPath: './dst/index.html',
 							scriptPath: './scripts/main.jsx',
 						},
 						ui: {
-							geometry: { minSize: { height: 400, width: 200 } },
+							geometry: {
+								maxSize: { height: 800, width: 400 },
+								minSize: { height: 400, width: 200 },
+								size: { height: 600, width: 300 },
+							},
 							icons: { normal: './icons/normal.jpg' },
 							menu: {
 								menuName: 'My awesome extension (InDesign)',

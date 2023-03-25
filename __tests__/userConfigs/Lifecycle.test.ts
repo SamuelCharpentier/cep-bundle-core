@@ -1,4 +1,4 @@
-import { isLifecycle } from '@src/userConfigs/Lifecycle';
+import { isLifecycle } from '@src/userConfigs/UserManifestConfigs/Parts/Lifecycle';
 import { getArgumentCases } from '@tests/argumentCases';
 
 describe('isLifecycle', () => {

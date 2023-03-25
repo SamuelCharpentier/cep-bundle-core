@@ -1,5 +1,5 @@
 import { UIType } from '@src/lib/enumsAndValidators';
-import { isInvisibleUI } from '@src/userConfigs/InvisibleUI';
+import { isInvisibleUI } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleUI';
 import { Cases, getArgumentCases } from '@tests/argumentCases';
 
 describe('isInvisibleUI', () => {

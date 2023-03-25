@@ -1,5 +1,5 @@
 import { UIType } from '@src/lib/enumsAndValidators';
-import { isBaseUI } from '@src/userConfigs/BaseUI';
+import { isBaseUI } from '@src/userConfigs/UserManifestConfigs/Parts/BaseUI';
 import { getArgumentCases } from '@tests/argumentCases';
 
 describe('isBaseUI', () => {
