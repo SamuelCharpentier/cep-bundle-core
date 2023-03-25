@@ -1,4 +1,4 @@
-import { getManifestConfig } from '@src/lib/manifestConfig/getManifestConfig';
+import { getUserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -7,12 +7,9 @@ jest.spyOn(console, 'warn').mockImplementation();
 const expectedManifestConfig = {
 	abstract: 'https://AwsomeExtensions.com/legal',
 	authorName: 'Samuel Charpentier',
+	compileOptions: { debugInProduction: false, outputFolder: './dist' },
 	contact: 'samuel@jaunemoutarde.ca',
-	executionEnvironment: {
-		CSXSVersion: '[2.0, 8.0]',
-		hostList: 'ALL',
-		localeList: ['fr_CA', 'en_US'],
-	},
+	executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
 	extensionBundle: {
 		cepVersion: '8.0',
 		id: 'my.bundle',
@@ -32,11 +29,15 @@ const expectedManifestConfig = {
 				},
 				resources: {
 					cefParams: ['--parameter1=value1', '--enable-nodejs'],
-					mainPath: './dst/index.html',
+					htmlPath: './index.html',
 					scriptPath: './scripts/main.jsx',
 				},
 				ui: {
-					geometry: { minSize: { height: 400, width: 200 } },
+					geometry: {
+						maxSize: { height: 800, width: 400 },
+						minSize: { height: 400, width: 200 },
+						size: { height: 600, width: 300 },
+					},
 					icons: { normal: './icons/normal.jpg' },
 					menu: { menuName: 'My awesome extension' },
 					type: 'Panel',
@@ -45,6 +46,20 @@ const expectedManifestConfig = {
 			{
 				extensionData: ['This DispatchInfo is for InDesign'],
 				host: 'InDesign',
+				resources: {
+					htmlPath: './dst/index.html',
+					scriptPath: './scripts/main.jsx',
+				},
+				ui: {
+					geometry: {
+						maxSize: { height: 800, width: 400 },
+						minSize: { height: 400, width: 200 },
+						size: { height: 600, width: 300 },
+					},
+					icons: { normal: './icons/normal.jpg' },
+					menu: { menuName: 'My awesome extension (InDesign)' },
+					type: 'Panel',
+				},
 			},
 		],
 		hostList: [
@@ -57,22 +72,20 @@ const expectedManifestConfig = {
 	legal: 'https://AwsomeExtensions.com/legal',
 };
 
-describe('getManifestConfig', () => {
+describe('getUserManifestConfigs', () => {
 	let root: string;
 	it('returns a manifest config', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		const manifestConfig = getManifestConfig(root);
+		const manifestConfig = getUserManifestConfigs(root);
 		expect(manifestConfig).toStrictEqual(expectedManifestConfig);
 	});
 	it('accept valid overrides', () => {
 		let manifestConfig: any;
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		expect(() => {
-			manifestConfig = getManifestConfig(root, {
-				manifest: {
-					extensionBundle: {
-						name: 'My Super Cool Extension - Alpha',
-					},
+			manifestConfig = getUserManifestConfigs(root, {
+				extensionBundle: {
+					name: 'My Super Cool Extension - Alpha',
 				},
 			});
 		}).not.toThrow();
@@ -88,22 +101,37 @@ describe('getManifestConfig', () => {
 	});
 	it('throws when overrides invalidates the rest of the configs', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		let invalidOverrides: any = {
+
+		let invalidOverrides: any = 'My Super Cool Extension - Alpha';
+		expect(() => {
+			getUserManifestConfigs(root, invalidOverrides, [
+				'getUserManifestConfigs(',
+				'manifest',
+			]);
+		}).toThrow(
+			"Validation Error: getUserManifestConfigs(.manifest (required) must be provided as a UserManifestConfigs (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#UserManifestConfigs), 'My Super Cool Extension - Alpha' (string) received",
+		);
+		invalidOverrides = {
 			manifest: 'My Super Cool Extension - Alpha',
 		};
-
 		expect(() => {
-			getManifestConfig(root, invalidOverrides);
+			getUserManifestConfigs(root, invalidOverrides, [
+				'getUserManifestConfigs(',
+				'manifest',
+			]);
 		}).toThrow(
-			"Validation Error: manifest configs must be provided as a ManifestArgument (type), 'My Super Cool Extension - Alpha' (string) received",
+			'Validation Error: getUserManifestConfigs(.manifest received unexpected keys: manifest\nExpected keys: extensionBundle, authorName, contact, legal, abstract, executionEnvironment, extensions',
 		);
 		invalidOverrides = {
 			extensions: 'My Super Cool Extension - Alpha',
 		};
 		expect(() => {
-			getManifestConfig(root, invalidOverrides);
+			getUserManifestConfigs(root, invalidOverrides, [
+				'getUserManifestConfigs(',
+				'manifest',
+			]);
 		}).toThrow(
-			"Validation Error: extension configs must be provided as a ExtensionListArgument (type), 'My Super Cool Extension - Alpha' (string) received",
+			"Validation Error: getUserManifestConfigs(.manifest.extensions (required) must be provided as an AllExtensions (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllExtensions), 'My Super Cool Extension - Alpha' (string) received",
 		);
 	});
 });

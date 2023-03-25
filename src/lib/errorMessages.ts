@@ -68,6 +68,19 @@ export const badValueError = ({
 	return errorString;
 };
 
+export const unexpectedKeyError = ({
+	propertyName,
+	validKeys,
+	unexpectedKeys,
+}: {
+	propertyName: string;
+	validKeys: string[];
+	unexpectedKeys: string[];
+}) =>
+	`Validation Error: ${propertyName} received unexpected keys: ${unexpectedKeys.join(
+		', ',
+	)}\nExpected keys: ${validKeys.join(', ')}`;
+
 export class GoodBadList {
 	constructor(public good: string[] = [], public bad: string[] = []) {}
 

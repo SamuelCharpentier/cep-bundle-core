@@ -1,4 +1,4 @@
-import { getPkgCompileOptions } from '@src/lib/compileOptions/getPkgCompileOptions';
+import { getPkgCompileOptions } from '@src/userConfigs/UserCompileOptions/getPkgCompileOptions';
 import fs from 'fs';
 import path from 'path';
 

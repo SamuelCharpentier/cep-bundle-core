@@ -60,18 +60,18 @@ export const isExtension = (
 		);
 	}
 	try {
-		isHostList(hostList, [...parents]);
+		isHostList(hostList, [...parents, 'hostList']);
 	} catch (error) {
 		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	try {
-		isAllDispatchInfo(dispatchInfo, [...parents]);
+		isAllDispatchInfo(dispatchInfo, [...parents, 'dispatchInfo']);
 	} catch (error) {
 		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	if (dependencyList !== undefined) {
 		try {
-			isAllDependencies(dependencyList, [...parents]);
+			isAllDependencies(dependencyList, [...parents, 'dependencyList']);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}

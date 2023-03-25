@@ -42,7 +42,7 @@ export function isExecutionEnvironment(
 			received instanceof Array)
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'executionEnvironment'].join('.'),
+			propertyName: parents.join('.'),
 			required: true,
 			expectedPropertyType: `an ${linkToDocs(
 				'user manifest configs type',
@@ -51,7 +51,6 @@ export function isExecutionEnvironment(
 			received,
 		});
 	}
-	parents.push('executionEnvironment');
 	const localeListExpectedMessage = `an AdobeLocaleCodes or an array of ${linkToDocs(
 		'manifest enum',
 		'AdobeLocaleCodes',

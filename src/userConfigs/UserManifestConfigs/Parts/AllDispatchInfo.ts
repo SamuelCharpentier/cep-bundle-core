@@ -15,7 +15,7 @@ export const isAllDispatchInfo = (
 		Object.keys(received).length === 0
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'dispatchInfo'].join('.'),
+			propertyName: [...parents].join('.'),
 			required: true,
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
@@ -29,10 +29,10 @@ export const isAllDispatchInfo = (
 	received = receivedIsArray ? received : [received];
 	for (const index in received) {
 		try {
-			isDispatchInfo(received[index], [
-				...parents,
-				`dispatchInfo${receivedIsArray ? `[${index}]` : ''}`,
-			]);
+			isDispatchInfo(
+				received[index],
+				receivedIsArray ? [...parents, `[${index}]`] : parents,
+			);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}

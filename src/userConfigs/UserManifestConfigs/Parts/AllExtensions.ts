@@ -15,12 +15,13 @@ export function isAllExtensions(
 		(arg === undefined || arg === null || typeof arg !== 'object')
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'extensions'].join('.'),
-			expectedPropertyType: `a ${linkToDocs(
+			propertyName: parents.join('.'),
+			expectedPropertyType: `an ${linkToDocs(
 				'user manifest configs type',
 				'AllExtensions',
 			)}`,
 			received: arg,
+			required: true,
 		});
 	}
 	const receivedArray = arg instanceof Array;
@@ -28,10 +29,10 @@ export function isAllExtensions(
 	let cumulatedErrors: string[] = [];
 	for (const index in arg) {
 		try {
-			isExtension(arg[index], [
-				...parents,
-				`extensions${receivedArray ? `[${index}]` : ''}`,
-			]);
+			isExtension(
+				arg[index],
+				receivedArray ? [...parents, `[${index}]`] : parents,
+			);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}

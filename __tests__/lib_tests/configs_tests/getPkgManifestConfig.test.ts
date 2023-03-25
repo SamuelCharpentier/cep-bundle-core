@@ -1,4 +1,4 @@
-import { getPkgManifestConfig } from '@src/userConfigs/UserManifestConfigs/getPkgManifestConfigs';
+import { getPkgManifestConfigs } from '@src/userConfigs/UserManifestConfigs/getPkgManifestConfigs';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -7,20 +7,34 @@ beforeEach(() => {
 	jest.resetAllMocks();
 });
 
-describe('getPkgManifestConfig', () => {
+describe('getPkgManifestConfigs', () => {
 	it('is defined', () => {
-		expect(getPkgManifestConfig).toBeDefined();
+		expect(getPkgManifestConfigs).toBeDefined();
 	});
 	let root: string;
 	it('returns an empty object if no configs are found', () => {
 		root = path.join(__dirname, 'Common', 'NoManifestConfig');
-		const manifestConfig = getPkgManifestConfig(root);
+		const manifestConfig = getPkgManifestConfigs(root);
 		expect(manifestConfig).toStrictEqual({});
 	});
 	it('returns the correct config', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		const manifestConfig = getPkgManifestConfig(root);
+		const manifestConfig = getPkgManifestConfigs(root);
 		expect(manifestConfig).toStrictEqual({
+			abstract: 'https://AwsomeExtensions.com/legal',
+			authorName: 'Samuel Charpentier',
+			compileOptions: {
+				debugInProduction: false,
+				outputFolder: './dist',
+			},
+			contact: 'samuel@jaunemoutarde.ca',
+			executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
+			extensionBundle: {
+				cepVersion: '8.0',
+				id: 'my.bundle',
+				name: 'Awsome Extensions Bundle',
+				version: '7.0',
+			},
 			extensions: {
 				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
 				dispatchInfo: [
@@ -50,6 +64,18 @@ describe('getPkgManifestConfig', () => {
 					{
 						extensionData: ['This DispatchInfo is for InDesign'],
 						host: 'InDesign',
+						resources: {
+							mainPath: './dst/index.html',
+							scriptPath: './scripts/main.jsx',
+						},
+						ui: {
+							geometry: { minSize: { height: 400, width: 200 } },
+							icons: { normal: './icons/normal.jpg' },
+							menu: {
+								menuName: 'My awesome extension (InDesign)',
+							},
+							type: 'Panel',
+						},
 					},
 				],
 				hostList: [
@@ -59,23 +85,7 @@ describe('getPkgManifestConfig', () => {
 				id: 'my.extension',
 				version: '0.0.1',
 			},
-			manifest: {
-				abstract: 'https://AwsomeExtensions.com/legal',
-				authorName: 'Samuel Charpentier',
-				contact: 'samuel@jaunemoutarde.ca',
-				extensionBundle: {
-					cepVersion: '8.0',
-					id: 'my.bundle',
-					name: 'Awsome Extensions Bundle',
-					version: '7.0',
-				},
-				legal: 'https://AwsomeExtensions.com/legal',
-				executionEnvironment: {
-					CSXSVersion: '[2.0, 8.0]',
-					hostList: 'ALL',
-					localeList: ['fr_CA', 'en_US'],
-				},
-			},
+			legal: 'https://AwsomeExtensions.com/legal',
 		});
 	});
 });

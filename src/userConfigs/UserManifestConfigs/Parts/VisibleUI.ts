@@ -31,7 +31,7 @@ export const isVisibleUI = (
 
 	if (menu !== undefined) {
 		try {
-			isMenu(menu);
+			isMenu(menu, [...parents, 'menu']);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
@@ -39,14 +39,14 @@ export const isVisibleUI = (
 
 	if (icons !== undefined) {
 		try {
-			isIcons(icons);
+			isIcons(icons, [...parents, 'icons']);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}
 	}
 
 	try {
-		isGeometry(geometry);
+		isGeometry(geometry, [...parents, 'geometry']);
 	} catch (error) {
 		cumulatedErrors.push(...String(error).split('\n\n'));
 	}

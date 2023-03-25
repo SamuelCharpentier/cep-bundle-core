@@ -35,7 +35,7 @@ export function isHostList(
 			typeof received !== 'object')
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'hostList'].join('.'),
+			propertyName: [...parents].join('.'),
 			required: true,
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
@@ -50,7 +50,7 @@ export function isHostList(
 		try {
 			isHostInfo(
 				received[index],
-				[...parents, `hostList${receivedArray ? `[${index}]` : ''}`],
+				receivedArray ? [...parents, `[${index}]`] : parents,
 				partial,
 			);
 		} catch (error) {

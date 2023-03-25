@@ -14,7 +14,7 @@ export const isAllDependencies = (
 		(received instanceof Array && received.length === 0)
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'dependencyList'].join('.'),
+			propertyName: [...parents].join('.'),
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
 				'AllDependencies',
@@ -27,10 +27,10 @@ export const isAllDependencies = (
 	let cumulatedErrors: string[] = [];
 	for (const index in received) {
 		try {
-			isDependency(received[index], [
-				...parents,
-				`dependencyList${receivedArray ? `[${index}]` : ''}`,
-			]);
+			isDependency(
+				received[index],
+				receivedArray ? [...parents, `[${index}]`] : parents,
+			);
 		} catch (error) {
 			cumulatedErrors.push(...String(error).split('\n\n'));
 		}

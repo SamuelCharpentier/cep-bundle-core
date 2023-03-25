@@ -35,16 +35,18 @@ export function isExtensionBundle(
 	partial: { partial: boolean } = { partial: false },
 ) {
 	parents = [...parents];
+	if (!needsValidation(arg, partial)) {
+		return true;
+	}
 	let cumulatedErrors: string[] = [];
 	if (
-		needsValidation(arg, partial) &&
-		(arg === undefined ||
-			arg === null ||
-			typeof arg !== 'object' ||
-			arg instanceof Array)
+		arg === undefined ||
+		arg === null ||
+		typeof arg !== 'object' ||
+		arg instanceof Array
 	)
 		throw badValueError({
-			propertyName: [...parents, 'extensionBundle'].join('.'),
+			propertyName: parents.join('.'),
 			required: true,
 			expectedPropertyType: `an ${linkToDocs(
 				'user manifest configs type',
@@ -52,7 +54,6 @@ export function isExtensionBundle(
 			)}`,
 			received: arg,
 		});
-	parents.push('extensionBundle');
 	const { id, version, name, cepVersion } = arg;
 	if (needsValidation(id, partial) && typeof id !== 'string') {
 		cumulatedErrors.push(

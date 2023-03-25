@@ -33,7 +33,7 @@ export const isVisibleResources = (
 	const htmlPath = received.htmlPath;
 	if (htmlPath === undefined || !isRelativePathToHTML(htmlPath)) {
 		throw badValueError({
-			propertyName: [...parents, 'htmlFileName'].join('.'),
+			propertyName: [...parents, 'htmlPath'].join('.'),
 			required: true,
 			when: `${dispatchInfoParents.join(
 				'.',

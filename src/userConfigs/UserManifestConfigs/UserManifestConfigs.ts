@@ -1,5 +1,5 @@
 import { DeepCollapse } from '@src/lib/DeepCollapse';
-import { badValueError } from '@src/lib/errorMessages';
+import { badValueError, unexpectedKeyError } from '@src/lib/errorMessages';
 import { EmailAddress, isEmailAddress } from '@src/lib/typesAndValidators';
 import { isURL } from '@src/lib/validators';
 import { linkToDocs } from '@src/linkToDocs';
@@ -29,13 +29,11 @@ export type UserManifestConfigs = DeepCollapse<_UserManifestConfigs>;
 
 export const getUserManifestConfigs = (
 	root: string,
-	arg: any,
+	arg?: any,
+	parents: string[] = ['manifest'],
 ): _UserManifestConfigs => {
 	let manifestConfigsOverrides: DeepPartial<_UserManifestConfigs> = {};
-	if (
-		arg !== undefined &&
-		isPartialUserManifestConfigs(arg, ['CEPBundle.compile({'])
-	) {
+	if (arg !== undefined && isPartialUserManifestConfigs(arg, [...parents])) {
 		manifestConfigsOverrides = arg;
 	}
 	let pkgManifestConfigs: DeepPartial<_UserManifestConfigs> = {};
@@ -86,17 +84,17 @@ function isUserManifestConfigs(
 	parents: string[] = [],
 	partial: { partial: boolean } = { partial: false },
 ) {
+	if (!needsValidation(arg, partial)) return true;
 	let cumulatedErrors: string[] = [];
 	if (
-		needsValidation(arg, partial) &&
-		(arg === undefined ||
-			arg === null ||
-			arg instanceof Array ||
-			typeof arg !== 'object' ||
-			Object.keys(arg).length === 0)
+		arg === undefined ||
+		arg === null ||
+		arg instanceof Array ||
+		typeof arg !== 'object' ||
+		Object.keys(arg).length === 0
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'manifest'].join('.'),
+			propertyName: [...parents].join('.'),
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
 				'UserManifestConfigs',
@@ -105,19 +103,39 @@ function isUserManifestConfigs(
 			required: true,
 		});
 	}
-	parents.push('manifest');
-	try {
-		if (needsValidation(arg.extensionBundle, partial)) {
-			isExtensionBundle(arg.extensionBundle, [...parents], partial);
-		}
-	} catch (error) {
-		cumulatedErrors.push(...String(error).split('\n\n'));
+	const validKeys = [
+		'extensionBundle',
+		'authorName',
+		'contact',
+		'legal',
+		'abstract',
+		'executionEnvironment',
+		'extensions',
+	];
+	const {
+		extensionBundle,
+		executionEnvironment,
+		extensions,
+		authorName,
+		contact,
+		legal,
+		abstract,
+		...rest
+	} = arg;
+	if (Object.keys(rest).length >= 1) {
+		cumulatedErrors.push(
+			unexpectedKeyError({
+				propertyName: [...parents].join('.'),
+				validKeys,
+				unexpectedKeys: Object.keys(rest),
+			}),
+		);
 	}
 	try {
-		if (needsValidation(arg.executionEnvironment, partial)) {
-			isExecutionEnvironment(
-				arg.executionEnvironment,
-				[...parents],
+		if (needsValidation(extensionBundle, partial)) {
+			isExtensionBundle(
+				extensionBundle,
+				[...parents, 'extensionBundle'],
 				partial,
 			);
 		}
@@ -125,13 +143,23 @@ function isUserManifestConfigs(
 		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
 	try {
-		if (needsValidation(arg.extensions, partial)) {
-			isAllExtensions(arg.extensions, [...parents], partial);
+		if (needsValidation(executionEnvironment, partial)) {
+			isExecutionEnvironment(
+				executionEnvironment,
+				[...parents, 'executionEnvironment'],
+				partial,
+			);
 		}
 	} catch (error) {
 		cumulatedErrors.push(...String(error).split('\n\n'));
 	}
-	const { authorName, contact, legal, abstract } = arg;
+	try {
+		if (needsValidation(extensions, partial)) {
+			isAllExtensions(extensions, [...parents, 'extensions'], partial);
+		}
+	} catch (error) {
+		cumulatedErrors.push(...String(error).split('\n\n'));
+	}
 	if (
 		needsValidation(authorName, partial, true) &&
 		typeof authorName !== 'string'

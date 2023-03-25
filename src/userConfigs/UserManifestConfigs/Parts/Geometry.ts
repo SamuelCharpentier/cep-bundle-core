@@ -15,10 +15,9 @@ export type Geometry = (
 };
 export const isGeometry = (
 	received: any,
-	parents: string[] = ['ui'],
+	parents: string[] = ['geometry'],
 ): received is Geometry => {
 	let cumulatedErrors: string[] = [];
-	parents.push('geometry');
 	const dispatchInfoParents = parents.slice(
 		0,
 		parents.indexOf('dispatchInfo') + 1,
@@ -40,7 +39,7 @@ export const isGeometry = (
 			)}.ui.type is 'Panel', 'ModalDialog' or 'Modeless'`,
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
-				'VisibleGeometry',
+				'Geometry',
 			)}`,
 			received,
 		});

@@ -33,6 +33,7 @@ export const isWidthHeight = (
 				propertyName: [...parents, 'width'].join('.'),
 				expectedPropertyType: `${linkToDocs('general type', 'Int')}`,
 				received: received.width,
+				required: 'contextually required',
 			}),
 		);
 	}
@@ -42,6 +43,7 @@ export const isWidthHeight = (
 				propertyName: [...parents, 'height'].join('.'),
 				expectedPropertyType: `${linkToDocs('general type', 'Int')}`,
 				received: received.height,
+				required: 'contextually required',
 			}),
 		);
 	}
