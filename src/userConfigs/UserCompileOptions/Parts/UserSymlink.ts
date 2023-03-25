@@ -9,13 +9,10 @@ export function isUserSymlink(
 	parents: string[],
 	partial: { partial: boolean },
 ): arg is UserSymlink {
-	if (needsValidation(partial, arg) && typeof arg !== 'boolean') {
+	if (needsValidation(arg, partial) && typeof arg !== 'boolean') {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserRoot',
-			)}`,
+			expectedPropertyType: `a boolean`,
 			received: arg,
 		});
 	}

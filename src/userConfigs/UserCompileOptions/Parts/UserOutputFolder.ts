@@ -12,10 +12,7 @@ export function isUserOutputFolder(
 	if (needsValidation(arg, partial) && typeof arg !== 'string') {
 		throw badValueError({
 			propertyName: [...parents, 'outputFolder'].join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserOutputFolder',
-			)}`,
+			expectedPropertyType: `a atring contaning a valid path to a folder`,
 			received: arg,
 		});
 	}

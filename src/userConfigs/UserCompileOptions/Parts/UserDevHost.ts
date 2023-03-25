@@ -10,13 +10,10 @@ export function isUserDevHost(
 	parents: string[],
 	partial: { partial: boolean },
 ): arg is UserDevHost {
-	if (needsValidation(partial, arg) && !isValidUrl(arg)) {
+	if (needsValidation(arg, partial) && !isValidUrl(arg)) {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserDevHost',
-			)}`,
+			expectedPropertyType: `a URL (base node module) (https://nodejs.org/api/url.html) or a string contaning a valid complete URL`,
 			received: arg,
 		});
 	}

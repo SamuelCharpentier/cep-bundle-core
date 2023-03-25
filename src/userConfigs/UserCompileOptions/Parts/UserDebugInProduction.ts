@@ -9,13 +9,10 @@ export function isUserDebugInProduction(
 	parents: string[],
 	partial: { partial: boolean },
 ): arg is UserDebugInProduction {
-	if (needsValidation(partial, arg) && typeof arg !== 'boolean') {
+	if (needsValidation(arg, partial) && typeof arg !== 'boolean') {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserDebugInProduction',
-			)}`,
+			expectedPropertyType: `a boolean`,
 			received: arg,
 		});
 	}

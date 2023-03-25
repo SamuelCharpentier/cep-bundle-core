@@ -1,4 +1,4 @@
-import { getCompileOptions } from '@src/userConfigs/UserCompileOptions/UserCompileOptions';
+import { getUserCompileOptions } from '@src/userConfigs/UserCompileOptions/UserCompileOptions';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -14,21 +14,21 @@ const expectedConfigOptions = {
 	symlink: true,
 };
 
-describe('getCompileOptions', () => {
+describe('getUserCompileOptions', () => {
 	it('is defined', () => {
-		expect(getCompileOptions).toBeDefined();
+		expect(getUserCompileOptions).toBeDefined();
 	});
 	let root: string;
 	it('returns compile options', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		const configOptions = getCompileOptions({ root });
+		const configOptions = getUserCompileOptions({ root });
 		expect(configOptions).toEqual(expectedConfigOptions);
 	});
 	it('accept valid overrides', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		let configOptions: any;
 		expect(() => {
-			configOptions = getCompileOptions({
+			configOptions = getUserCompileOptions({
 				root,
 				devHostPort: 8080,
 				isDev: false,
@@ -51,69 +51,69 @@ describe('getCompileOptions', () => {
 			symlink: './example',
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			"Validation Error: Compile symlink must be provided as a boolean indicating if the manifest should not symlink the output folder, './example' (string) received",
+			"Validation Error: CEPBundle.compile({.compileOptions.symlink (optional) must be provided as a boolean, './example' (string) received",
 		);
 		invalidOverrides = {
 			root,
 			devHostPort: './example',
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			"Validation Error: Compile devHostPort must be provided as a number containing the port of the dev server, './example' (string) received",
+			"Validation Error: CEPBundle.compile({.compileOptions.devHostPort (optional) must be provided as a Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), './example' (string) received",
 		);
 		invalidOverrides = {
 			root,
 			isDev: './example',
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			"Validation Error: Compile isDev must be provided as a boolean indicating if the manifest is for dev context, './example' (string) received",
+			"Validation Error: CEPBundle.compile({.compileOptions.isDev (optional) must be provided as a boolean, './example' (string) received",
 		);
 		invalidOverrides = {
 			root,
 			debugInProduction: './example',
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			"Validation Error: Compile debugInProduction must be provided as a boolean indicating if the manifest should enable debug mode in production, './example' (string) received",
+			"Validation Error: CEPBundle.compile({.compileOptions.debugInProduction (optional) must be provided as a boolean, './example' (string) received",
 		);
 		invalidOverrides = {
 			root,
 			outputFolder: false,
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			'Validation Error: Compile outputFolder must be provided as a valid local path, false (boolean) received',
+			'Validation Error: CEPBundle.compile({.compileOptions.outputFolder.outputFolder (optional) must be provided as a atring contaning a valid path to a folder, false (boolean) received',
 		);
 		invalidOverrides = {
 			root: false,
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			'Validation Error: Compile root must be provided as a valid local path, false (boolean) received',
+			'Validation Error: CEPBundle.compile({.compileOptions.root (optional) must be provided as a string containnig a valid path to an existing folder, false (boolean) received',
 		);
 		invalidOverrides = {
 			devHost: {},
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			'Validation Error: Compile devHost must be provided as a valid URL of the dev server, \n{}\n(object) received',
+			'Validation Error: CEPBundle.compile({.compileOptions.devHost (optional) must be provided as a URL (base node module) (https://nodejs.org/api/url.html) or a string contaning a valid complete URL, \n{}\n(object) received',
 		);
 		invalidOverrides = {
 			htmlFilename: 45,
 		};
 		expect(() => {
-			getCompileOptions(invalidOverrides);
+			getUserCompileOptions(invalidOverrides);
 		}).toThrow(
-			'Validation Error: Compile htmlFilename must be provided as a string containing the html file name for the pannel (default: index.html), 45 (number) received',
+			'Validation Error: CEPBundle.compile({.compileOptions.htmlFilename (optional) must be provided as a string, 45 (number) received',
 		);
 	});
 });

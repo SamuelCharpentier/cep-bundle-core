@@ -13,10 +13,7 @@ export function isUserRoot(
 	if (needsValidation(root, partial) && fs.existsSync(root) === false) {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserRoot',
-			)}`,
+			expectedPropertyType: `a string containnig a valid path to an existing folder`,
 			received: root,
 		});
 	}

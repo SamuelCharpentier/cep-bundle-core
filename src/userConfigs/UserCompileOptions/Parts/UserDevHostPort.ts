@@ -1,8 +1,9 @@
 import { linkToDocs } from '@src/linkToDocs';
 import { badValueError } from '@src/lib/errorMessages';
 import { needsValidation } from '../../needsValidation';
+import { Int, isInt } from '@src/lib/typesAndValidators';
 
-export type UserDevHostPort = `${number}` | number;
+export type UserDevHostPort = Int;
 
 export function isUserDevHostPort(
 	arg: any,
@@ -10,17 +11,10 @@ export function isUserDevHostPort(
 	partial: { partial: boolean },
 ): arg is UserDevHostPort {
 	const optional = true;
-	if (
-		needsValidation(partial, arg, optional) &&
-		typeof arg !== 'number' &&
-		!/^[0-9]+$/.test(`${arg}`)
-	) {
+	if (needsValidation(arg, partial, optional) && !isInt(arg)) {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserHTMLFilename',
-			)}`,
+			expectedPropertyType: `a ${linkToDocs('general type', 'Int')}`,
 			received: arg,
 		});
 	}

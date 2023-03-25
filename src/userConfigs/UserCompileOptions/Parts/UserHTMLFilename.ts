@@ -12,10 +12,7 @@ export function isUserHTMLFilename(
 	if (needsValidation(arg, partial) && typeof arg !== 'string') {
 		throw badValueError({
 			propertyName: parents.join('.'),
-			expectedPropertyType: `a ${linkToDocs(
-				'user compile options type',
-				'UserHTMLFilename',
-			)}`,
+			expectedPropertyType: `a string`,
 			received: arg,
 		});
 	}
