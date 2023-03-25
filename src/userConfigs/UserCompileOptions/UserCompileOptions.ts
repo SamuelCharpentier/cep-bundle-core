@@ -79,7 +79,7 @@ function isUserCompileOptions(
 ): arg is UserCompileOptions;
 function isUserCompileOptions(
 	arg: any,
-	parents: string[] = [],
+	parents: string[] = ['compileOptions'],
 	partial: { partial: boolean } = { partial: false },
 ) {
 	let cumulatedErrors: string[] = [];
@@ -100,7 +100,6 @@ function isUserCompileOptions(
 			received: arg,
 		});
 	}
-	parents.push('compileOptions');
 	const {
 		root,
 		outputFolder,

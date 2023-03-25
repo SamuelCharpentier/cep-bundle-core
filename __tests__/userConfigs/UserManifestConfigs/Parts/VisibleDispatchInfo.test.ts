@@ -4,7 +4,7 @@ import {
 } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 import { UIType } from '@src/lib/enumsAndValidators';
 import { getArgumentCases } from '@tests/argumentCases';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 import { Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';

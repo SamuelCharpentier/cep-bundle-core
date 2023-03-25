@@ -1,4 +1,5 @@
 import { getUserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
+import { getArgumentCases } from '@tests/argumentCases';
 import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
@@ -72,32 +73,24 @@ const expectedManifestConfig = {
 };
 
 describe('getUserManifestConfigs', () => {
-	let root: string;
-	it('returns a manifest config', () => {
-		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		const manifestConfig = getUserManifestConfigs(root);
-		expect(manifestConfig).toStrictEqual(expectedManifestConfig);
+	it('is defined', () => {
+		expect(getUserManifestConfigs).toBeDefined();
 	});
-	it('accept valid overrides', () => {
-		let manifestConfig: any;
-		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		expect(() => {
-			manifestConfig = getUserManifestConfigs(root, {
-				extensionBundle: {
-					name: 'My Super Cool Extension - Alpha',
-				},
-			});
-		}).not.toThrow();
-		expect(manifestConfig).toStrictEqual({
-			...expectedManifestConfig,
-			...{
-				extensionBundle: {
-					...expectedManifestConfig.extensionBundle,
-					name: 'My Super Cool Extension - Alpha',
-				},
-			},
-		});
-	});
+
+	let root: string = path.join(__dirname, 'Common', 'CompleteCEP');
+	test.each(getArgumentCases(['empty object', 'undefined']).bad)(
+		'throw when given %s',
+		(description, badArgument, errorMessage) => {
+			expect(() =>
+				getUserManifestConfigs(root, badArgument, [
+					'getUserManifestConfigs(',
+					'manifest',
+				]),
+			).toThrowError(
+				`Validation Error: getUserManifestConfigs(.manifest (required) must be provided as a UserManifestConfigs (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#UserManifestConfigs), ${errorMessage} received`,
+			);
+		},
+	);
 	it('throws when overrides invalidates the rest of the configs', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 
@@ -132,5 +125,30 @@ describe('getUserManifestConfigs', () => {
 		}).toThrow(
 			"Validation Error: getUserManifestConfigs(.manifest.extensions (required) must be provided as an AllExtensions (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllExtensions), 'My Super Cool Extension - Alpha' (string) received",
 		);
+	});
+	it('returns a manifest config', () => {
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
+		const manifestConfig = getUserManifestConfigs(root);
+		expect(manifestConfig).toStrictEqual(expectedManifestConfig);
+	});
+	it('accept valid overrides', () => {
+		let manifestConfig: any;
+		root = path.join(__dirname, 'Common', 'CompleteCEP');
+		expect(() => {
+			manifestConfig = getUserManifestConfigs(root, {
+				extensionBundle: {
+					name: 'My Super Cool Extension - Alpha',
+				},
+			});
+		}).not.toThrow();
+		expect(manifestConfig).toStrictEqual({
+			...expectedManifestConfig,
+			...{
+				extensionBundle: {
+					...expectedManifestConfig.extensionBundle,
+					name: 'My Super Cool Extension - Alpha',
+				},
+			},
+		});
 	});
 });

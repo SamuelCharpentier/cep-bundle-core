@@ -3,11 +3,11 @@ import {
 	isAllDependencies,
 	AllDependencies,
 } from '@src/userConfigs/UserManifestConfigs/Parts/AllDependencies';
-import { Dependency } from '@src/userConfigs/UserManifestConfigs/Dependency';
-import { _Extension } from '@src/userConfigs/Extension';
+import { Dependency } from '@src/userConfigs/UserManifestConfigs/Parts/Dependency';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 import { VersionNumber } from '@src/lib/typesAndValidators';
 
 const validDependency: Dependency = (

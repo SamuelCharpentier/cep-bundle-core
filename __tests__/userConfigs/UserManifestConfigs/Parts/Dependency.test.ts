@@ -6,8 +6,8 @@ import {
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
 import { versionCases } from '@tests/userConfigs/versionCases';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
-import { exampleUserManifestConfigs } from './userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
 
 function blendConfigs(partialConfigs: DeepPartial<Dependency>): Dependency {
 	const partialConfigObjectKeys = Object.keys(partialConfigs);

@@ -5,7 +5,7 @@ import {
 import { ExtensionBundle } from '@src/userConfigs/UserManifestConfigs/Parts/ExtensionBundle';
 import { ExecutionEnvironment } from '@src/userConfigs/UserManifestConfigs/Parts/ExecutionEnvironment';
 import { AllExtensions } from '@src/userConfigs/UserManifestConfigs/Parts/AllExtensions';
-import { blendConfigs } from './blendConfigs';
+import { blendConfigs } from '../blendConfigs';
 
 import { exampleUserManifestConfigs } from '@tests/userConfigs/userConfigs.example';
 import { getArgumentCases } from '@tests/argumentCases';
@@ -14,6 +14,7 @@ describe('isUserManifestConfigs', () => {
 	it('is defined', () => {
 		expect(isUserManifestConfigs).toBeDefined();
 	});
+
 	test.each(getArgumentCases())(
 		'throw when given %s',
 		(description, badArgument, errorMessage) => {
