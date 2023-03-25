@@ -72,60 +72,36 @@ describe('getRuntimeConfigFile', () => {
 		root = path.join(__dirname, 'Common', 'CompleteCEP');
 		const cepConfigs = getRuntimeConfigFile(root);
 		expect(cepConfigs).toStrictEqual({
-			extensions: {
-				dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
-				dispatchInfo: [
-					{
-						extensionData: ['This extension is awesome'],
-						lifecycle: {
-							startOn: [
-								'applicationActivate',
-								'com.adobe.csxs.events.ApplicationActivate',
-							],
-						},
-						resources: {
-							cefParams: [
-								'--parameter1=value1',
-								'--enable-nodejs',
-							],
-							mainPath: './dst/index.html',
-							scriptPath: './scripts/main.jsx',
-						},
+			manifest: {
+				abstract: 'https://some.com/abstract',
+				authorName: 'Some Author',
+				contact: 'contact@some.com',
+				executionEnvironment: { localeList: 'en_US' },
+				extensionBundle: {
+					cepVersion: 'latest',
+					id: 'some.id',
+					name: 'Some Extension',
+					version: '0.0.0',
+				},
+				extensions: {
+					dependencyList: { id: 'my.dependency', version: '0.0.1' },
+					dispatchInfo: {
+						resources: { htmlPath: './index.html' },
 						ui: {
-							geometry: { minSize: { height: 400, width: 200 } },
-							icons: { normal: './icons/normal.jpg' },
-							menu: { menuName: 'My awesome extension' },
+							geometry: { size: { height: '100', width: '100' } },
+							menu: { menuName: 'Some Menu' },
 							type: 'Panel',
 						},
 					},
-					{
-						extensionData: ['This DispatchInfo is for InDesign'],
-						host: 'InDesign',
+					hostList: {
+						debugPort: '8080',
+						host: 'Illustrator',
+						version: '20.0',
 					},
-				],
-				hostList: [
-					{ debugPort: '999', host: 'Illustrator', version: 'ALL' },
-					{ debugPort: '998', host: 'InDesign', version: 12 },
-				],
-				id: 'my.extension',
-				version: '0.0.1',
-			},
-			manifest: {
-				abstract: 'https://AwsomeExtensions.com/legal',
-				authorName: 'Samuel Charpentier',
-				contact: 'samuel@jaunemoutarde.ca',
-				executionEnvironment: {
-					CSXSVersion: '[2.0, 8.0]',
-					hostList: 'ALL',
-					localeList: ['fr_CA', 'en_US'],
+					id: 'some.id',
+					version: '0.0.0',
 				},
-				extensionBundle: {
-					cepVersion: '8.0',
-					id: 'my.bundle',
-					name: 'Awsome Extensions Bundle',
-					version: '7.0',
-				},
-				legal: 'https://AwsomeExtensions.com/legal',
+				legal: 'https://some.com/legal',
 			},
 		});
 	});
