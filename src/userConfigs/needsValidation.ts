@@ -1,10 +1,10 @@
 export function needsValidation(
 	value: any,
-	partial: { partial: boolean },
+	partial: { partial: boolean } = { partial: false },
 	optional: boolean = false,
 ): boolean {
 	return (
 		!(optional && value === undefined) &&
-		((partial && value !== undefined) || !partial)
+		((partial.partial && value !== undefined) || !partial)
 	);
 }
