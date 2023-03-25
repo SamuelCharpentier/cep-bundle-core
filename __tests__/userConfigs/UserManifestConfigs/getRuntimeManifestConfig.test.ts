@@ -7,6 +7,11 @@ beforeEach(() => {
 	jest.resetAllMocks();
 });
 
+const configSourcePath = path.join(
+	path.resolve(path.join(__dirname, '..')),
+	'ConfigSources',
+);
+
 describe('getRuntimeManifestConfigs', () => {
 	it('returns an empty object when root is undefined', () => {
 		let undefinedRoot = undefined;
@@ -15,16 +20,16 @@ describe('getRuntimeManifestConfigs', () => {
 	});
 	let root: string | undefined;
 	it('should return empty object if no config file is at root', () => {
-		root = root = path.join(__dirname, 'Common', 'missingFile');
+		root = root = path.join(configSourcePath, 'Common', 'missingFile');
 		expect(getRuntimeManifestConfigs(root)).toStrictEqual({});
 	});
 	it('should not warn if config is found', () => {
-		root = path.join(__dirname, 'Common', 'completeCEP');
+		root = path.join(configSourcePath, 'Common', 'completeCEP');
 		const cepConfigs = getRuntimeManifestConfigs(root);
 		expect(console.warn).not.toHaveBeenCalled();
 	});
 	it('returns the correct config', () => {
-		root = path.join(__dirname, 'Common', 'completeCEP');
+		root = path.join(configSourcePath, 'Common', 'completeCEP');
 		const manifestConfig = getRuntimeManifestConfigs(root);
 		expect(manifestConfig).toStrictEqual({
 			abstract: 'https://some.com/abstract',

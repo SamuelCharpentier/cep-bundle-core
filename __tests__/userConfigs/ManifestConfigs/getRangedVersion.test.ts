@@ -1,6 +1,6 @@
 import { RangedVersion } from '@src/lib/typesAndValidators';
 import { getRangedVersion } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getRangedVersion';
-import { HostInfo } from '@src/userConfigs/HostInfo';
+import { HostInfo } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 
 type Descriptor = string;
 type ArgumentValue = HostInfo;

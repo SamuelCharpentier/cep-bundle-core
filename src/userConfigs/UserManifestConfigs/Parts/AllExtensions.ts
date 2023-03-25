@@ -21,7 +21,7 @@ export function isAllExtensions(
 				'AllExtensions',
 			)}`,
 			received: arg,
-			required: true,
+			required: 'contextually required',
 		});
 	}
 	const receivedArray = arg instanceof Array;

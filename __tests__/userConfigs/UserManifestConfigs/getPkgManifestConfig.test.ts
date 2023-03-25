@@ -7,19 +7,28 @@ beforeEach(() => {
 	jest.resetAllMocks();
 });
 
+const configSourcePath = path.join(
+	path.resolve(path.join(__dirname, '..')),
+	'ConfigSources',
+);
+
 describe('getPkgManifestConfigs', () => {
 	it('is defined', () => {
 		expect(getPkgManifestConfigs).toBeDefined();
 	});
-	let root: string;
+	let completeCEPRoot: string;
 	it('returns an empty object if no configs are found', () => {
-		root = path.join(__dirname, 'Common', 'NoManifestConfig');
-		const manifestConfig = getPkgManifestConfigs(root);
+		completeCEPRoot = path.join(
+			configSourcePath,
+			'Common',
+			'NoManifestConfig',
+		);
+		const manifestConfig = getPkgManifestConfigs(completeCEPRoot);
 		expect(manifestConfig).toStrictEqual({});
 	});
 	it('returns the correct config', () => {
-		root = path.join(__dirname, 'Common', 'CompleteCEP');
-		const manifestConfig = getPkgManifestConfigs(root);
+		completeCEPRoot = path.join(configSourcePath, 'Common', 'CompleteCEP');
+		const manifestConfig = getPkgManifestConfigs(completeCEPRoot);
 		expect(manifestConfig).toStrictEqual({
 			abstract: 'https://AwsomeExtensions.com/legal',
 			authorName: 'Samuel Charpentier',

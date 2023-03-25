@@ -1,5 +1,5 @@
 import { getHostList } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHostList';
-import type { HostList as UserManifestHostList } from '@src/userConfigs/HostList';
+import type { HostList as UserManifestHostList } from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 

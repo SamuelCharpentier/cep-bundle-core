@@ -30,9 +30,12 @@ export interface UserCompileOptions {
 	debugInProduction: UserDebugInProduction;
 }
 
-export const getUserCompileOptions = (arg: any): UserCompileOptions => {
+export const getUserCompileOptions = (
+	arg: any,
+	parents: string[] = ['compileOptions'],
+): UserCompileOptions => {
 	let compileOptionsOverrides: DeepPartial<UserCompileOptions> = {};
-	if (isPartialUserCompileOptions(arg, ['CEPBundle.compile({'])) {
+	if (isPartialUserCompileOptions(arg, [...parents])) {
 		compileOptionsOverrides = arg;
 	}
 	let root: string = path.resolve(

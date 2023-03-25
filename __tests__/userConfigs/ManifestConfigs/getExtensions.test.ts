@@ -3,12 +3,12 @@ import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserM
 import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 import { version } from 'yargs';
 import { HostEngine } from '@src/lib/enumsAndValidators';
-import { _Extension } from '@src/userConfigs/Extension';
-import { AllDispatchInfo } from '@src/userConfigs/AllDispatchInfo';
+import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
+import { AllDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/AllDispatchInfo';
 import {
 	VisibleDispatchInfo,
 	isVisibleDispatchInfo,
-} from '@src/userConfigs/VisibleDispatchInfo';
+} from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 
 type Descriptor = string;
 type ArgumentValue = _UserManifestConfigs['extensions'];

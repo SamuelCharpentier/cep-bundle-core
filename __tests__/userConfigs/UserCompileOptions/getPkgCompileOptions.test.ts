@@ -4,8 +4,13 @@ import path from 'path';
 
 jest.spyOn(console, 'warn').mockImplementation();
 
+const configSourcePath = path.join(
+	path.resolve(path.join(__dirname, '..')),
+	'ConfigSources',
+);
+
 const emptyPackageJSONPath = path.join(
-	__dirname,
+	configSourcePath,
 	'Common',
 	'EmptyFile',
 	'package.json',
@@ -26,22 +31,22 @@ describe('getPkgCompileOptions', () => {
 	});
 	let root: string;
 	it('returns an empty object if no configs are found', () => {
-		root = path.join(__dirname, 'Common', 'NoManifestConfig');
+		root = path.join(configSourcePath, 'Common', 'NoManifestConfig');
 		const compileOptions = getPkgCompileOptions(root);
 		expect(compileOptions).toStrictEqual({});
 	});
 	it('returns an empty object if no compile config', () => {
-		root = path.join(__dirname, 'Common', 'NoCompileConfig');
+		root = path.join(configSourcePath, 'Common', 'NoCompileConfig');
 		const compileOptions = getPkgCompileOptions(root);
 		expect(compileOptions).toStrictEqual({});
 	});
 	it("returns an empty object if there's no compile config in the package.json file", () => {
-		root = path.join(__dirname, 'Common', 'NoCompileConfig');
+		root = path.join(configSourcePath, 'Common', 'NoCompileConfig');
 		const compileOptions = getPkgCompileOptions(root);
 		expect(compileOptions).toStrictEqual({});
 	});
 	it('returns the correct config', () => {
-		root = path.join(__dirname, 'Common', 'CompleteCEP');
+		root = path.join(configSourcePath, 'Common', 'CompleteCEP');
 		const compileOptions = getPkgCompileOptions(root);
 		expect(compileOptions).toStrictEqual({
 			outputFolder: './dist',

@@ -1,12 +1,11 @@
-import { HostList } from '@src/lib/manifest/Host';
-import { HostInfo } from '@src/userConfigs/HostInfo';
+import { HostInfo } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 import { getHost } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHost';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 import { ManifestConfigs } from '@src/userConfigs/ManifesConfigs/ManifestConfigs';
 
 type Descriptor = string;
 type ArgumentValue = HostInfo;
-type ExpectedValue = ManifestConfigs['executionEnvironment']['hostList'][0];
+type ExpectedValue = ManifestConfigs['extensions'][0]['hostList'][0];
 
 const cases: [Descriptor, ArgumentValue, ExpectedValue][] = [
 	[

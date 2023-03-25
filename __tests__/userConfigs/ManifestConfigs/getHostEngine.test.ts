@@ -1,5 +1,5 @@
 import { getHostEngine } from '@src/userConfigs/ManifesConfigs/convertManifestConfigs/getHostEngine';
-import { HostInfo } from '@src/userConfigs/HostInfo';
+import { HostInfo } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 import { HostEngine } from '@src/lib/enumsAndValidators';
 
 type Descriptor = string;
