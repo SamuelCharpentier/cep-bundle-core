@@ -9,8 +9,13 @@ export type Icons = {
 
 export const isIcons = (
 	received: any,
-	parents: string[] = ['ui'],
+	parents: string[] = ['icons'],
 ): received is Icons => {
+	let cumulatedErrors: string[] = [];
+	const dispatchInfoParents = parents.slice(
+		0,
+		parents.indexOf('dispatchInfo') + 1,
+	);
 	if (
 		received === undefined ||
 		received === null ||
@@ -19,8 +24,8 @@ export const isIcons = (
 		Object.keys(received).length === 0
 	) {
 		throw badValueError({
-			propertyName: [...parents, 'icons'].join('.'),
-			when: `${parents.join(
+			propertyName: [...parents].join('.'),
+			when: `${dispatchInfoParents.join(
 				'.',
 			)}.ui.type is 'Panel', 'ModalDialog' or 'Modeless'`,
 			expectedPropertyType: `a ${linkToDocs(
@@ -30,8 +35,6 @@ export const isIcons = (
 			received,
 		});
 	}
-	parents.push('icons');
-	let cumulatedErrors: string[] = [];
 	for (const iconType in received) {
 		const path = received[iconType];
 		if (!isIconType(iconType))

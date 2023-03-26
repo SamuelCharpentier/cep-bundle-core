@@ -7,8 +7,8 @@ import {
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { HostList } from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 import { getArgumentCases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 
 function blendConfigs(badConfigs: DeepPartial<_Extension>): _Extension {
 	let validExtension: _Extension =
@@ -35,8 +35,13 @@ describe('isAllExtensions', () => {
 	test.each(standardThrowingArguments)(
 		'throw when given %s',
 		(description, badArgument, errorMessage) => {
-			expect(() => isAllExtensions(badArgument)).toThrowError(
-				`Validation Error: extensions (optional) must be provided as a AllExtensions (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllExtensions), ${errorMessage} received`,
+			expect(() =>
+				isAllExtensions(badArgument, [
+					'isAllExtensions(',
+					'extensions',
+				]),
+			).toThrowError(
+				`Validation Error: isAllExtensions(.extensions (optional or required depending on the context) must be provided as an AllExtensions (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllExtensions), ${errorMessage} received`,
 			);
 		},
 	);
@@ -45,8 +50,13 @@ describe('isAllExtensions', () => {
 		let badAllExtensions: AllExtensions = blendConfigs({
 			id: false as unknown as string,
 		});
-		expect(() => isAllExtensions(badAllExtensions)).toThrowError(
-			`Validation Error: extensions.id (required) must be provided as a string with length > 0, false (boolean) received`,
+		expect(() =>
+			isAllExtensions(badAllExtensions, [
+				'isAllExtensions(',
+				'extensions',
+			]),
+		).toThrowError(
+			`Validation Error: isAllExtensions(.extensions.id (required) must be provided as a string with length > 0, false (boolean) received`,
 		);
 		badAllExtensions = [
 			badAllExtensions,
@@ -57,11 +67,16 @@ describe('isAllExtensions', () => {
 				dispatchInfo: false as unknown as AllDispatchInfo,
 			}),
 		];
-		expect(() => isAllExtensions(badAllExtensions)).toThrowError(
+		expect(() =>
+			isAllExtensions(badAllExtensions, [
+				'isAllExtensions(',
+				'extensions',
+			]),
+		).toThrowError(
 			[
-				`Validation Error: extensions[0].id (required) must be provided as a string with length > 0, false (boolean) received`,
-				`Validation Error: extensions[1].hostList (required) must be provided as a HostList (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostList), false (boolean) received`,
-				`Validation Error: extensions[2].dispatchInfo (required) must be provided as a AllDispatchInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDispatchInfo), false (boolean) received`,
+				`Validation Error: isAllExtensions(.extensions.[0].id (required) must be provided as a string with length > 0, false (boolean) received`,
+				`Validation Error: isAllExtensions(.extensions.[1].hostList (required) must be provided as a HostList (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostList), false (boolean) received`,
+				`Validation Error: isAllExtensions(.extensions.[2].dispatchInfo (required) must be provided as a AllDispatchInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDispatchInfo), false (boolean) received`,
 			].join('\n\n'),
 		);
 	});

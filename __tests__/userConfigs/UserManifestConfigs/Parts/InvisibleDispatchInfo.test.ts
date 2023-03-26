@@ -2,8 +2,8 @@ import {
 	isInvisibleDispatchInfo,
 	InvisibleDispatchInfo,
 } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
-import { exampleUserManifestConfigs } from './userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { Cases, getArgumentCases } from '@tests/argumentCases';

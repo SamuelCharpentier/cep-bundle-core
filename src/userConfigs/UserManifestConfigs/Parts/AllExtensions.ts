@@ -7,7 +7,7 @@ export type AllExtensions = _Extension | _Extension[];
 
 export function isAllExtensions(
 	arg: any,
-	parents: string[] = [],
+	parents: string[] = ['extensions'],
 	partial: { partial: boolean } = { partial: false },
 ): arg is AllExtensions {
 	if (

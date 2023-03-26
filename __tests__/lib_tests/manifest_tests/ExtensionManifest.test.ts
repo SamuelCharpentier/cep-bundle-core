@@ -3,22 +3,9 @@ import {
 	BundleInfos,
 	ExtensionManifestArgument,
 } from '@manifest/ExtensionManifest';
-import { deepObjectMerge } from '@src/lib/deepObjectMerge';
-import { getManifestConfig } from '@src/lib/manifestConfig/getManifestConfig';
+import { getUserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 
-const cepConfig = getManifestConfig(__dirname);
-
-function tryToInstantiateClassWithDeepMergedArguments(
-	clss: any,
-	...args: { [key: string]: any }[]
-): any {
-	const arg: any = deepObjectMerge(...args);
-	try {
-		new clss(arg);
-	} catch (error) {
-		throw error;
-	}
-}
+const cepConfig = getUserManifestConfigs(__dirname);
 
 describe('ExtensionManifest', () => {
 	it('Is defined', () => {

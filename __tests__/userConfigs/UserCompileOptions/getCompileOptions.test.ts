@@ -145,4 +145,7 @@ describe('getUserCompileOptions', () => {
 			debugInProduction: true,
 		});
 	});
+	it('a', () => {
+		expect(() => getUserCompileOptions({ isDev: true })).toThrow();
+	});
 });

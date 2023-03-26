@@ -6,8 +6,8 @@ import { Geometry } from '@src/userConfigs/UserManifestConfigs/Parts/Geometry';
 import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
 import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 import { getArgumentCases, Cases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 import { RelativePath } from '@src/lib/typesAndValidators';
 import { BaseDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/BaseDispatchInfo';
 import { RelativePathToHTML } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleResources';
@@ -188,7 +188,7 @@ describe('isDispatchInfo', () => {
 				}),
 			);
 		}).toThrowError(
-			"Validation Error: dispatchInfo.resources.htmlFileName is required when dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a relativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#relativePath), 'invalid' (string) received",
+			"Validation Error: dispatchInfo.resources.htmlPath is required when dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a relativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#relativePath), 'invalid' (string) received",
 		);
 	});
 	it('throws when given an invalid InvisibleDispatchInfo', () => {

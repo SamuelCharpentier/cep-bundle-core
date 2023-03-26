@@ -10,8 +10,15 @@ describe('isIcons', () => {
 	test.each(standardThrowingArgumentCases)(
 		'throws when called with %s',
 		(description, badArgument, errorMessage) => {
-			expect(() => isIcons(badArgument)).toThrowError(
-				`Validation Error: ui.icons is optional when ui.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a Icons (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Icons), ${errorMessage} received`,
+			expect(() =>
+				isIcons(badArgument, [
+					'isIcons(',
+					'dispatchInfo',
+					'[0]',
+					'icons',
+				]),
+			).toThrowError(
+				`Validation Error: isIcons(.dispatchInfo.[0].icons is optional when isIcons(.dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a Icons (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Icons), ${errorMessage} received`,
 			);
 		},
 	);
@@ -27,7 +34,7 @@ describe('isIcons', () => {
 			[
 				'a string not containing an IconType',
 				'ducks',
-				"Validation Error: ui.icons object key name (required) must be provided as a IconType (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#IconType), 'ducks' (string) received",
+				"Validation Error: isIcons(.icons object key name (required) must be provided as a IconType (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#IconType), 'ducks' (string) received",
 			],
 		],
 	};
@@ -35,16 +42,22 @@ describe('isIcons', () => {
 		'throws when icons keys are %s',
 		(description, iconKey, errorMessage) => {
 			expect(() =>
-				isIcons({ [iconKey]: `./icons/${iconKey}Icon.png` }),
+				isIcons({ [iconKey]: `./icons/${iconKey}Icon.png` }, [
+					'isIcons(',
+					'icons',
+				]),
 			).toThrowError(errorMessage);
 		},
 	);
 	test.each(iconKeysCases.good)(
 		"it doesn't throw when icons keys are %s",
 		(description, iconKey) => {
-			expect(isIcons({ [iconKey]: `./icons/${iconKey}Icon.png` })).toBe(
-				true,
-			);
+			expect(
+				isIcons({ [iconKey]: `./icons/${iconKey}Icon.png` }, [
+					'isIcons(',
+					'icons',
+				]),
+			).toBe(true);
 		},
 	);
 	const iconValuesCases = getArgumentCases([], {
@@ -58,16 +71,24 @@ describe('isIcons', () => {
 	test.each(iconValuesCases.good)(
 		"it doesn't throw when valid IconType keys are paired with a value of %s",
 		(description, iconValue) => {
-			expect(isIcons({ [IconType.normal]: iconValue })).toBe(true);
+			expect(
+				isIcons({ [IconType.normal]: iconValue }, [
+					'isIcons(',
+					'icons',
+				]),
+			).toBe(true);
 		},
 	);
 	test.each(iconValuesCases.bad)(
 		'throws when valid IconType keys are paired with a value of %s',
 		(description, iconValue, errorMessage) => {
 			expect(() =>
-				isIcons({ [IconType.normal]: iconValue }),
+				isIcons({ [IconType.normal]: iconValue }, [
+					'isIcons(',
+					'icons',
+				]),
 			).toThrowError(
-				`Validation Error: ui.icons.normal (optional) must be provided as a RelativePath (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#RelativePath) to the icon file, ${errorMessage}`,
+				`Validation Error: isIcons(.icons.normal (optional) must be provided as a RelativePath (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#RelativePath) to the icon file, ${errorMessage}`,
 			);
 		},
 	);

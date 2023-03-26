@@ -8,22 +8,17 @@ export type HostList = All | HostInfo | HostInfo[];
 
 export function isHostList(
 	arg: any,
-	parents: string[],
-	partial: { partial: true },
+	parents?: string[],
+	partial?: { partial: true },
 ): arg is Partial<HostList>;
 export function isHostList(
 	arg: any,
-	parents: string[],
+	parents?: string[],
 	partial?: { partial: false },
 ): arg is HostList;
 export function isHostList(
-	arg: any,
-	parents: string[],
-	partial?: { partial: boolean },
-): arg is Partial<HostList> | HostList;
-export function isHostList(
 	received: any,
-	parents: string[] = [],
+	parents: string[] = ['hostList'],
 	partial: { partial: boolean } = { partial: false },
 ) {
 	if (typeof received === 'string' && isAll(received)) return true;

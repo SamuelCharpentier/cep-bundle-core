@@ -3,7 +3,7 @@ import {
 	HostList,
 } from '@src/userConfigs/UserManifestConfigs/Parts/HostList';
 import { getArgumentCases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { HostInfo } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 
@@ -19,8 +19,10 @@ describe('isHostList', () => {
 	test.each(badArgumentsCases)(
 		'throw when given %s',
 		(description, badArgument, errorMessage) => {
-			expect(() => isHostList(badArgument)).toThrowError(
-				`Validation Error: hostList (required) must be provided as a HostList (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostList), ${errorMessage} received`,
+			expect(() =>
+				isHostList(badArgument, ['isHostList(', 'hostList']),
+			).toThrowError(
+				`Validation Error: isHostList(.hostList (required) must be provided as a HostList (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostList), ${errorMessage} received`,
 			);
 		},
 	);

@@ -30,7 +30,7 @@ describe('isVisibleResources', () => {
 		'throws when given %s',
 		(description, resources, errorMessage) => {
 			expect(() => isVisibleResources(resources)).toThrow(
-				`Validation Error: dispatchInfo.resources.htmlFileName is required when dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a relativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#relativePath), ${errorMessage} received`,
+				`Validation Error: dispatchInfo.resources.htmlPath is required when dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a relativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#relativePath), ${errorMessage} received`,
 			);
 		},
 	);

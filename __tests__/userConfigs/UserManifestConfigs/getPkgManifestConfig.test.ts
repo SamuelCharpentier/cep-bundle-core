@@ -30,7 +30,7 @@ describe('getPkgManifestConfigs', () => {
 		completeCEPRoot = path.join(configSourcePath, 'Common', 'CompleteCEP');
 		const manifestConfig = getPkgManifestConfigs(completeCEPRoot);
 		expect(manifestConfig).toStrictEqual({
-			abstract: 'https://AwsomeExtensions.com/legal',
+			abstract: 'https://AwsomeExtensions.com/abstract',
 			authorName: 'Samuel Charpentier',
 			contact: 'samuel@jaunemoutarde.ca',
 			executionEnvironment: { localeList: ['fr_CA', 'en_US'] },

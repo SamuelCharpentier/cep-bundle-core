@@ -6,8 +6,8 @@ import {
 } from '@src/userConfigs/UserManifestConfigs/Parts/ExecutionEnvironment';
 import { _UserManifestConfigs } from '@src/userConfigs/UserManifestConfigs/UserManifestConfigs';
 import { getArgumentCases } from '@tests/argumentCases';
-import { blendConfigs } from './blendConfigs';
-import { exampleUserManifestConfigs } from './userConfigs.example';
+import { blendConfigs } from '../../blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
 
 describe('isExecutionEnvironment', () => {
 	it('is defined', () => {
@@ -21,18 +21,23 @@ describe('isExecutionEnvironment', () => {
 	test.each(simpleBadExecutionEnvironmentCases)(
 		'throws when given %s',
 		(description, argument, errorMessage) => {
-			expect(() => isExecutionEnvironment(argument)).toThrowError(
-				`Validation Error: executionEnvironment (required) must be provided as an ExecutionEnvironment (user manifest configs type) (`,
+			expect(() =>
+				isExecutionEnvironment(argument, [
+					'isExecutionEnvironment(',
+					'executionEnvironment',
+				]),
+			).toThrowError(
+				`Validation Error: isExecutionEnvironment(.executionEnvironment (required) must be provided as an ExecutionEnvironment (user manifest configs type) (`,
 			);
 		},
 	);
 
 	const localeListCases = getArgumentCases(['undefined'], {
 		good: [
-			['AdobeLocaleCodes.en_US', AdobeLocaleCodes.en_US, ''],
-			['AdobeLocaleCodes.All', [AdobeLocaleCodes.All], ''],
-			["keyof typeof AdobeLocaleCodes 'en_US'", 'en_US', ''],
-			["keyof typeof AdobeLocaleCodes 'All'", 'All', ''],
+			['AdobeLocaleCodes.en_US', AdobeLocaleCodes.en_US],
+			['AdobeLocaleCodes.All', [AdobeLocaleCodes.All]],
+			["keyof typeof AdobeLocaleCodes 'en_US'", 'en_US'],
+			["keyof typeof AdobeLocaleCodes 'All'", 'All'],
 		],
 		bad: [['bad local code (typo)', 'en-US', "'en-US' (string)"]],
 	});
@@ -40,34 +45,52 @@ describe('isExecutionEnvironment', () => {
 		'throws when given %s',
 		(description, argument, errorMessage) => {
 			expect(() =>
-				isExecutionEnvironment({ localeList: argument }),
+				isExecutionEnvironment({ localeList: argument }, [
+					'isExecutionEnvironment(',
+					'executionEnvironment',
+				]),
 			).toThrowError(
-				`Validation Error: executionEnvironment.localeList (required) must be provided as an AdobeLocaleCodes or an array of AdobeLocaleCodes (manifest enum) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/manifest-enum.md#AdobeLocaleCodes), ${errorMessage} received`,
+				`Validation Error: isExecutionEnvironment(.executionEnvironment.localeList (required) must be provided as an AdobeLocaleCodes or an array of AdobeLocaleCodes (manifest enum) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/manifest-enum.md#AdobeLocaleCodes), ${errorMessage} received`,
 			);
 		},
 	);
 	test.each(localeListCases.good)(
-		'returns true when given %s',
+		'returns true when given %s as localList',
 		(description, goodArgument) => {
-			expect(isExecutionEnvironment({ localeList: goodArgument })).toBe(
-				true,
-			);
+			expect(
+				isExecutionEnvironment({ localeList: goodArgument }, [
+					'isExecutionEnvironment(',
+					'executionEnvironment',
+				]),
+			).toBe(true);
 		},
 	);
+
+	it('returns true when given undefined as it is optional', () => {
+		expect(
+			isExecutionEnvironment(undefined, [
+				'isExecutionEnvironment(',
+				'executionEnvironment',
+			]),
+		).toBe(true);
+	});
 
 	it('throws an error with a separate list of good and bad Locales ', () => {
 		let configs: _UserManifestConfigs = blendConfigs({
 			executionEnvironment: {
 				localeList: [
-					'en-US' as unknown as AdobeLocaleCodes, // bad value
+					'en-US' as unknown as AdobeLocaleCodes, // bad value becasue its a dash, not an underscore
 					AdobeLocaleCodes.en_US,
 				],
 			},
 		});
 		expect(() =>
-			isExecutionEnvironment(configs.executionEnvironment),
+			isExecutionEnvironment(configs.executionEnvironment, [
+				'isExecutionEnvironment(',
+				'executionEnvironment',
+			]),
 		).toThrow(
-			`Validation Error: executionEnvironment.localeList (required) must be provided as an AdobeLocaleCodes or an array of AdobeLocaleCodes (manifest enum) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/manifest-enum.md#AdobeLocaleCodes), \nBad:\n\t❌ 'en-US' (string)\nGood:\n\t✅ 'en_US' (string)`,
+			`Validation Error: isExecutionEnvironment(.executionEnvironment.localeList (required) must be provided as an AdobeLocaleCodes or an array of AdobeLocaleCodes (manifest enum) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/manifest-enum.md#AdobeLocaleCodes), \nBad:\n\t❌ 'en-US' (string)\nGood:\n\t✅ 'en_US' (string)`,
 		);
 	});
 });

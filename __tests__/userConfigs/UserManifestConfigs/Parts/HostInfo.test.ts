@@ -3,12 +3,12 @@ import {
 	isHostInfo,
 } from '@src/userConfigs/UserManifestConfigs/Parts/HostInfo';
 import { getArgumentCases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { DeepPartial } from '@src/lib/deepPartial';
 import { HostEngine } from '@src/lib/enumsAndValidators';
-import { rangedVersionCases } from './rangedVersionCases';
+import { rangedVersionCases } from './../../rangedVersionCases';
 import { Int, RangedVersion } from '@src/lib/typesAndValidators';
 
 function blendConfigs(badConfigs: DeepPartial<HostInfo>): HostInfo {
@@ -33,8 +33,10 @@ describe('isHostInfo', () => {
 	test.each(standardThrowingArguments)(
 		'throws when given %s',
 		(description, badArgument, errorMessage) => {
-			expect(() => isHostInfo(badArgument)).toThrowError(
-				`Validation Error: hostList (required) must be provided as a HostInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostInfo), ${errorMessage} received`,
+			expect(() =>
+				isHostInfo(badArgument, ['isHostInfo(', 'hostList']),
+			).toThrowError(
+				`Validation Error: isHostInfo(.hostList (required) must be provided as a HostInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostInfo), ${errorMessage} received`,
 			);
 		},
 	);
@@ -49,9 +51,12 @@ describe('isHostInfo', () => {
 		'throws when hostEngine is %s',
 		(description, badArgument, errorMessage) => {
 			expect(() =>
-				isHostInfo(blendConfigs({ host: badArgument })),
+				isHostInfo(blendConfigs({ host: badArgument }), [
+					'isHostInfo(',
+					'hostList',
+				]),
 			).toThrowError(
-				`Validation Error: hostList.host (required) must be provided as a HostEngine (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostEngine), ${errorMessage} received`,
+				`Validation Error: isHostInfo(.hostList.host (required) must be provided as a HostEngine (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#HostEngine), ${errorMessage} received`,
 			);
 		},
 	);
@@ -64,9 +69,10 @@ describe('isHostInfo', () => {
 			expect(() =>
 				isHostInfo(
 					blendConfigs({ version: badArgument as RangedVersion }),
+					['isHostInfo(', 'hostList'],
 				),
 			).toThrowError(
-				`Validation Error: hostList.version (optional) must be provided as All (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#All) or a RangedVersion (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#RangedVersion), ${errorMessage} received`,
+				`Validation Error: isHostInfo(.hostList.version (optional) must be provided as All (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#All) or a RangedVersion (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#RangedVersion), ${errorMessage} received`,
 			);
 		},
 	);
@@ -89,9 +95,10 @@ describe('isHostInfo', () => {
 					blendConfigs({
 						debugPort: badArgument as Int,
 					}),
+					['isHostInfo(', 'hostList'],
 				),
 			).toThrowError(
-				`Validation Error: hostList.debugPort (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
+				`Validation Error: isHostInfo(.hostList.debugPort (optional) must be provided as Int (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#Int), ${errorMessage} received`,
 			);
 		},
 	);
@@ -99,7 +106,10 @@ describe('isHostInfo', () => {
 		'returns true when hostEngine.debugPort is %s',
 		(description, goodArgument) => {
 			expect(
-				isHostInfo(blendConfigs({ debugPort: goodArgument as number })),
+				isHostInfo(
+					blendConfigs({ debugPort: goodArgument as number }),
+					['isHostInfo(', 'hostList'],
+				),
 			).toBeTruthy;
 		},
 	);

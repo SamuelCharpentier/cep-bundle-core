@@ -30,10 +30,9 @@ export function isExecutionEnvironment(
 ): arg is Partial<ExecutionEnvironment> | ExecutionEnvironment;
 export function isExecutionEnvironment(
 	received: any,
-	parents: string[] = [],
+	parents: string[] = ['executionEnvironment'],
 	partial: { partial: boolean } = { partial: false },
 ) {
-	parents = [...parents];
 	if (received === undefined) return true;
 	if (
 		needsValidation(received, partial, true) &&

@@ -39,9 +39,12 @@ describe('isAllDependencies', () => {
 		'throws when given %s',
 		(description, badArgument, errorMessage) => {
 			expect(() => {
-				isAllDependencies(badArgument);
+				isAllDependencies(badArgument, [
+					'isAllDependencies(',
+					'dependencyList',
+				]);
 			}).toThrowError(
-				`Validation Error: dependencyList (optional) must be provided as a AllDependencies (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDependencies), ${errorMessage} received`,
+				`Validation Error: isAllDependencies(.dependencyList (optional) must be provided as a AllDependencies (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDependencies), ${errorMessage} received`,
 			);
 		},
 	);
@@ -49,8 +52,13 @@ describe('isAllDependencies', () => {
 		let badAllDependencies: AllDependencies = blendConfigs({
 			id: false as unknown as string,
 		});
-		expect(() => isAllDependencies(badAllDependencies)).toThrowError(
-			`Validation Error: dependencyList.id (required) must be provided as String (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#String), false (boolean) received`,
+		expect(() =>
+			isAllDependencies(badAllDependencies, [
+				'isAllDependencies(',
+				'dependencyList',
+			]),
+		).toThrowError(
+			`Validation Error: isAllDependencies(.dependencyList.id (required) must be provided as String (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#String), false (boolean) received`,
 		);
 		badAllDependencies = [
 			badAllDependencies,
@@ -58,10 +66,15 @@ describe('isAllDependencies', () => {
 				version: false as unknown as VersionNumber,
 			}),
 		];
-		expect(() => isAllDependencies(badAllDependencies)).toThrowError(
+		expect(() =>
+			isAllDependencies(badAllDependencies, [
+				'isAllDependencies(',
+				'dependencyList',
+			]),
+		).toThrowError(
 			[
-				`Validation Error: dependencyList[0].id (required) must be provided as String (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#String), false (boolean) received`,
-				`Validation Error: dependencyList[1].version (optional) must be provided as VersionNumber (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#VersionNumber), false (boolean) received`,
+				`Validation Error: isAllDependencies(.dependencyList.[0].id (required) must be provided as String (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#String), false (boolean) received`,
+				`Validation Error: isAllDependencies(.dependencyList.[1].version (optional) must be provided as VersionNumber (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#VersionNumber), false (boolean) received`,
 			].join('\n\n'),
 		);
 	});

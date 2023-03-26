@@ -63,7 +63,7 @@ export const isGeometry = (
 			)}.ui.type is 'Panel', 'ModalDialog' or 'Modeless'`,
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
-				'VisibleGeometry',
+				'Geometry',
 			)}`,
 			received: goodBadKeyList,
 		});

@@ -18,7 +18,6 @@ export function getRuntimeConfigFile(root?: string): Partial<UserConfigs> {
 		return {};
 	}
 	let runtimeConfigFile = path.join(root, runtimeConfigFileName);
-	console.log(runtimeConfigFile);
 	if (!existsSync(runtimeConfigFile)) {
 		console.warn(
 			`Could not find ${runtimeConfigFileName} at ${runtimeConfigFile}`,

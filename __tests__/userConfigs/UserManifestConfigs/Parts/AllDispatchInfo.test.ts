@@ -5,7 +5,7 @@ import {
 import { VisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleDispatchInfo';
 import { _Extension } from '@src/userConfigs/UserManifestConfigs/Parts/Extension';
 import { getArgumentCases } from '@tests/argumentCases';
-import { exampleUserManifestConfigs } from './userConfigs.example';
+import { exampleUserManifestConfigs } from '../../userConfigs.example';
 import { InvisibleDispatchInfo } from '@src/userConfigs/UserManifestConfigs/Parts/InvisibleDispatchInfo';
 
 const validVisibleDispatchInfo: VisibleDispatchInfo = (
@@ -28,7 +28,7 @@ describe('isAllDispatchInfo', () => {
 			expect(() => {
 				isAllDispatchInfo(dispatchInfo);
 			}).toThrowError(
-				`Validation Error: extensions.dispatchInfo (required) must be provided as a AllDispatchInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDispatchInfo), ${errorMessage} received`,
+				`Validation Error: dispatchInfo (required) must be provided as a AllDispatchInfo (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#AllDispatchInfo), ${errorMessage} received`,
 			);
 		},
 	);
@@ -43,7 +43,7 @@ describe('isAllDispatchInfo', () => {
 				},
 			});
 		}).toThrowError(
-			`Validation Error: extensions.dispatchInfo.resources.scriptPath (optional or required depending on the context) must be provided as a RelativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#RelativePath), 'c:/not/a/relative/path.jsx' (string) received`,
+			`Validation Error: dispatchInfo.resources.scriptPath (optional or required depending on the context) must be provided as a RelativePath (general type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/general-type.md#RelativePath), 'c:/not/a/relative/path.jsx' (string) received`,
 		);
 	});
 	const validAllDispatchInfoCases: [string, AllDispatchInfo][] = [

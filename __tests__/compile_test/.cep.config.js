@@ -10,7 +10,7 @@ module.exports = {
 		authorName: 'Samuel Charpentier',
 		contact: 'samuel@jaunemoutarde.ca',
 		legal: 'https://AwsomeExtensions.com/legal',
-		abstract: 'https://AwsomeExtensions.com/legal',
+		abstract: 'https://AwsomeExtensions.com/abstract',
 		executionEnvironment: {
 			localeList: ['fr_CA', 'en_US'],
 			hostList: 'ALL',

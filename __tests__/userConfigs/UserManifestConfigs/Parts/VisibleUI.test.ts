@@ -7,7 +7,7 @@ import {
 	VisibleUI,
 } from '@src/userConfigs/UserManifestConfigs/Parts/VisibleUI';
 import { getArgumentCases } from '@tests/argumentCases';
-import { blendConfigs as blendConfigsImported } from './blendConfigs';
+import { blendConfigs as blendConfigsImported } from '../../blendConfigs';
 
 const validVisibleUI: VisibleUI = {
 	type: UIType.Panel,
@@ -70,7 +70,7 @@ describe('isVisibleUI', () => {
 							// @ts-expect-error
 							menu: null,
 						}),
-						'Validation Error: ui.menu (optional) must be provided as a Menu (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Menu), null (null) received',
+						'Validation Error: isVisibleUI(.dispatchInfo.ui.menu (optional) must be provided as a Menu (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Menu), null (null) received',
 					],
 				],
 			},
@@ -86,7 +86,7 @@ describe('isVisibleUI', () => {
 							// @ts-expect-error
 							icons: null,
 						}),
-						"Validation Error: ui.icons is optional when ui.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a Icons (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Icons), null (null) received",
+						"Validation Error: isVisibleUI(.dispatchInfo.ui.icons is optional when isVisibleUI(.dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a Icons (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Icons), null (null) received",
 					],
 				],
 			},
@@ -102,7 +102,7 @@ describe('isVisibleUI', () => {
 							// @ts-expect-error
 							geometry: null,
 						}),
-						"Validation Error: ui.geometry is required when .ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a VisibleGeometry (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#VisibleGeometry), null (null) received",
+						"Validation Error: isVisibleUI(.dispatchInfo.ui.geometry is required when isVisibleUI(.dispatchInfo.ui.type is 'Panel', 'ModalDialog' or 'Modeless' and must be provided as a Geometry (user manifest configs type) (https://github.com/SamuelCharpentier/cep-bundle-core/blob/main/docs/user-manifest-configs-type.md#Geometry), null (null) received",
 					],
 				],
 			},
@@ -116,7 +116,9 @@ describe('isVisibleUI', () => {
 		test.each(bad)(
 			`passes ${keyName} to ${validatiorFunctionName} and it cumulates and throws its errors, calling with %s`,
 			(description, dispatchInfo, errorMessage) => {
-				expect(() => isVisibleUI(dispatchInfo)).toThrow(errorMessage);
+				expect(() =>
+					isVisibleUI(dispatchInfo, ['isVisibleUI(', 'dispatchInfo']),
+				).toThrow(errorMessage);
 			},
 		);
 	}

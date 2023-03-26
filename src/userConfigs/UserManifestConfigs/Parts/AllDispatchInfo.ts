@@ -5,7 +5,7 @@ import { DispatchInfo, isDispatchInfo } from './DispatchInfo';
 export type AllDispatchInfo = DispatchInfo | DispatchInfo[];
 export const isAllDispatchInfo = (
 	received: any,
-	parents: string[] = ['extensions'],
+	parents: string[] = ['dispatchInfo'],
 ): received is AllDispatchInfo => {
 	if (
 		received === undefined ||

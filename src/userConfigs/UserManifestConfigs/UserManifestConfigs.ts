@@ -50,7 +50,7 @@ export const getUserManifestConfigs = (
 			'.cep.config.js{manifest',
 		])
 	) {
-		runtimeManifestConfigs = getRuntimeManifestConfigs();
+		runtimeManifestConfigs = getRuntimeManifestConfigs(root);
 	}
 	let manifestConfigs: any = deepObjectMerge(
 		pkgManifestConfigs,

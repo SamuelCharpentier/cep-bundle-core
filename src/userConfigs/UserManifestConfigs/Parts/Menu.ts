@@ -9,7 +9,7 @@ export type Menu = {
 
 export const isMenu = (
 	received: any,
-	parents: string[] = ['ui'],
+	parents: string[] = ['menu'],
 ): received is Menu => {
 	if (
 		received === undefined ||
@@ -19,7 +19,7 @@ export const isMenu = (
 		Object.keys(received).length === 0
 	) {
 		throw badValueError({
-			propertyName: [...parents, `menu`].join('.'),
+			propertyName: [...parents].join('.'),
 			expectedPropertyType: `a ${linkToDocs(
 				'user manifest configs type',
 				'Menu',
@@ -27,7 +27,6 @@ export const isMenu = (
 			received,
 		});
 	}
-	parents.push('menu');
 	let cumulatedErrors: string[] = [];
 	if (
 		typeof received.menuName !== 'string' ||

@@ -5,6 +5,6 @@ export function needsValidation(
 ): boolean {
 	return (
 		!(optional && value === undefined) &&
-		((partial.partial && value !== undefined) || !partial)
+		((partial.partial && value !== undefined) || !partial.partial)
 	);
 }

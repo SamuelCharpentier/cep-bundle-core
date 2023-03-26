@@ -5,7 +5,7 @@ import { Dependency, isDependency } from './Dependency';
 export type AllDependencies = Dependency | Dependency[];
 export const isAllDependencies = (
 	received: any,
-	parents: string[] = [],
+	parents: string[] = ['dependencyList'],
 ): received is AllDependencies => {
 	if (received === undefined) return true;
 	if (

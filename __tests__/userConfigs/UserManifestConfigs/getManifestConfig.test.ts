@@ -11,70 +11,49 @@ jest.spyOn(console, 'warn').mockImplementation();
 
 // this should be matching the conten of the files in Common/CompleteCEP
 const expectedManifestConfig = {
-	abstract: 'https://AwsomeExtensions.com/legal',
-	authorName: 'Samuel Charpentier',
-	contact: 'samuel@jaunemoutarde.ca',
-	executionEnvironment: { localeList: ['fr_CA', 'en_US'] },
 	extensionBundle: {
-		cepVersion: '8.0',
-		id: 'my.bundle',
-		name: 'Awsome Extensions Bundle',
-		version: '7.0',
+		id: 'some.id',
+		version: '0.0.0',
+		name: 'Some Extension',
+		cepVersion: 'latest',
+	},
+	authorName: 'Some Author',
+	contact: 'contact@some.com',
+	legal: 'https://some.com/legal',
+	abstract: 'https://some.com/abstract',
+	executionEnvironment: {
+		localeList: 'en_US',
 	},
 	extensions: {
-		dependencyList: [{ id: 'my.dependency', version: '0.0.1' }],
-		dispatchInfo: [
-			{
-				extensionData: ['This extension is awesome'],
-				lifecycle: {
-					startOn: [
-						'applicationActivate',
-						'com.adobe.csxs.events.ApplicationActivate',
-					],
+		id: 'some.id',
+		version: '0.0.0',
+		hostList: {
+			host: 'Illustrator',
+			version: '20.0',
+			debugPort: '8080',
+		},
+		dispatchInfo: {
+			resources: {
+				htmlPath: './index.html',
+			},
+			ui: {
+				type: 'Panel',
+				menu: {
+					menuName: 'Some Menu',
 				},
-				resources: {
-					cefParams: ['--parameter1=value1', '--enable-nodejs'],
-					htmlPath: './index.html',
-					scriptPath: './scripts/main.jsx',
-				},
-				ui: {
-					geometry: {
-						maxSize: { height: 800, width: 400 },
-						minSize: { height: 400, width: 200 },
-						size: { height: 600, width: 300 },
+				geometry: {
+					size: {
+						width: '100',
+						height: '100',
 					},
-					icons: { normal: './icons/normal.jpg' },
-					menu: { menuName: 'My awesome extension' },
-					type: 'Panel',
 				},
 			},
-			{
-				extensionData: ['This DispatchInfo is for InDesign'],
-				host: 'InDesign',
-				resources: {
-					htmlPath: './dst/index.html',
-					scriptPath: './scripts/main.jsx',
-				},
-				ui: {
-					geometry: {
-						maxSize: { height: 800, width: 400 },
-						minSize: { height: 400, width: 200 },
-						size: { height: 600, width: 300 },
-					},
-					icons: { normal: './icons/normal.jpg' },
-					menu: { menuName: 'My awesome extension (InDesign)' },
-					type: 'Panel',
-				},
-			},
-		],
-		hostList: [
-			{ debugPort: '999', host: 'Illustrator', version: 'ALL' },
-			{ debugPort: '998', host: 'InDesign', version: 12 },
-		],
-		id: 'my.extension',
-		version: '0.0.1',
+		},
+		dependencyList: {
+			id: 'my.dependency',
+			version: '0.0.1',
+		},
 	},
-	legal: 'https://AwsomeExtensions.com/legal',
 };
 
 const configSourcePath = path.join(
